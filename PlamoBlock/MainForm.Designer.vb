@@ -32,7 +32,7 @@ Partial Class MainForm
         Me.WorkArea1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.WorkArea1.Location = New System.Drawing.Point(12, 12)
         Me.WorkArea1.Name = "WorkArea1"
-        Me.WorkArea1.Size = New System.Drawing.Size(482, 482)
+        Me.WorkArea1.Size = New System.Drawing.Size(478, 494)
         Me.WorkArea1.TabIndex = 0
         Me.WorkArea1.TabStop = False
         '
