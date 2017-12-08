@@ -2,7 +2,7 @@
 
 Public Class MainForm
     Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles Me.Load
-        Me.WorkArea1.SetWorkAreaSize(Me.WorkArea1.Width, Me.WorkArea1.Height, 24, 32)
+        Me.WorkArea1.SetWorkAreaSize(Me.WorkArea1.Width, Me.WorkArea1.Height, 24, 24)
 
     End Sub
 

@@ -37,9 +37,9 @@ Public Class WorkArea
     Private Sub MakeBackGround()
         Dim g As Graphics
         Dim p As Pen
+        Dim fnt As Font
+        Dim sf As StringFormat
         Dim i As Integer
-
-
 
         Me.objBG = New Bitmap(Me.Width, Me.Height)
 
@@ -48,11 +48,19 @@ Public Class WorkArea
         p = New Pen(Color.Gray, 1)
         p.DashStyle = Drawing2D.DashStyle.Dash
 
+        fnt = New Font("MS UI Gothic", CSng(8 * intCellSize / 14))
+
+        sf = New StringFormat
+        sf.Alignment = StringAlignment.Center
+        sf.LineAlignment = StringAlignment.Center
+
         For i = 1 To Me.intCols
             g.DrawLine(p, i * intCellSize, 0, i * intCellSize, Me.Height - 1)
+            g.DrawString(i.ToString, fnt, Brushes.Blue, CSng((i + 0.5) * intCellSize + 0.5), CSng(intCellSize * 0.5 + 0.5), sf)
         Next
         For i = 1 To Me.intRows
             g.DrawLine(p, 0, i * intCellSize, Me.Width - 1, i * Me.intCellSize)
+            g.DrawString(i.ToString, fnt, Brushes.Blue, CSng(intCellSize * 0.5 + 0.5), CSng((i + 0.5) * intCellSize + 0.5), sf)
         Next
 
         p.Color = Color.Black
