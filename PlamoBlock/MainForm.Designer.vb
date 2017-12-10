@@ -44,6 +44,7 @@ Partial Class MainForm
         Me.Controls.Add(Me.WorkArea1)
         Me.DoubleBuffered = True
         Me.Name = "MainForm"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "PlamoBlock"
         CType(Me.WorkArea1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
