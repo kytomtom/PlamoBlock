@@ -1,0 +1,6 @@
+﻿INSERT INTO Setting 
+(
+	Version
+) VALUES (
+	@Version
+);

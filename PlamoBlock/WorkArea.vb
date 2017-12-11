@@ -1,8 +1,4 @@
-﻿Imports System
-Imports System.Windows.Forms
-Imports System.Drawing
-
-Public Class WorkArea
+﻿Public Class WorkArea
     Inherits PictureBox
 
     Private intMaxWidth As Integer
