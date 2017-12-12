@@ -17,6 +17,7 @@
         obj2.Parts(0).Name = "AAA"
         Debug.WriteLine(obj2.Parts(0).Name)
 
+
     End Sub
 
     Private Sub MainForm_Disposed(sender As Object, e As EventArgs) Handles Me.Disposed
@@ -31,7 +32,9 @@
 
     Private Sub ColorSelector_ChangeColor(sender As Object, e As EventArgs) Handles ColorSelector.ChangeColor
         Me.SelectColor.BackColor = Me.ColorSelector.SelectColorSetting.Base
+        Me.SelectColor.ForeColor = Me.ColorSelector.SelectColorSetting.Edge
         Me.SelectColor.Text = Me.ColorSelector.SelectColorSetting.Kana
+        Me.BlockImage1.SetBlockSize(Me.ColorSelector.SelectColorSetting, 2, 6, 16)
     End Sub
 End Class
 

@@ -1,34 +1,27 @@
 ﻿Public Class WorkArea
-    Inherits PictureBox
-
-    Private intMaxWidth As Integer
-    Private intMaxHeight As Integer
-    Private intCols As Integer
-    Private intRows As Integer
-    Private intCellSize As Integer
+    Inherits ImageBase
 
     Private objBG As Bitmap
 
-    Public Sub SetWorkAreaSize(pintMaxWidth As Integer, pintMaxHeight As Integer, pintCols As Integer, pintRows As Integer)
+    Public Sub SetWorkAreaSize(pintMaxWidth As Integer, pintMaxHeight As Integer, pintMaxCols As Integer, pintMaxRows As Integer)
         Me.intMaxWidth = pintMaxWidth
         Me.intMaxHeight = pintMaxHeight
-        Me.intCols = pintCols
-        Me.intRows = pintRows
+        Me.intMaxCols = pintMaxCols
+        Me.intMaxRows = pintMaxRows
 
+        Call Me.SetCellSize()
         Call Me.SetControlSize()
-        Call Me.MakeBackGround()
+        Call Me.DrawBackGround()
 
         Me.Image = Me.objBG
     End Sub
 
     Private Sub SetControlSize()
-        Me.intCellSize = CInt(Math.Truncate(Math.Min((Me.intMaxWidth - 1) / (Me.intCols + 1), (Me.intMaxHeight - 1) / (Me.intRows + 1))))
-
-        Me.Width = (Me.intCols + 1) * Me.intCellSize + 1
-        Me.Height = (Me.intRows + 1) * Me.intCellSize + 1
+        Me.Width = (Me.intMaxCols + 1) * Me.intCellSize + 1
+        Me.Height = (Me.intMaxRows + 1) * Me.intCellSize + 1
     End Sub
 
-    Private Sub MakeBackGround()
+    Private Sub DrawBackGround()
         Dim g As Graphics
         Dim p As Pen
         Dim fnt As Font
@@ -48,11 +41,11 @@
         sf.Alignment = StringAlignment.Center
         sf.LineAlignment = StringAlignment.Center
 
-        For i = 1 To Me.intCols
+        For i = 1 To Me.intMaxCols
             g.DrawLine(p, i * intCellSize, 0, i * intCellSize, Me.Height - 1)
             g.DrawString(i.ToString, fnt, Brushes.Blue, CSng((i + 0.5) * intCellSize + 0.5), CSng(intCellSize * 0.5 + 0.5), sf)
         Next
-        For i = 1 To Me.intRows
+        For i = 1 To Me.intMaxRows
             g.DrawLine(p, 0, i * intCellSize, Me.Width - 1, i * Me.intCellSize)
             g.DrawString(i.ToString, fnt, Brushes.Blue, CSng(intCellSize * 0.5 + 0.5), CSng((i + 0.5) * intCellSize + 0.5), sf)
         Next
@@ -64,8 +57,8 @@
 
         p.Color = Color.Blue
         p.DashStyle = Drawing2D.DashStyle.Solid
-        g.DrawLine(p, CInt(Math.Truncate(Me.intCols / 2 + 1) * Me.intCellSize), 0, CInt(Math.Truncate(Me.intCols / 2 + 1) * Me.intCellSize), Me.Height - 1)
-        g.DrawLine(p, 0, CInt(Math.Truncate(Me.intRows / 2 + 1) * Me.intCellSize), Me.Width - 1, CInt(Math.Truncate(Me.intRows / 2 + 1) * Me.intCellSize))
+        g.DrawLine(p, CInt(Math.Truncate(Me.intMaxCols / 2 + 1) * Me.intCellSize), 0, CInt(Math.Truncate(Me.intMaxCols / 2 + 1) * Me.intCellSize), Me.Height - 1)
+        g.DrawLine(p, 0, CInt(Math.Truncate(Me.intMaxRows / 2 + 1) * Me.intCellSize), Me.Width - 1, CInt(Math.Truncate(Me.intMaxRows / 2 + 1) * Me.intCellSize))
 
         'リソースを解放する
         p.Dispose()
