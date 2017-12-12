@@ -94,6 +94,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlockColor.vb" />
+    <Compile Include="ColorSelector.vb">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Common.vb" />
     <Compile Include="Database.vb" />
     <Compile Include="Database_SQLite.vb" />

@@ -22,34 +22,56 @@ Partial Class MainForm
     'コード エディターを使って変更しないでください。
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Me.WorkArea1 = New PlamoBlock.WorkArea()
-        CType(Me.WorkArea1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.ColorSelector = New PlamoBlock.ColorSelector()
+        Me.WorkArea = New PlamoBlock.WorkArea()
+        Me.SelectColor = New System.Windows.Forms.Label()
+        CType(Me.WorkArea, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
-        'WorkArea1
+        'ColorSelector
         '
-        Me.WorkArea1.BackColor = System.Drawing.Color.White
-        Me.WorkArea1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.WorkArea1.Location = New System.Drawing.Point(12, 12)
-        Me.WorkArea1.Name = "WorkArea1"
-        Me.WorkArea1.Size = New System.Drawing.Size(478, 494)
-        Me.WorkArea1.TabIndex = 0
-        Me.WorkArea1.TabStop = False
+        Me.ColorSelector.Location = New System.Drawing.Point(496, 301)
+        Me.ColorSelector.Name = "ColorSelector"
+        Me.ColorSelector.Size = New System.Drawing.Size(429, 205)
+        Me.ColorSelector.TabIndex = 1
+        '
+        'WorkArea
+        '
+        Me.WorkArea.BackColor = System.Drawing.Color.White
+        Me.WorkArea.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.WorkArea.Location = New System.Drawing.Point(12, 12)
+        Me.WorkArea.Name = "WorkArea"
+        Me.WorkArea.Size = New System.Drawing.Size(478, 494)
+        Me.WorkArea.TabIndex = 0
+        Me.WorkArea.TabStop = False
+        '
+        'SelectColor
+        '
+        Me.SelectColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.SelectColor.Location = New System.Drawing.Point(496, 266)
+        Me.SelectColor.Name = "SelectColor"
+        Me.SelectColor.Size = New System.Drawing.Size(96, 32)
+        Me.SelectColor.TabIndex = 2
+        Me.SelectColor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'MainForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(937, 518)
-        Me.Controls.Add(Me.WorkArea1)
+        Me.Controls.Add(Me.SelectColor)
+        Me.Controls.Add(Me.ColorSelector)
+        Me.Controls.Add(Me.WorkArea)
         Me.DoubleBuffered = True
         Me.Name = "MainForm"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "PlamoBlock"
-        CType(Me.WorkArea1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.WorkArea, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
 
-    Friend WithEvents WorkArea1 As WorkArea
+    Friend WithEvents WorkArea As WorkArea
+    Friend WithEvents ColorSelector As ColorSelector
+    Friend WithEvents SelectColor As Label
 End Class

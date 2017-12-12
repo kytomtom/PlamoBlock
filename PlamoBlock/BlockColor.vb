@@ -30,9 +30,19 @@ Public Class BlockColor
         PastelPink
     End Enum
 
-    Public ReadOnly Property Color(ColorName As ColorName) As ColorSetting
+    Public ReadOnly Property Color() As Dictionary(Of String, ColorSetting)
         Get
-            Return Me.dicColor(ColorName.ToString)
+            Return Me.dicColor
+        End Get
+    End Property
+    Public ReadOnly Property Color(pstrColorName As String) As ColorSetting
+        Get
+            Return Me.dicColor(pstrColorName)
+        End Get
+    End Property
+    Public ReadOnly Property Color(pintColorName As ColorName) As ColorSetting
+        Get
+            Return Me.Color(pintColorName.ToString)
         End Get
     End Property
 

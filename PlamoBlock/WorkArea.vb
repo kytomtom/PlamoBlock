@@ -9,8 +9,6 @@
 
     Private objBG As Bitmap
 
-
-
     Public Sub SetWorkAreaSize(pintMaxWidth As Integer, pintMaxHeight As Integer, pintCols As Integer, pintRows As Integer)
         Me.intMaxWidth = pintMaxWidth
         Me.intMaxHeight = pintMaxHeight
