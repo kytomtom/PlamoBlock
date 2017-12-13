@@ -17,29 +17,29 @@ Public Class ModelData
 
         Public Property BlockGroup() As List(Of BlockGroup)
             Set(value As List(Of BlockGroup))
-                Me.Block = value
+                Block = value
             End Set
             Get
-                Return Me.Block
+                Return Block
             End Get
         End Property
 
         Public Sub New()
-            Me.Clear()
+            Clear()
         End Sub
 
         Public Sub Clear()
-            Me.Name = ""
-            Me.DisplayName = ""
-            Me.Twitter = ""
-            Me.Copyright = ""
-            Me.Plate = {"", "", ""}
-            Me.BlockGroup = New List(Of BlockGroup)
+            Name = ""
+            DisplayName = ""
+            Twitter = ""
+            Copyright = ""
+            Plate = {"", "", ""}
+            BlockGroup = New List(Of BlockGroup)
         End Sub
 
         Public Function AddNewBlockGroup() As Integer
-            Me.BlockGroup.Add(New BlockGroup())
-            Return Me.BlockGroup.Count - 1
+            BlockGroup.Add(New BlockGroup())
+            Return BlockGroup.Count - 1
         End Function
     End Class
 
@@ -49,23 +49,23 @@ Public Class ModelData
         Public Layer As List(Of List(Of Position))
 
         Public Sub New()
-            Me.Clear()
+            Clear()
         End Sub
 
         Public Sub Clear()
-            Me.Name = ""
-            Me.BottomPos = 0
-            Me.Layer = New List(Of List(Of Position))
+            Name = ""
+            BottomPos = 0
+            Layer = New List(Of List(Of Position))
         End Sub
 
         Public Function AddNewLayer() As Integer
-            Me.Layer.Add(New List(Of Position))
-            Return Me.Layer.Count - 1
+            Layer.Add(New List(Of Position))
+            Return Layer.Count - 1
         End Function
 
         Public Function AddNewBlock(pintLayer As Integer) As Integer
-            Me.Layer(pintLayer).Add(New Position)
-            Return Me.Layer(pintLayer).Count - 1
+            Layer(pintLayer).Add(New Position)
+            Return Layer(pintLayer).Count - 1
         End Function
     End Class
 
@@ -78,54 +78,54 @@ Public Class ModelData
         Public C As String
 
         Public Sub New()
-            Me.Clear()
+            Clear()
         End Sub
 
         Public Sub Clear()
-            Me.X = 0
-            Me.Y = 0
-            Me.W = 0
-            Me.D = 0
-            Me.R = 0
-            Me.C = ""
+            X = 0
+            Y = 0
+            W = 0
+            D = 0
+            R = 0
+            C = ""
         End Sub
     End Class
 
     Public Property Name() As String
         Set(value As String)
-            Me.objModelData.Chara.Name = value
+            objModelData.Chara.Name = value
         End Set
         Get
-            Return Me.objModelData.Chara.Name
+            Return objModelData.Chara.Name
         End Get
     End Property
     Public Property DisplayName() As String
         Set(value As String)
-            Me.objModelData.Chara.DisplayName = value
+            objModelData.Chara.DisplayName = value
         End Set
         Get
-            Return Me.objModelData.Chara.DisplayName
+            Return objModelData.Chara.DisplayName
         End Get
     End Property
     Public Property Twitter() As String
         Set(value As String)
-            Me.objModelData.Chara.Twitter = value
+            objModelData.Chara.Twitter = value
         End Set
         Get
-            Return Me.objModelData.Chara.Twitter
+            Return objModelData.Chara.Twitter
         End Get
     End Property
     Public Property Copyright() As String
         Set(value As String)
-            Me.objModelData.Chara.Copyright = value
+            objModelData.Chara.Copyright = value
         End Set
         Get
-            Return Me.objModelData.Chara.Copyright
+            Return objModelData.Chara.Copyright
         End Get
     End Property
     Public Property PlateWidth() As Integer
         Set(value As Integer)
-            Me.objModelData.Chara.Plate(0) = value.ToString
+            objModelData.Chara.Plate(0) = value.ToString
         End Set
         Get
             Return CInt(Me.objModelData.Chara.Plate(0))
@@ -133,7 +133,7 @@ Public Class ModelData
     End Property
     Public Property PlateHeight() As Integer
         Set(value As Integer)
-            Me.objModelData.Chara.Plate(1) = value.ToString
+            objModelData.Chara.Plate(1) = value.ToString
         End Set
         Get
             Return CInt(Me.objModelData.Chara.Plate(1))
@@ -141,19 +141,19 @@ Public Class ModelData
     End Property
     Public Property PlateColor() As String
         Set(value As String)
-            Me.objModelData.Chara.Plate(2) = value
+            objModelData.Chara.Plate(2) = value
         End Set
         Get
-            Return Me.objModelData.Chara.Plate(2)
+            Return objModelData.Chara.Plate(2)
         End Get
     End Property
 
     Public Property Parts(Index As Integer) As BlockGroup
         Set(value As BlockGroup)
-            Me.objModelData.Chara.Block(Index) = value
+            objModelData.Chara.Block(Index) = value
         End Set
         Get
-            Return Me.objModelData.Chara.Block(Index)
+            Return objModelData.Chara.Block(Index)
         End Get
     End Property
 
@@ -162,7 +162,7 @@ Public Class ModelData
 
     Public Function LoadJSON(pstrJSON As String) As Boolean
         Try
-            Me.objModelData = JsonConvert.DeserializeObject(Of ModelData)(pstrJSON)
+            objModelData = JsonConvert.DeserializeObject(Of ModelData)(pstrJSON)
 
         Catch ex As Exception
             Return False
@@ -172,7 +172,7 @@ Public Class ModelData
     End Function
 
     Public Sub ClearData()
-        Me.objModelData = Nothing
+        objModelData = Nothing
 
         objModelData = New ModelData
     End Sub

@@ -22,69 +22,60 @@ Partial Class MainForm
     'コード エディターを使って変更しないでください。
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Me.ColorSelector = New PlamoBlock.ColorSelector()
-        Me.WorkArea = New PlamoBlock.WorkArea()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MainForm))
         Me.SelectColor = New System.Windows.Forms.Label()
-        Me.BlockImage1 = New PlamoBlock.BlockImage()
-        CType(Me.WorkArea, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BlockImage1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.WorkArea1 = New PlamoBlock.WorkArea()
+        Me.ColorSelector = New PlamoBlock.ColorSelector()
+        CType(Me.WorkArea1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
-        '
-        'ColorSelector
-        '
-        Me.ColorSelector.Location = New System.Drawing.Point(496, 301)
-        Me.ColorSelector.Name = "ColorSelector"
-        Me.ColorSelector.Size = New System.Drawing.Size(429, 205)
-        Me.ColorSelector.TabIndex = 1
-        '
-        'WorkArea
-        '
-        Me.WorkArea.BackColor = System.Drawing.Color.White
-        Me.WorkArea.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.WorkArea.Location = New System.Drawing.Point(12, 12)
-        Me.WorkArea.Name = "WorkArea"
-        Me.WorkArea.Size = New System.Drawing.Size(478, 494)
-        Me.WorkArea.TabIndex = 0
-        Me.WorkArea.TabStop = False
         '
         'SelectColor
         '
         Me.SelectColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.SelectColor.Location = New System.Drawing.Point(496, 266)
+        Me.SelectColor.Location = New System.Drawing.Point(596, 303)
         Me.SelectColor.Name = "SelectColor"
         Me.SelectColor.Size = New System.Drawing.Size(96, 32)
         Me.SelectColor.TabIndex = 2
         Me.SelectColor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'BlockImage1
+        'WorkArea1
         '
-        Me.BlockImage1.Location = New System.Drawing.Point(530, 83)
-        Me.BlockImage1.Name = "BlockImage1"
-        Me.BlockImage1.Size = New System.Drawing.Size(51, 41)
-        Me.BlockImage1.TabIndex = 3
-        Me.BlockImage1.TabStop = False
+        Me.WorkArea1.BackColor = System.Drawing.Color.White
+        Me.WorkArea1.CellSize = 17
+        Me.WorkArea1.Cols = 32
+        Me.WorkArea1.Image = CType(resources.GetObject("WorkArea1.Image"), System.Drawing.Image)
+        Me.WorkArea1.Location = New System.Drawing.Point(12, 12)
+        Me.WorkArea1.Name = "WorkArea1"
+        Me.WorkArea1.Rows = 32
+        Me.WorkArea1.Size = New System.Drawing.Size(562, 562)
+        Me.WorkArea1.TabIndex = 5
+        Me.WorkArea1.TabStop = False
+        '
+        'ColorSelector
+        '
+        Me.ColorSelector.ButtonWidth = 52
+        Me.ColorSelector.Location = New System.Drawing.Point(580, 478)
+        Me.ColorSelector.Name = "ColorSelector"
+        Me.ColorSelector.Size = New System.Drawing.Size(416, 96)
+        Me.ColorSelector.TabIndex = 6
         '
         'MainForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(937, 518)
-        Me.Controls.Add(Me.BlockImage1)
-        Me.Controls.Add(Me.SelectColor)
+        Me.ClientSize = New System.Drawing.Size(1008, 601)
         Me.Controls.Add(Me.ColorSelector)
-        Me.Controls.Add(Me.WorkArea)
+        Me.Controls.Add(Me.WorkArea1)
+        Me.Controls.Add(Me.SelectColor)
         Me.DoubleBuffered = True
         Me.Name = "MainForm"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "PlamoBlock"
-        CType(Me.WorkArea, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BlockImage1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.WorkArea1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
-
-    Friend WithEvents WorkArea As WorkArea
-    Friend WithEvents ColorSelector As ColorSelector
     Friend WithEvents SelectColor As Label
-    Friend WithEvents BlockImage1 As BlockImage
+    Friend WithEvents WorkArea1 As WorkArea
+    Friend WithEvents ColorSelector As ColorSelector
 End Class

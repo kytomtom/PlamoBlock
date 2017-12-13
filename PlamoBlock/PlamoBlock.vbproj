@@ -94,18 +94,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlockColor.vb" />
-    <Compile Include="BlockImage.vb">
+    <Compile Include="BlockObject.vb">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="BlockImage.vb" />
     <Compile Include="ColorSelector.vb">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Common.vb" />
     <Compile Include="Database.vb" />
     <Compile Include="Database_SQLite.vb" />
-    <Compile Include="ImageBase.vb">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="MainForm.vb">
       <SubType>Form</SubType>
     </Compile>

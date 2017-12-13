@@ -9,36 +9,36 @@ Public Class Database_SQLite
 
     Public ReadOnly Property FailureCount() As Integer
         Get
-            Return Me.intFailureCount
+            Return intFailureCount
         End Get
     End Property
 
     Public ReadOnly Property SuccessCount() As Integer
         Get
-            Return Me.intSuccessCount
+            Return intSuccessCount
         End Get
     End Property
 
     Public Sub New(pstrDataSource As String)
-        Me.objDBConn = New SQLiteConnection()
+        objDBConn = New SQLiteConnection()
 
-        Me.objDBConn.ConnectionString = "Data Source=" + pstrDataSource
+        objDBConn.ConnectionString = "Data Source=" + pstrDataSource
     End Sub
 
     Protected Overrides Sub Finalize()
         MyBase.Finalize()
-        If Me.objDBConn IsNot Nothing Then
-            Me.objDBConn.Dispose()
+        If objDBConn IsNot Nothing Then
+            objDBConn.Dispose()
         End If
-        If Me.objDBCmd IsNot Nothing Then
-            Me.objDBCmd.Dispose()
+        If objDBCmd IsNot Nothing Then
+            objDBCmd.Dispose()
         End If
     End Sub
 
     Public Function Open() As Boolean
         Try
-            Me.objDBCmd = Me.objDBConn.CreateCommand()
-            Me.objDBConn.Open()
+            objDBCmd = objDBConn.CreateCommand()
+            objDBConn.Open()
 
             Return True
 
@@ -54,9 +54,9 @@ Public Class Database_SQLite
 
     Public Function Close() As Boolean
         Try
-            If Me.objDBConn.State = ConnectionState.Open Then
-                Me.objDBConn.Close()
-                Me.objDBCmd.Dispose()
+            If objDBConn.State = ConnectionState.Open Then
+                objDBConn.Close()
+                objDBCmd.Dispose()
             End If
 
             Return True
@@ -73,11 +73,11 @@ Public Class Database_SQLite
 
     Public Function Begin() As Boolean
         Try
-            If Me.objDBConn.State = ConnectionState.Closed Then
+            If objDBConn.State = ConnectionState.Closed Then
                 Return False
             End If
 
-            Me.objDBCmd.Transaction = Me.objDBConn.BeginTransaction()
+            objDBCmd.Transaction = objDBConn.BeginTransaction()
 
             Return True
 
@@ -93,7 +93,7 @@ Public Class Database_SQLite
 
     Public Function Rollback() As Boolean
         Try
-            Me.objDBCmd.Transaction.Rollback()
+            objDBCmd.Transaction.Rollback()
 
             Return True
 
@@ -109,7 +109,7 @@ Public Class Database_SQLite
 
     Public Function Commit() As Boolean
         Try
-            Me.objDBCmd.Transaction.Commit()
+            objDBCmd.Transaction.Commit()
 
             Close()
 
@@ -130,13 +130,13 @@ Public Class Database_SQLite
         Dim lobjDTable As DataTable
 
         Try
-            If Me.objDBConn.State <> ConnectionState.Open Then
+            If objDBConn.State <> ConnectionState.Open Then
                 Return Nothing
             End If
 
             lobjDTable = New DataTable
 
-            lobjDAdapter = New SQLiteDataAdapter(pstrSQL, Me.objDBConn)
+            lobjDAdapter = New SQLiteDataAdapter(pstrSQL, objDBConn)
 
             lobjDAdapter.Fill(lobjDTable)
 
@@ -160,7 +160,7 @@ Public Class Database_SQLite
         lobjDTable = Nothing
 
         Try
-            lobjDTable = Me.ExecuteQuery(pstrSQL)
+            lobjDTable = ExecuteQuery(pstrSQL)
 
             If lobjDTable Is Nothing OrElse lobjDTable.Rows.Count = 0 Then
                 Return Nothing
@@ -187,13 +187,13 @@ Public Class Database_SQLite
         lintCount = -1
 
         Try
-            If Me.objDBConn.State <> ConnectionState.Open Then
+            If objDBConn.State <> ConnectionState.Open Then
                 Return lintCount
             End If
 
-            Me.objDBCmd.CommandText = pstrSQL
+            objDBCmd.CommandText = pstrSQL
 
-            lintCount = Me.objDBCmd.ExecuteNonQuery()
+            lintCount = objDBCmd.ExecuteNonQuery()
 
             intSuccessCount += lintCount
 
@@ -214,7 +214,7 @@ Public Class Database_SQLite
 
         lstrSQL = String.Format("select count(*) from sqlite_master where type='table' and name='{0}';", pstrTableName)
 
-        lobjDRow = Me.ExecuteQueryFirstRow(lstrSQL)
+        lobjDRow = ExecuteQueryFirstRow(lstrSQL)
 
         If lobjDRow Is Nothing OrElse CInt(lobjDRow.Item(0)) = 0 Then
             Return False
@@ -225,7 +225,7 @@ Public Class Database_SQLite
 
     Public Function ClearParameter() As Boolean
         Try
-            Me.objDBCmd.Parameters.Clear()
+            objDBCmd.Parameters.Clear()
 
             Return True
 
@@ -241,7 +241,7 @@ Public Class Database_SQLite
 
     Public Function AddParameter(pstrKey As String, pobjValue As Object) As Boolean
         Try
-            Me.objDBCmd.Parameters.AddWithValue(pstrKey, pobjValue)
+            objDBCmd.Parameters.AddWithValue(pstrKey, pobjValue)
 
             Return True
 

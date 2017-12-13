@@ -1,24 +1,78 @@
 ﻿Public Class WorkArea
-    Inherits ImageBase
+    Inherits PictureBox
 
-    Private objBG As Bitmap
+    'プロパティの既定値
+    Private Const _Default_Rows As Integer = 8
+    Private Const _Default_Cols As Integer = 8
+    Private Const _Default_CellSize As Integer = 16
 
-    Public Sub SetWorkAreaSize(pintMaxWidth As Integer, pintMaxHeight As Integer, pintMaxCols As Integer, pintMaxRows As Integer)
-        Me.intMaxWidth = pintMaxWidth
-        Me.intMaxHeight = pintMaxHeight
-        Me.intMaxCols = pintMaxCols
-        Me.intMaxRows = pintMaxRows
+    Private intCols As Integer
+    Private intRows As Integer
+    Private intCellSize As Integer
 
-        Call Me.SetCellSize()
-        Call Me.SetControlSize()
-        Call Me.DrawBackGround()
+    Private objBackImage As Bitmap
 
-        Me.Image = Me.objBG
+    <System.ComponentModel.Category("エリアサイズ設定")>
+    <System.ComponentModel.DefaultValue(_Default_Rows)>
+    Public Property Rows() As Integer
+        Get
+            Return intRows
+        End Get
+        Set(ByVal value As Integer)
+            intRows = value
+            SetWorkAreaSize(intRows, intCols, intCellSize)
+        End Set
+    End Property
+    <System.ComponentModel.Category("エリアサイズ設定")>
+    <System.ComponentModel.DefaultValue(_Default_Cols)>
+    Public Property Cols() As Integer
+        Get
+            Return intCols
+        End Get
+        Set(ByVal value As Integer)
+            intCols = value
+            SetWorkAreaSize(intRows, intCols, intCellSize)
+        End Set
+    End Property
+    <System.ComponentModel.Category("エリアサイズ設定")>
+    <System.ComponentModel.DefaultValue(_Default_CellSize)>
+    Public Property CellSize() As Integer
+        Get
+            Return intCellSize
+        End Get
+        Set(ByVal value As Integer)
+            intCellSize = value
+            SetWorkAreaSize(intRows, intCols, intCellSize)
+        End Set
+    End Property
+
+    Public Sub New()
+        BackColor = Color.White
+
+        intRows = _Default_Rows
+        intCols = _Default_Cols
+        intCellSize = _Default_CellSize
+        SetWorkAreaSize(intRows, intCols, intCellSize)
+    End Sub
+
+    Private Sub WorkArea_Resize(sender As Object, e As EventArgs) Handles Me.Resize
+        SetControlSize()
+    End Sub
+
+    Public Sub SetWorkAreaSize(pintRows As Integer, pintCols As Integer, pintCellSize As Integer)
+        intRows = pintRows
+        intCols = pintCols
+        intCellSize = pintCellSize
+
+        SetControlSize()
+        DrawBackGround()
+
+        Image = objBackImage
     End Sub
 
     Private Sub SetControlSize()
-        Me.Width = (Me.intMaxCols + 1) * Me.intCellSize + 1
-        Me.Height = (Me.intMaxRows + 1) * Me.intCellSize + 1
+        Width = (Me.intCols + 1) * intCellSize + 1
+        Height = (Me.intRows + 1) * intCellSize + 1
     End Sub
 
     Private Sub DrawBackGround()
@@ -28,9 +82,9 @@
         Dim sf As StringFormat
         Dim i As Integer
 
-        Me.objBG = New Bitmap(Me.Width, Me.Height)
+        objBackImage = New Bitmap(Me.Width, Height)
 
-        g = Graphics.FromImage(Me.objBG)
+        g = Graphics.FromImage(Me.objBackImage)
 
         p = New Pen(Color.Gray, 1)
         p.DashStyle = Drawing2D.DashStyle.Dash
@@ -41,24 +95,24 @@
         sf.Alignment = StringAlignment.Center
         sf.LineAlignment = StringAlignment.Center
 
-        For i = 1 To Me.intMaxCols
-            g.DrawLine(p, i * intCellSize, 0, i * intCellSize, Me.Height - 1)
+        For i = 1 To intCols
+            g.DrawLine(p, i * intCellSize, 0, i * intCellSize, Height - 1)
             g.DrawString(i.ToString, fnt, Brushes.Blue, CSng((i + 0.5) * intCellSize + 0.5), CSng(intCellSize * 0.5 + 0.5), sf)
         Next
-        For i = 1 To Me.intMaxRows
-            g.DrawLine(p, 0, i * intCellSize, Me.Width - 1, i * Me.intCellSize)
+        For i = 1 To intRows
+            g.DrawLine(p, 0, i * intCellSize, Width - 1, i * intCellSize)
             g.DrawString(i.ToString, fnt, Brushes.Blue, CSng(intCellSize * 0.5 + 0.5), CSng((i + 0.5) * intCellSize + 0.5), sf)
         Next
 
         p.Color = Color.Black
         p.DashStyle = Drawing2D.DashStyle.Solid
-        g.DrawLine(p, intCellSize, 0, intCellSize, Me.Height - 1)
-        g.DrawLine(p, 0, intCellSize, Me.Width - 1, Me.intCellSize)
+        g.DrawLine(p, intCellSize, 0, intCellSize, Height - 1)
+        g.DrawLine(p, 0, intCellSize, Width - 1, intCellSize)
 
         p.Color = Color.Blue
         p.DashStyle = Drawing2D.DashStyle.Solid
-        g.DrawLine(p, CInt(Math.Truncate(Me.intMaxCols / 2 + 1) * Me.intCellSize), 0, CInt(Math.Truncate(Me.intMaxCols / 2 + 1) * Me.intCellSize), Me.Height - 1)
-        g.DrawLine(p, 0, CInt(Math.Truncate(Me.intMaxRows / 2 + 1) * Me.intCellSize), Me.Width - 1, CInt(Math.Truncate(Me.intMaxRows / 2 + 1) * Me.intCellSize))
+        g.DrawLine(p, CInt(Math.Truncate(Me.intCols / 2 + 1) * intCellSize), 0, CInt(Math.Truncate(Me.intCols / 2 + 1) * intCellSize), Height - 1)
+        g.DrawLine(p, 0, CInt(Math.Truncate(Me.intRows / 2 + 1) * intCellSize), Width - 1, CInt(Math.Truncate(Me.intRows / 2 + 1) * intCellSize))
 
         'リソースを解放する
         p.Dispose()

@@ -8,44 +8,44 @@ Public Class Database
     Public Sub New(pstrDataSource As String, pdecVersion As Decimal)
         MyBase.New(pstrDataSource)
 
-        Me.decVersion = pdecVersion
+        decVersion = pdecVersion
 
-        Me.Initialize()
+        Initialize()
     End Sub
 
     Private Function Initialize() As Boolean
         Try
-            Me.Open()
+            Open()
 
-            Me.Begin()
+            Begin()
 
             '設定テーブルの確認
-            If Me.TableExists("Setting") = False Then
-                Me.CreateTable_Setting()
+            If TableExists("Setting") = False Then
+                CreateTable_Setting()
             End If
 
             'データベースバージョンの確認
-            If Me.CheckVersion() = False Then
+            If CheckVersion() = False Then
                 'データベースアップデート時の処理
             End If
 
             'モデルデータテーブルの確認
-            If Me.TableExists("ModelData") = False Then
-                Me.CreateTable_ModelData()
+            If TableExists("ModelData") = False Then
+                CreateTable_ModelData()
             End If
 
-            Me.Commit()
+            Commit()
 
         Catch sqlex As SQLiteException
             Throw New Exception(sqlex.Message)
-            Me.Rollback()
+            Rollback()
 
         Catch ex As Exception
             Throw New Exception(ex.Message)
-            Me.Rollback()
+            Rollback()
 
         Finally
-            Me.Close()
+            Close()
         End Try
 
         Return True
@@ -57,8 +57,8 @@ Public Class Database
 
         lstrSQL = Common.GetResourceText("Create_Setting.txt")
 
-        Me.ClearParameter()
-        If Me.ExecuteNonQuery(lstrSQL) <= -1 Then
+        ClearParameter()
+        If ExecuteNonQuery(lstrSQL) <= -1 Then
             Return False
         End If
 
@@ -71,8 +71,8 @@ Public Class Database
 
         lstrSQL = Common.GetResourceText("Create_ModelData.txt")
 
-        Me.ClearParameter()
-        If Me.ExecuteNonQuery(lstrSQL) <= -1 Then
+        ClearParameter()
+        If ExecuteNonQuery(lstrSQL) <= -1 Then
             Return False
         End If
 
@@ -85,9 +85,9 @@ Public Class Database
 
         lstrSQL = Common.GetResourceText("Isert_Setting_Init.txt")
 
-        Me.ClearParameter()
-        Me.AddParameter("@Version", Me.decVersion)
-        If Me.ExecuteNonQuery(lstrSQL) <= -1 Then
+        ClearParameter()
+        AddParameter("@Version", decVersion)
+        If ExecuteNonQuery(lstrSQL) <= -1 Then
             Return False
         End If
 
@@ -100,7 +100,7 @@ Public Class Database
 
         lstrSQL = Common.GetResourceText("Select_Version.txt")
 
-        lobjDRow = Me.ExecuteQueryFirstRow(lstrSQL)
+        lobjDRow = ExecuteQueryFirstRow(lstrSQL)
 
         If lobjDRow Is Nothing OrElse CInt(lobjDRow.Item(0)) = 0 Then
             Return -1
@@ -112,16 +112,16 @@ Public Class Database
     Private Function CheckVersion() As Boolean
         Dim ldecDBVersion As Decimal
 
-        ldecDBVersion = Me.GetDatabaseVersion()
+        ldecDBVersion = GetDatabaseVersion()
 
         '設定データがない場合はデータを作成
         If ldecDBVersion = -1 Then
-            Me.InitializeSettingData()
+            InitializeSettingData()
             Return True
         End If
 
         '設定データのバージョンが古い場合はFalse（要データベースアップデート）
-        If Me.decVersion > ldecDBVersion Then
+        If decVersion > ldecDBVersion Then
             Return False
         End If
 
