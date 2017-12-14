@@ -24,8 +24,8 @@ Partial Class MainForm
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MainForm))
         Me.SelectColor = New System.Windows.Forms.Label()
-        Me.WorkArea1 = New PlamoBlock.WorkArea()
         Me.ColorSelector = New PlamoBlock.ColorSelector()
+        Me.WorkArea1 = New PlamoBlock.WorkArea()
         CType(Me.WorkArea1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -37,6 +37,14 @@ Partial Class MainForm
         Me.SelectColor.Size = New System.Drawing.Size(96, 32)
         Me.SelectColor.TabIndex = 2
         Me.SelectColor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'ColorSelector
+        '
+        Me.ColorSelector.ButtonWidth = 52
+        Me.ColorSelector.Location = New System.Drawing.Point(580, 478)
+        Me.ColorSelector.Name = "ColorSelector"
+        Me.ColorSelector.Size = New System.Drawing.Size(416, 96)
+        Me.ColorSelector.TabIndex = 6
         '
         'WorkArea1
         '
@@ -50,14 +58,6 @@ Partial Class MainForm
         Me.WorkArea1.Size = New System.Drawing.Size(562, 562)
         Me.WorkArea1.TabIndex = 5
         Me.WorkArea1.TabStop = False
-        '
-        'ColorSelector
-        '
-        Me.ColorSelector.ButtonWidth = 52
-        Me.ColorSelector.Location = New System.Drawing.Point(580, 478)
-        Me.ColorSelector.Name = "ColorSelector"
-        Me.ColorSelector.Size = New System.Drawing.Size(416, 96)
-        Me.ColorSelector.TabIndex = 6
         '
         'MainForm
         '

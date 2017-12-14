@@ -46,6 +46,27 @@
         End Set
     End Property
 
+    Public ReadOnly Property MinCol() As Integer
+        Get
+            Return Math.Truncate(Me.intCols / 2) - intCols
+        End Get
+    End Property
+    Public ReadOnly Property MaxCol() As Integer
+        Get
+            Return intCols - Math.Truncate(Me.intCols / 2) - 1
+        End Get
+    End Property
+    Public ReadOnly Property MinRow() As Integer
+        Get
+            Return Math.Truncate(Me.intRows / 2) - intRows
+        End Get
+    End Property
+    Public ReadOnly Property MaxRow() As Integer
+        Get
+            Return intRows - Math.Truncate(Me.intRows / 2) - 1
+        End Get
+    End Property
+
     Public Sub New()
         BackColor = Color.White
 
@@ -75,44 +96,80 @@
         Height = (Me.intRows + 1) * intCellSize + 1
     End Sub
 
+    Public Function CellPoint(pintRow As Integer, pintCol As Integer) As Point
+        Dim lintX As Integer
+        Dim lintY As Integer
+
+        lintX = (Math.Truncate(Me.intCols / 2 + 1) + pintCol) * intCellSize
+        lintY = (Math.Truncate(Me.intRows / 2 + 1) + pintRow) * intCellSize
+
+        Return New Point(lintX, lintY)
+    End Function
+
     Private Sub DrawBackGround()
         Dim g As Graphics
         Dim p As Pen
+        Dim lobjBrushesBuf As Brush
         Dim fnt As Font
         Dim sf As StringFormat
         Dim i As Integer
+
+        Dim lintBuf As Integer
 
         objBackImage = New Bitmap(Me.Width, Height)
 
         g = Graphics.FromImage(Me.objBackImage)
 
+        'エリアの枠線表示
+        p = New Pen(Color.Black, 1)
+        p.DashStyle = Drawing2D.DashStyle.Solid
+
+        g.DrawRectangle(p, 0, 0, Me.Width - 1, Height - 1)
+
+        'セルの区切り線表示
         p = New Pen(Color.Gray, 1)
         p.DashStyle = Drawing2D.DashStyle.Dash
 
+        '座標文字設定
         fnt = New Font("MS UI Gothic", CSng(8 * intCellSize / 14))
-
         sf = New StringFormat
         sf.Alignment = StringAlignment.Center
         sf.LineAlignment = StringAlignment.Center
 
-        For i = 1 To intCols
-            g.DrawLine(p, i * intCellSize, 0, i * intCellSize, Height - 1)
-            g.DrawString(i.ToString, fnt, Brushes.Blue, CSng((i + 0.5) * intCellSize + 0.5), CSng(intCellSize * 0.5 + 0.5), sf)
+        'セルの縦線表示
+        For i = MinCol To MaxCol
+            lintBuf = CellPoint(0, i).X
+            g.DrawLine(p, lintBuf, 0, lintBuf, Height - 1)
+            If i < 0 Then
+                lobjBrushesBuf = Brushes.Red
+            Else
+                lobjBrushesBuf = Brushes.Blue
+            End If
+            g.DrawString(Math.Abs(i).ToString, fnt, lobjBrushesBuf, CSng(lintBuf + intCellSize * 0.5), CSng(intCellSize * 0.5 + 0.5), sf)
         Next
-        For i = 1 To intRows
-            g.DrawLine(p, 0, i * intCellSize, Width - 1, i * intCellSize)
-            g.DrawString(i.ToString, fnt, Brushes.Blue, CSng(intCellSize * 0.5 + 0.5), CSng((i + 0.5) * intCellSize + 0.5), sf)
+        'セルの横線表示
+        For i = MinRow To MaxRow
+            lintBuf = CellPoint(i, 0).Y
+            g.DrawLine(p, 0, lintBuf, Width - 1, lintBuf)
+            If i < 0 Then
+                lobjBrushesBuf = Brushes.Red
+            Else
+                lobjBrushesBuf = Brushes.Blue
+            End If
+            g.DrawString(Math.Abs(i).ToString, fnt, lobjBrushesBuf, CSng(intCellSize * 0.5 + 0.5), CSng(lintBuf + intCellSize * 0.5 + 1), sf)
         Next
 
-        p.Color = Color.Black
+        '区切り線表示
+        p.Color = Color.Purple
         p.DashStyle = Drawing2D.DashStyle.Solid
+        '座標数値表示
         g.DrawLine(p, intCellSize, 0, intCellSize, Height - 1)
         g.DrawLine(p, 0, intCellSize, Width - 1, intCellSize)
-
-        p.Color = Color.Blue
-        p.DashStyle = Drawing2D.DashStyle.Solid
-        g.DrawLine(p, CInt(Math.Truncate(Me.intCols / 2 + 1) * intCellSize), 0, CInt(Math.Truncate(Me.intCols / 2 + 1) * intCellSize), Height - 1)
-        g.DrawLine(p, 0, CInt(Math.Truncate(Me.intRows / 2 + 1) * intCellSize), Width - 1, CInt(Math.Truncate(Me.intRows / 2 + 1) * intCellSize))
+        '座標中央
+        lintBuf = CellPoint(0, 0).X
+        g.DrawLine(p, lintBuf, 0, lintBuf, Height - 1)
+        lintBuf = CellPoint(0, 0).Y
+        g.DrawLine(p, 0, lintBuf, Width - 1, lintBuf)
 
         'リソースを解放する
         p.Dispose()
