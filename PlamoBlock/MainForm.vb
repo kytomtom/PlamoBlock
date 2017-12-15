@@ -31,11 +31,14 @@
     Private Sub SetCanvasSize(pintCols As Integer, pintRows As Integer)
     End Sub
 
-    Private Sub ColorSelector_ChangeColor(sender As Object, e As EventArgs)
+    Private Sub ColorSelector_ChangeColor(sender As Object, e As EventArgs) Handles ColorSelector.ChangeColor
         SelectColor.BackColor = ColorSelector.SelectColorSetting.Base
         SelectColor.ForeColor = ColorSelector.SelectColorSetting.Edge
         SelectColor.Text = ColorSelector.SelectColorSetting.Kana
+
+        BlockSelector.SetBlockObject(ColorSelector.SelectColorSetting)
         'BlockImage1.SetBlockSize(Me.ColorSelector.SelectColorSetting, 2, 6, 16)
     End Sub
+
 End Class
 

@@ -22,8 +22,10 @@ Partial Class MainForm
     'コード エディターを使って変更しないでください。
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim ColorSetting1 As PlamoBlock.BlockColor.ColorSetting = New PlamoBlock.BlockColor.ColorSetting()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MainForm))
         Me.SelectColor = New System.Windows.Forms.Label()
+        Me.BlockSelector = New PlamoBlock.BlockSelector()
         Me.ColorSelector = New PlamoBlock.ColorSelector()
         Me.WorkArea1 = New PlamoBlock.WorkArea()
         CType(Me.WorkArea1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -37,6 +39,15 @@ Partial Class MainForm
         Me.SelectColor.Size = New System.Drawing.Size(96, 23)
         Me.SelectColor.TabIndex = 2
         Me.SelectColor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'BlockSelector
+        '
+        Me.BlockSelector.CellSize = 20
+        Me.BlockSelector.ColorSetting = ColorSetting1
+        Me.BlockSelector.Location = New System.Drawing.Point(580, 296)
+        Me.BlockSelector.Name = "BlockSelector"
+        Me.BlockSelector.Size = New System.Drawing.Size(300, 153)
+        Me.BlockSelector.TabIndex = 7
         '
         'ColorSelector
         '
@@ -64,6 +75,7 @@ Partial Class MainForm
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1007, 583)
+        Me.Controls.Add(Me.BlockSelector)
         Me.Controls.Add(Me.ColorSelector)
         Me.Controls.Add(Me.WorkArea1)
         Me.Controls.Add(Me.SelectColor)
@@ -78,4 +90,5 @@ Partial Class MainForm
     Friend WithEvents SelectColor As Label
     Friend WithEvents WorkArea1 As WorkArea
     Friend WithEvents ColorSelector As ColorSelector
+    Friend WithEvents BlockSelector As BlockSelector
 End Class

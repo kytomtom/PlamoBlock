@@ -98,6 +98,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="BlockImage.vb" />
+    <Compile Include="BlockSelector.vb">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ColorSelector.vb">
       <SubType>Component</SubType>
     </Compile>

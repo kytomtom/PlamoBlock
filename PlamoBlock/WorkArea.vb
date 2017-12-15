@@ -12,7 +12,7 @@
 
     Private objBackImage As Bitmap
 
-    <System.ComponentModel.Category("エリアサイズ設定")>
+    <System.ComponentModel.Category("_追加設定")>
     <System.ComponentModel.DefaultValue(_Default_Rows)>
     Public Property Rows() As Integer
         Get
@@ -23,7 +23,7 @@
             SetWorkAreaSize(intRows, intCols, intCellSize)
         End Set
     End Property
-    <System.ComponentModel.Category("エリアサイズ設定")>
+    <System.ComponentModel.Category("_追加設定")>
     <System.ComponentModel.DefaultValue(_Default_Cols)>
     Public Property Cols() As Integer
         Get
@@ -34,7 +34,7 @@
             SetWorkAreaSize(intRows, intCols, intCellSize)
         End Set
     End Property
-    <System.ComponentModel.Category("エリアサイズ設定")>
+    <System.ComponentModel.Category("_追加設定")>
     <System.ComponentModel.DefaultValue(_Default_CellSize)>
     Public Property CellSize() As Integer
         Get

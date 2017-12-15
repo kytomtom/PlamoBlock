@@ -1,5 +1,4 @@
-﻿
-Public Class ColorSelector
+﻿Public Class ColorSelector
     Inherits FlowLayoutPanel
 
     'プロパティの既定値
@@ -31,7 +30,7 @@ Public Class ColorSelector
         End Get
     End Property
 
-    <System.ComponentModel.Category("カラー選択ボタン設定")>
+    <System.ComponentModel.Category("_追加設定")>
     <System.ComponentModel.DefaultValue(_Default_ButtonWidth)>
     Public Property ButtonWidth() As Integer
         Get
@@ -42,7 +41,7 @@ Public Class ColorSelector
             SetControlSize()
         End Set
     End Property
-    <System.ComponentModel.Category("カラー選択ボタン設定")>
+    <System.ComponentModel.Category("_追加設定")>
     <System.ComponentModel.DefaultValue(_Default_ButtonHeight)>
     Public Property ButtonHeight() As Integer
         Get
@@ -53,7 +52,7 @@ Public Class ColorSelector
             SetControlSize()
         End Set
     End Property
-    <System.ComponentModel.Category("カラー選択ボタン設定")>
+    <System.ComponentModel.Category("_追加設定")>
     <System.ComponentModel.DefaultValue(_Default_ButtonFontSize)>
     Public Property ButtonFontSize() As Single
         Get
@@ -64,7 +63,7 @@ Public Class ColorSelector
             SetControlSize()
         End Set
     End Property
-    <System.ComponentModel.Category("カラー選択ボタン設定")>
+    <System.ComponentModel.Category("_追加設定")>
     <System.ComponentModel.DefaultValue(_Default_MaxRows)>
     Public Property MaxRows() As Integer
         Get
@@ -75,7 +74,7 @@ Public Class ColorSelector
             SetControlSize()
         End Set
     End Property
-    <System.ComponentModel.Category("カラー選択ボタン設定")>
+    <System.ComponentModel.Category("_追加設定")>
     <System.ComponentModel.DefaultValue(_Default_MaxCols)>
     Public Property MaxCols() As Integer
         Get
@@ -120,7 +119,7 @@ Public Class ColorSelector
 
         lobjNewColor = New Button
         With lobjNewColor
-            .Name = MakeColorButtonName(pstrColotName)
+            .Name = MakeSubControlName(pstrColotName)
             .Width = intButtonWidth
             .Height = intButtonHeight
             .Margin = New Padding(0)
@@ -136,7 +135,7 @@ Public Class ColorSelector
 
         Return True
     End Function
-    Private Function MakeColorButtonName(pstrColotName As String) As String
+    Private Function MakeSubControlName(pstrColotName As String) As String
         Return String.Format("ColorButton_{0}", pstrColotName)
     End Function
 
