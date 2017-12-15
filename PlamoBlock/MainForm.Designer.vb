@@ -32,9 +32,9 @@ Partial Class MainForm
         'SelectColor
         '
         Me.SelectColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.SelectColor.Location = New System.Drawing.Point(596, 303)
+        Me.SelectColor.Location = New System.Drawing.Point(580, 452)
         Me.SelectColor.Name = "SelectColor"
-        Me.SelectColor.Size = New System.Drawing.Size(96, 32)
+        Me.SelectColor.Size = New System.Drawing.Size(96, 23)
         Me.SelectColor.TabIndex = 2
         Me.SelectColor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -63,7 +63,7 @@ Partial Class MainForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1008, 601)
+        Me.ClientSize = New System.Drawing.Size(1007, 583)
         Me.Controls.Add(Me.ColorSelector)
         Me.Controls.Add(Me.WorkArea1)
         Me.Controls.Add(Me.SelectColor)

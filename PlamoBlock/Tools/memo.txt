@@ -1,0 +1,3 @@
+FTPサーバ名     ： kytomtom.sakura.ne.jp
+FTPアカウント   ： kytomtom
+サーバパスワード： 4p769a6mxb
