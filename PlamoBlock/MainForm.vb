@@ -37,8 +37,17 @@
         SelectColor.Text = ColorSelector.SelectColorSetting.Kana
 
         BlockSelector.SetBlockObject(ColorSelector.SelectColorSetting)
-        'BlockImage1.SetBlockSize(Me.ColorSelector.SelectColorSetting, 2, 6, 16)
     End Sub
 
+    Private Sub BlockSelector_ChangeBlockSize(sender As Object, e As EventArgs) Handles BlockSelector.ChangeBlockSize
+        BlockObject1.SetBlockSize(BlockSelector.SelectBlockSizeRows, BlockSelector.SelectBlockSizeCols, BlockObject1.CellSize, ColorSelector.SelectColorSetting, 0)
+        SetSelectBlock()
+    End Sub
+
+    Private Sub SetSelectBlock()
+        With BlockObject1
+            WorkArea1.SetSelectBlock(.Rows, .Cols, .ColorSetting, 0)
+        End With
+    End Sub
 End Class
 

@@ -94,6 +94,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlockColor.vb" />
+    <Compile Include="BlockImageOutline.vb" />
     <Compile Include="BlockObject.vb">
       <SubType>Component</SubType>
     </Compile>
@@ -130,6 +131,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="SelectBlock.vb" />
     <Compile Include="Setting.vb" />
     <Compile Include="WorkArea.vb">
       <SubType>Component</SubType>

@@ -20,4 +20,5 @@
 
         Return lstrResult
     End Function
+
 End Class

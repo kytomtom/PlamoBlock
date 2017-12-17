@@ -10,7 +10,10 @@
     Private intRows As Integer
     Private intCellSize As Integer
 
+    Private objSelectBlock As SelectBlock
+
     Private objBackImage As Bitmap
+    Private objSelectBlockImage As Bitmap
 
     <System.ComponentModel.Category("_追加設定")>
     <System.ComponentModel.DefaultValue(_Default_Rows)>
@@ -48,22 +51,28 @@
 
     Public ReadOnly Property MinCol() As Integer
         Get
-            Return Math.Truncate(Me.intCols / 2) - intCols
+            Return CInt(Math.Truncate(Me.intCols / 2) - intCols)
         End Get
     End Property
     Public ReadOnly Property MaxCol() As Integer
         Get
-            Return intCols - Math.Truncate(Me.intCols / 2) - 1
+            Return CInt(intCols - Math.Truncate(Me.intCols / 2) - 1)
         End Get
     End Property
     Public ReadOnly Property MinRow() As Integer
         Get
-            Return Math.Truncate(Me.intRows / 2) - intRows
+            Return CInt(Math.Truncate(Me.intRows / 2) - intRows)
         End Get
     End Property
     Public ReadOnly Property MaxRow() As Integer
         Get
-            Return intRows - Math.Truncate(Me.intRows / 2) - 1
+            Return CInt(intRows - Math.Truncate(Me.intRows / 2) - 1)
+        End Get
+    End Property
+
+    Public ReadOnly Property SelectBlock() As SelectBlock
+        Get
+            Return objSelectBlock
         End Get
     End Property
 
@@ -73,11 +82,23 @@
         intRows = _Default_Rows
         intCols = _Default_Cols
         intCellSize = _Default_CellSize
+
+        objSelectBlock = New SelectBlock
+
         SetWorkAreaSize(intRows, intCols, intCellSize)
     End Sub
 
     Private Sub WorkArea_Resize(sender As Object, e As EventArgs) Handles Me.Resize
         SetControlSize()
+    End Sub
+
+    Public Sub SetSelectBlock(pintRows As Integer, pintCols As Integer, pobjColorSetting As BlockColor.ColorSetting, pintRotation As Integer)
+        objSelectBlock = New SelectBlock(pintRows, pintCols, pobjColorSetting, pintRotation)
+
+
+        objSelectBlockImage = DirectCast(New BlockImageOutline(objSelectBlock, intCellSize).Image.Clone, Image)
+
+        Redraw()
     End Sub
 
     Public Sub SetWorkAreaSize(pintRows As Integer, pintCols As Integer, pintCellSize As Integer)
@@ -88,7 +109,7 @@
         SetControlSize()
         DrawBackGround()
 
-        Image = objBackImage
+        Redraw()
     End Sub
 
     Private Sub SetControlSize()
@@ -100,8 +121,8 @@
         Dim lintX As Integer
         Dim lintY As Integer
 
-        lintX = (Math.Truncate(Me.intCols / 2 + 1) + pintCol) * intCellSize
-        lintY = (Math.Truncate(Me.intRows / 2 + 1) + pintRow) * intCellSize
+        lintX = CInt(Math.Truncate(Me.intCols / 2 + 1) + pintCol) * intCellSize
+        lintY = CInt(Math.Truncate(Me.intRows / 2 + 1) + pintRow) * intCellSize
 
         Return New Point(lintX, lintY)
     End Function
@@ -175,4 +196,61 @@
         p.Dispose()
         g.Dispose()
     End Sub
+
+    Private Sub WorkArea_MouseMove(sender As Object, e As MouseEventArgs) Handles Me.MouseMove
+        Console.WriteLine(e.X.ToString & vbTab & e.Y.ToString)
+        Console.WriteLine(IsMouseInArea())
+        Redraw()
+    End Sub
+
+    Public Function IsMouseInArea() As Boolean
+        Dim rect As Rectangle = Me.ClientRectangle
+        Return GetContainState(Me, rect)
+    End Function
+    Private Function GetContainState(ByVal ctrl As Control, ByVal rect As Rectangle) As Boolean
+        ' マウス座標（スクリーン座標系）の取得
+        Dim mouseScreenPos As Point = Control.MousePosition
+        ' マウス座標をクライアント座標系へ変換
+        Dim mouseClientPos As Point = ctrl.PointToClient(mouseScreenPos)
+        ' マウス座標（クライアント座標系）が領域内かどうか
+        Return rect.Contains(mouseClientPos)
+    End Function
+
+    Private Sub Redraw()
+        Dim canvas As New Bitmap(Width, Height)
+        Dim g As Graphics
+
+        Dim posMouse As Point
+
+        g = Graphics.FromImage(canvas)
+        g.DrawImage(objBackImage, 0, 0)
+
+        'マウスカーソルが領域内にある場合、ブロック配置用のカーソルを表示
+        If IsMouseInArea() Then
+            posMouse = SetSelectBlockPoint()
+            Console.WriteLine("POS:" & vbTab & posMouse.X.ToString & vbTab & posMouse.Y.ToString)
+            g.DrawImage(objSelectBlockImage, posMouse.X, posMouse.Y)
+        End If
+
+        Image = canvas
+    End Sub
+
+    Private Function SetSelectBlockPoint() As Point
+        Dim posMouse As Point
+        Dim posResult As Point
+
+        posMouse = PointToClient(Control.MousePosition)
+
+        posResult.X = CInt(posMouse.X - objSelectBlockImage.Width / 2)
+        posResult.Y = CInt(posMouse.Y - objSelectBlockImage.Height / 2)
+
+        posResult.X = CInt(Math.Round(posResult.X / intCellSize) * intCellSize)
+        posResult.Y = CInt(Math.Round(posResult.Y / intCellSize) * intCellSize)
+
+        posResult.X = Math.Min(Math.Max(posResult.X, intCellSize), Cols * intCellSize) + 2
+        posResult.Y = Math.Min(Math.Max(posResult.Y, intCellSize), Rows * intCellSize) + 2
+
+        Return posResult
+    End Function
+
 End Class

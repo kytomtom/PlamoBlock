@@ -1,13 +1,13 @@
 ﻿Public Class BlockImage
-    Private objImage As Bitmap
+    Protected objImage As Bitmap
 
-    Private intRows As Integer
-    Private intCols As Integer
-    Private intCellSize As Integer
-    Private objBaseColor As Color
-    Private objEdgeColor As Color
-    Private sngOpacity As Single
-    Private intRotation As Integer
+    Protected intRows As Integer
+    Protected intCols As Integer
+    Protected intCellSize As Integer
+    Protected objBaseColor As Color
+    Protected objEdgeColor As Color
+    Protected sngOpacity As Single
+    Protected intRotation As Integer
 
     Public ReadOnly Property Image() As Bitmap
         Get
@@ -53,12 +53,12 @@
 
     Public ReadOnly Property Width() As Integer
         Get
-            Return IIf(intRotation = 0, intCols, intRows) * intCellSize
+            Return CInt(IIf(intRotation = 0, intCols, intRows)) * intCellSize
         End Get
     End Property
     Public ReadOnly Property Height() As Integer
         Get
-            Return IIf(intRotation = 0, intRows, intCols) * intCellSize
+            Return CInt(IIf(intRotation = 0, intRows, intCols)) * intCellSize
         End Get
     End Property
 
@@ -76,6 +76,9 @@
     Public Sub New(pintRows As Integer, pintCols As Integer, pintCellSize As Integer, pobjColorSetting As BlockColor.ColorSetting, pintRotation As Integer)
         Me.New(pintRows, pintCols, pintCellSize, pobjColorSetting.Base, pobjColorSetting.Edge, pobjColorSetting.Opacity, pintRotation)
     End Sub
+    Public Sub New(pobjSelectBlock As SelectBlock, pintCellSize As Integer)
+        Me.New(pobjSelectBlock.Rows, pobjSelectBlock.Cols, pintCellSize, pobjSelectBlock.ColorSetting, pobjSelectBlock.Rotation)
+    End Sub
     Public Sub New()
         Me.New(1, 1, 16, New BlockColor.ColorSetting(), 0)
     End Sub
@@ -85,7 +88,7 @@
         objImage.Dispose()
     End Sub
 
-    Private Sub DrawBlockImage()
+    Protected Overridable Sub DrawBlockImage()
         Dim canvas As Bitmap
         Dim g As Graphics
         Dim r As Rectangle
@@ -98,10 +101,6 @@
 
         r = New Rectangle(0, 0, Width - 1, Height - 1)
 
-        If intRotation = 0 Then
-        Else
-        End If
-
         b = New SolidBrush(Color.FromArgb(CInt(255 * sngOpacity), objBaseColor))
         g.FillRectangle(b, r)
 
@@ -109,8 +108,8 @@
         p.DashStyle = Drawing2D.DashStyle.Solid
         g.DrawRectangle(p, r)
 
-        For row As Integer = 1 To IIf(intRotation = 0, intRows, intCols)
-            For col As Integer = 1 To IIf(intRotation = 0, intCols, intRows)
+        For row As Integer = 1 To CInt(IIf(intRotation = 0, intRows, intCols))
+            For col As Integer = 1 To CInt(IIf(intRotation = 0, intCols, intRows))
                 g.DrawRectangle(p, CSng((col - 0.5) * intCellSize - intCellSize / 6), CSng((row - 0.5) * intCellSize - intCellSize / 6), CSng(Me.intCellSize / 3), CSng(Me.intCellSize / 3))
             Next
         Next

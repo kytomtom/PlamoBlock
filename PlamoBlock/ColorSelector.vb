@@ -26,7 +26,7 @@
     End Property
     Public ReadOnly Property SelectColorSetting() As BlockColor.ColorSetting
         Get
-            Return objBlockColor.Color(Me.strColorName)
+            Return objBlockColor.Color(strColorName)
         End Get
     End Property
 
@@ -92,6 +92,8 @@
         sngButtonFontSize = _Default_ButtonFontSize
         intMaxRows = _Default_MaxRows
         intMaxCols = _Default_MaxCols
+        objBlockColor = New BlockColor
+        strColorName = BlockColor.ColorName.White.ToString
     End Sub
 
     Private Sub ColorSelector_Resize(sender As Object, e As EventArgs) Handles Me.Resize

@@ -30,6 +30,16 @@
             Return intBlockSize
         End Get
     End Property
+    Public ReadOnly Property SelectBlockSizeRows() As Integer
+        Get
+            Return intBlockSize(0)
+        End Get
+    End Property
+    Public ReadOnly Property SelectBlockSizeCols() As Integer
+        Get
+            Return intBlockSize(1)
+        End Get
+    End Property
 
     Public Property ColorSetting() As BlockColor.ColorSetting
         Get
@@ -88,7 +98,7 @@
             .Width = lobjBlockImage.Width + 6
             .Height = lobjBlockImage.Height + 6
             .Margin = New Padding(0, 0, 2, 2)
-            .Image = lobjBlockImage.Image.Clone
+            .Image = DirectCast(lobjBlockImage.Image.Clone, Image)
             .Tag = DirectCast({pintRows, pintCols}, Integer())
         End With
         Controls.Add(lobjNewBlock)
