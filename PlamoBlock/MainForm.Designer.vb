@@ -24,20 +24,21 @@ Partial Class MainForm
     Private Sub InitializeComponent()
         Dim ColorSetting1 As PlamoBlock.BlockColor.ColorSetting = New PlamoBlock.BlockColor.ColorSetting()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MainForm))
+        Dim ModelData1 As PlamoBlock.ModelData = New PlamoBlock.ModelData()
         Dim ColorSetting2 As PlamoBlock.BlockColor.ColorSetting = New PlamoBlock.BlockColor.ColorSetting()
         Me.SelectColor = New System.Windows.Forms.Label()
         Me.BlockSelector = New PlamoBlock.BlockSelector()
         Me.ColorSelector = New PlamoBlock.ColorSelector()
-        Me.WorkArea1 = New PlamoBlock.WorkArea()
-        Me.BlockObject1 = New PlamoBlock.BlockObject()
-        CType(Me.WorkArea1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BlockObject1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.WorkArea = New PlamoBlock.WorkArea()
+        Me.SelectBlock = New PlamoBlock.BlockObject()
+        CType(Me.WorkArea, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.SelectBlock, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'SelectColor
         '
         Me.SelectColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.SelectColor.Location = New System.Drawing.Point(580, 452)
+        Me.SelectColor.Location = New System.Drawing.Point(569, 441)
         Me.SelectColor.Name = "SelectColor"
         Me.SelectColor.Size = New System.Drawing.Size(96, 23)
         Me.SelectColor.TabIndex = 2
@@ -46,7 +47,7 @@ Partial Class MainForm
         'BlockSelector
         '
         Me.BlockSelector.ColorSetting = ColorSetting1
-        Me.BlockSelector.Location = New System.Drawing.Point(580, 342)
+        Me.BlockSelector.Location = New System.Drawing.Point(569, 331)
         Me.BlockSelector.Name = "BlockSelector"
         Me.BlockSelector.Size = New System.Drawing.Size(307, 107)
         Me.BlockSelector.TabIndex = 7
@@ -54,57 +55,58 @@ Partial Class MainForm
         'ColorSelector
         '
         Me.ColorSelector.ButtonWidth = 52
-        Me.ColorSelector.Location = New System.Drawing.Point(580, 478)
+        Me.ColorSelector.Location = New System.Drawing.Point(569, 467)
         Me.ColorSelector.Name = "ColorSelector"
         Me.ColorSelector.Size = New System.Drawing.Size(416, 96)
         Me.ColorSelector.TabIndex = 6
         '
-        'WorkArea1
+        'WorkArea
         '
-        Me.WorkArea1.BackColor = System.Drawing.Color.White
-        Me.WorkArea1.CellSize = 17
-        Me.WorkArea1.Cols = 32
-        Me.WorkArea1.Image = CType(resources.GetObject("WorkArea1.Image"), System.Drawing.Image)
-        Me.WorkArea1.Location = New System.Drawing.Point(12, 12)
-        Me.WorkArea1.Name = "WorkArea1"
-        Me.WorkArea1.Rows = 32
-        Me.WorkArea1.Size = New System.Drawing.Size(562, 562)
-        Me.WorkArea1.TabIndex = 5
-        Me.WorkArea1.TabStop = False
+        Me.WorkArea.BackColor = System.Drawing.Color.White
+        Me.WorkArea.CellSize = 22
+        Me.WorkArea.Cols = 24
+        Me.WorkArea.Image = CType(resources.GetObject("WorkArea.Image"), System.Drawing.Image)
+        Me.WorkArea.Location = New System.Drawing.Point(12, 12)
+        Me.WorkArea.ModelData = ModelData1
+        Me.WorkArea.Name = "WorkArea"
+        Me.WorkArea.Rows = 24
+        Me.WorkArea.Size = New System.Drawing.Size(551, 551)
+        Me.WorkArea.TabIndex = 5
+        Me.WorkArea.TabStop = False
         '
-        'BlockObject1
+        'SelectBlock
         '
-        Me.BlockObject1.ColorSetting = ColorSetting2
-        Me.BlockObject1.Image = CType(resources.GetObject("BlockObject1.Image"), System.Drawing.Image)
-        Me.BlockObject1.Location = New System.Drawing.Point(580, 304)
-        Me.BlockObject1.Name = "BlockObject1"
-        Me.BlockObject1.Rows = 2
-        Me.BlockObject1.Size = New System.Drawing.Size(16, 32)
-        Me.BlockObject1.TabIndex = 8
-        Me.BlockObject1.TabStop = False
+        Me.SelectBlock.ColorSetting = ColorSetting2
+        Me.SelectBlock.Image = CType(resources.GetObject("SelectBlock.Image"), System.Drawing.Image)
+        Me.SelectBlock.Location = New System.Drawing.Point(569, 293)
+        Me.SelectBlock.Name = "SelectBlock"
+        Me.SelectBlock.Rows = 2
+        Me.SelectBlock.Size = New System.Drawing.Size(16, 32)
+        Me.SelectBlock.TabIndex = 8
+        Me.SelectBlock.TabStop = False
         '
         'MainForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1007, 583)
-        Me.Controls.Add(Me.BlockObject1)
+        Me.ClientSize = New System.Drawing.Size(993, 571)
+        Me.Controls.Add(Me.SelectBlock)
         Me.Controls.Add(Me.BlockSelector)
         Me.Controls.Add(Me.ColorSelector)
-        Me.Controls.Add(Me.WorkArea1)
+        Me.Controls.Add(Me.WorkArea)
         Me.Controls.Add(Me.SelectColor)
         Me.DoubleBuffered = True
         Me.Name = "MainForm"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "PlamoBlock"
-        CType(Me.WorkArea1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BlockObject1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.WorkArea, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.SelectBlock, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
     Friend WithEvents SelectColor As Label
-    Friend WithEvents WorkArea1 As WorkArea
+    Friend WithEvents WorkArea As WorkArea
     Friend WithEvents ColorSelector As ColorSelector
     Friend WithEvents BlockSelector As BlockSelector
-    Friend WithEvents BlockObject1 As BlockObject
+    Friend WithEvents SelectBlock As BlockObject
 End Class

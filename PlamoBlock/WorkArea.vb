@@ -15,6 +15,8 @@
     Private objBackImage As Bitmap
     Private objSelectBlockImage As Bitmap
 
+    Private objModelData As ModelData
+
     <System.ComponentModel.Category("_追加設定")>
     <System.ComponentModel.DefaultValue(_Default_Rows)>
     Public Property Rows() As Integer
@@ -76,6 +78,15 @@
         End Get
     End Property
 
+    Public Property ModelData() As ModelData
+        Get
+            Return objModelData
+        End Get
+        Set(value As ModelData)
+            objModelData = value
+        End Set
+    End Property
+
     Public Sub New()
         BackColor = Color.White
 
@@ -84,6 +95,8 @@
         intCellSize = _Default_CellSize
 
         objSelectBlock = New SelectBlock
+
+        objModelData = New ModelData
 
         SetWorkAreaSize(intRows, intCols, intCellSize)
     End Sub
@@ -198,8 +211,6 @@
     End Sub
 
     Private Sub WorkArea_MouseMove(sender As Object, e As MouseEventArgs) Handles Me.MouseMove
-        Console.WriteLine(e.X.ToString & vbTab & e.Y.ToString)
-        Console.WriteLine(IsMouseInArea())
         Redraw()
     End Sub
 
@@ -228,7 +239,6 @@
         'マウスカーソルが領域内にある場合、ブロック配置用のカーソルを表示
         If IsMouseInArea() Then
             posMouse = SetSelectBlockPoint()
-            Console.WriteLine("POS:" & vbTab & posMouse.X.ToString & vbTab & posMouse.Y.ToString)
             g.DrawImage(objSelectBlockImage, posMouse.X, posMouse.Y)
         End If
 

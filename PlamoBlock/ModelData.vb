@@ -1,73 +1,5 @@
-﻿Imports Newtonsoft.Json
-
-Public Class ModelData
-    Private objModelData As ModelData
-
-    Public Class ModelData
-        Public Chara As CharaData
-    End Class
-
-    Public Class CharaData
-        Public Name As String
-        Public DisplayName As String
-        Public Twitter As String
-        Public Copyright As String
-        Public Plate As String()
-        Public Block As List(Of BlockGroup)
-
-        Public Property BlockGroup() As List(Of BlockGroup)
-            Set(value As List(Of BlockGroup))
-                Block = value
-            End Set
-            Get
-                Return Block
-            End Get
-        End Property
-
-        Public Sub New()
-            Clear()
-        End Sub
-
-        Public Sub Clear()
-            Name = ""
-            DisplayName = ""
-            Twitter = ""
-            Copyright = ""
-            Plate = {"", "", ""}
-            BlockGroup = New List(Of BlockGroup)
-        End Sub
-
-        Public Function AddNewBlockGroup() As Integer
-            BlockGroup.Add(New BlockGroup())
-            Return BlockGroup.Count - 1
-        End Function
-    End Class
-
-    Public Class BlockGroup
-        Public Name As String
-        Public BottomPos As Integer
-        Public Layer As List(Of List(Of Position))
-
-        Public Sub New()
-            Clear()
-        End Sub
-
-        Public Sub Clear()
-            Name = ""
-            BottomPos = 0
-            Layer = New List(Of List(Of Position))
-        End Sub
-
-        Public Function AddNewLayer() As Integer
-            Layer.Add(New List(Of Position))
-            Return Layer.Count - 1
-        End Function
-
-        Public Function AddNewBlock(pintLayer As Integer) As Integer
-            Layer(pintLayer).Add(New Position)
-            Return Layer(pintLayer).Count - 1
-        End Function
-    End Class
+﻿Public Class ModelData
+    Private objLayer As Dictionary(Of Integer, List(Of Position))
 
     Public Class Position
         Public X As Integer
@@ -91,89 +23,74 @@ Public Class ModelData
         End Sub
     End Class
 
-    Public Property Name() As String
-        Set(value As String)
-            objModelData.Chara.Name = value
-        End Set
+    Public Property Layer(Index As Integer) As List(Of Position)
         Get
-            Return objModelData.Chara.Name
+            AddLayer(Index)
+            Return objLayer(Index)
         End Get
-    End Property
-    Public Property DisplayName() As String
-        Set(value As String)
-            objModelData.Chara.DisplayName = value
+        Set(value As List(Of Position))
+            AddLayer(Index)
+            objLayer(Index) = value
         End Set
-        Get
-            Return objModelData.Chara.DisplayName
-        End Get
-    End Property
-    Public Property Twitter() As String
-        Set(value As String)
-            objModelData.Chara.Twitter = value
-        End Set
-        Get
-            Return objModelData.Chara.Twitter
-        End Get
-    End Property
-    Public Property Copyright() As String
-        Set(value As String)
-            objModelData.Chara.Copyright = value
-        End Set
-        Get
-            Return objModelData.Chara.Copyright
-        End Get
-    End Property
-    Public Property PlateWidth() As Integer
-        Set(value As Integer)
-            objModelData.Chara.Plate(0) = value.ToString
-        End Set
-        Get
-            Return CInt(Me.objModelData.Chara.Plate(0))
-        End Get
-    End Property
-    Public Property PlateHeight() As Integer
-        Set(value As Integer)
-            objModelData.Chara.Plate(1) = value.ToString
-        End Set
-        Get
-            Return CInt(Me.objModelData.Chara.Plate(1))
-        End Get
-    End Property
-    Public Property PlateColor() As String
-        Set(value As String)
-            objModelData.Chara.Plate(2) = value
-        End Set
-        Get
-            Return objModelData.Chara.Plate(2)
-        End Get
     End Property
 
-    Public Property Parts(Index As Integer) As BlockGroup
-        Set(value As BlockGroup)
-            objModelData.Chara.Block(Index) = value
-        End Set
+    Public ReadOnly Property MaxHeight() As Integer
         Get
-            Return objModelData.Chara.Block(Index)
+            Dim lintMaxHeight As Integer
+
+            lintMaxHeight = 0
+
+            For Each intBuf As Integer In objLayer.Keys
+                lintMaxHeight = Math.Max(lintMaxHeight, intBuf)
+            Next
+
+            Return lintMaxHeight
         End Get
     End Property
 
     Public Sub New()
+        objLayer = New Dictionary(Of Integer, List(Of Position))
+    End Sub
+    Public Sub New(pobjModelDataFull As ModelDataFull)
+        Me.New()
+        SetModelDataFromFull(pobjModelDataFull)
     End Sub
 
-    Public Function LoadJSON(pstrJSON As String) As Boolean
-        Try
-            objModelData = JsonConvert.DeserializeObject(Of ModelData)(pstrJSON)
+    Public Sub SetModelDataFromFull(pobjModelDataFull As ModelDataFull)
+        Dim lobjGroup As ModelDataFull.BlockGroup
 
-        Catch ex As Exception
-            Return False
-        End Try
+        For i As Integer = 0 To pobjModelDataFull.PartsNum - 1
+            lobjGroup = pobjModelDataFull.Parts(i)
 
-        Return True
-    End Function
+            For j = 0 To lobjGroup.Layer.Count - 1
+                For Each lobjBlock As ModelDataFull.Position In lobjGroup.Layer(j)
+                    AddBlockFromFull(lobjGroup.BottomPos + j - 1, lobjBlock)
+                Next
+            Next
+        Next
+    End Sub
 
-    Public Sub ClearData()
-        objModelData = Nothing
+    Public Sub AddBlockFromFull(pintLayerPos As Integer, pobjBlock As ModelDataFull.Position)
+        Dim lobjBlock As Position
 
-        objModelData = New ModelData
+        AddLayer(pintLayerPos)
+
+        lobjBlock = New Position
+        With lobjBlock
+            .X = pobjBlock.X
+            .Y = pobjBlock.Y
+            .W = pobjBlock.W
+            .D = pobjBlock.D
+            .R = pobjBlock.R
+            .C = pobjBlock.C
+        End With
+
+        objLayer(pintLayerPos).Add(lobjBlock)
+    End Sub
+
+    Public Sub AddLayer(pintLayerPos As Integer)
+        If Not objLayer.ContainsKey(pintLayerPos) Then
+            objLayer.Add(pintLayerPos, New List(Of Position))
+        End If
     End Sub
 End Class

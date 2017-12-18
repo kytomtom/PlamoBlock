@@ -11,13 +11,18 @@
         ''カラー選択エリアの初期化
         ColorSelector.SetBlockColor(New BlockColor)
 
-        Dim obj2 As New ModelData
+        Dim obj2 As New ModelDataFull
         obj2.LoadJSON(Common.GetResourceText("JSON_ModelTest.json"))
 
         Debug.WriteLine(obj2.Name)
         obj2.Parts(0).Name = "AAA"
         Debug.WriteLine(obj2.Parts(0).Name)
 
+        Dim obj3 As New ModelData
+        obj3.SetModelDataFromFull(obj2)
+        Debug.WriteLine(obj3.Layer(0)(0).C)
+
+        WorkArea.ModelData.SetModelDataFromFull(obj2)
 
     End Sub
 
@@ -40,13 +45,13 @@
     End Sub
 
     Private Sub BlockSelector_ChangeBlockSize(sender As Object, e As EventArgs) Handles BlockSelector.ChangeBlockSize
-        BlockObject1.SetBlockSize(BlockSelector.SelectBlockSizeRows, BlockSelector.SelectBlockSizeCols, BlockObject1.CellSize, ColorSelector.SelectColorSetting, 0)
+        SelectBlock.SetBlockSize(BlockSelector.SelectBlockSizeRows, BlockSelector.SelectBlockSizeCols, SelectBlock.CellSize, ColorSelector.SelectColorSetting, 0)
         SetSelectBlock()
     End Sub
 
     Private Sub SetSelectBlock()
-        With BlockObject1
-            WorkArea1.SetSelectBlock(.Rows, .Cols, .ColorSetting, 0)
+        With SelectBlock
+            WorkArea.SetSelectBlock(.Rows, .Cols, .ColorSetting, 0)
         End With
     End Sub
 End Class
