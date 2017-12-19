@@ -22,17 +22,17 @@ Partial Class MainForm
     'コード エディターを使って変更しないでください。
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim ColorSetting1 As PlamoBlock.BlockColor.ColorSetting = New PlamoBlock.BlockColor.ColorSetting()
+        Dim ColorSetting3 As PlamoBlock.BlockColor.ColorSetting = New PlamoBlock.BlockColor.ColorSetting()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MainForm))
-        Dim ModelData1 As PlamoBlock.ModelData = New PlamoBlock.ModelData()
-        Dim ColorSetting2 As PlamoBlock.BlockColor.ColorSetting = New PlamoBlock.BlockColor.ColorSetting()
+        Dim ColorSetting4 As PlamoBlock.BlockColor.ColorSetting = New PlamoBlock.BlockColor.ColorSetting()
         Me.SelectColor = New System.Windows.Forms.Label()
+        Me.SelectBlock = New PlamoBlock.BlockObject()
         Me.BlockSelector = New PlamoBlock.BlockSelector()
         Me.ColorSelector = New PlamoBlock.ColorSelector()
         Me.WorkArea = New PlamoBlock.WorkArea()
-        Me.SelectBlock = New PlamoBlock.BlockObject()
-        CType(Me.WorkArea, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.LayerSelector = New PlamoBlock.LayerSelector()
         CType(Me.SelectBlock, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.WorkArea, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'SelectColor
@@ -44,9 +44,20 @@ Partial Class MainForm
         Me.SelectColor.TabIndex = 2
         Me.SelectColor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
+        'SelectBlock
+        '
+        Me.SelectBlock.ColorSetting = ColorSetting3
+        Me.SelectBlock.Image = CType(resources.GetObject("SelectBlock.Image"), System.Drawing.Image)
+        Me.SelectBlock.Location = New System.Drawing.Point(569, 293)
+        Me.SelectBlock.Name = "SelectBlock"
+        Me.SelectBlock.Rows = 2
+        Me.SelectBlock.Size = New System.Drawing.Size(16, 32)
+        Me.SelectBlock.TabIndex = 8
+        Me.SelectBlock.TabStop = False
+        '
         'BlockSelector
         '
-        Me.BlockSelector.ColorSetting = ColorSetting1
+        Me.BlockSelector.ColorSetting = ColorSetting4
         Me.BlockSelector.Location = New System.Drawing.Point(569, 331)
         Me.BlockSelector.Name = "BlockSelector"
         Me.BlockSelector.Size = New System.Drawing.Size(307, 107)
@@ -67,29 +78,26 @@ Partial Class MainForm
         Me.WorkArea.Cols = 24
         Me.WorkArea.Image = CType(resources.GetObject("WorkArea.Image"), System.Drawing.Image)
         Me.WorkArea.Location = New System.Drawing.Point(12, 12)
-        Me.WorkArea.ModelData = ModelData1
         Me.WorkArea.Name = "WorkArea"
         Me.WorkArea.Rows = 24
+        Me.WorkArea.SelectLayer = 0
         Me.WorkArea.Size = New System.Drawing.Size(551, 551)
         Me.WorkArea.TabIndex = 5
         Me.WorkArea.TabStop = False
         '
-        'SelectBlock
+        'LayerSelector
         '
-        Me.SelectBlock.ColorSetting = ColorSetting2
-        Me.SelectBlock.Image = CType(resources.GetObject("SelectBlock.Image"), System.Drawing.Image)
-        Me.SelectBlock.Location = New System.Drawing.Point(569, 293)
-        Me.SelectBlock.Name = "SelectBlock"
-        Me.SelectBlock.Rows = 2
-        Me.SelectBlock.Size = New System.Drawing.Size(16, 32)
-        Me.SelectBlock.TabIndex = 8
-        Me.SelectBlock.TabStop = False
+        Me.LayerSelector.Location = New System.Drawing.Point(569, 12)
+        Me.LayerSelector.Name = "LayerSelector"
+        Me.LayerSelector.Size = New System.Drawing.Size(416, 275)
+        Me.LayerSelector.TabIndex = 9
         '
         'MainForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(993, 571)
+        Me.Controls.Add(Me.LayerSelector)
         Me.Controls.Add(Me.SelectBlock)
         Me.Controls.Add(Me.BlockSelector)
         Me.Controls.Add(Me.ColorSelector)
@@ -99,8 +107,8 @@ Partial Class MainForm
         Me.Name = "MainForm"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "PlamoBlock"
-        CType(Me.WorkArea, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.SelectBlock, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.WorkArea, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -109,4 +117,5 @@ Partial Class MainForm
     Friend WithEvents ColorSelector As ColorSelector
     Friend WithEvents BlockSelector As BlockSelector
     Friend WithEvents SelectBlock As BlockObject
+    Friend WithEvents LayerSelector As LayerSelector
 End Class

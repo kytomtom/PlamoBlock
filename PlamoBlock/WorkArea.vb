@@ -10,12 +10,13 @@
     Private intRows As Integer
     Private intCellSize As Integer
 
+
     Private objSelectBlock As SelectBlock
 
     Private objBackImage As Bitmap
     Private objSelectBlockImage As Bitmap
 
-    Private objModelData As ModelData
+    Private intSelectLayer As Integer
 
     <System.ComponentModel.Category("_追加設定")>
     <System.ComponentModel.DefaultValue(_Default_Rows)>
@@ -78,12 +79,13 @@
         End Get
     End Property
 
-    Public Property ModelData() As ModelData
+    Public Property SelectLayer() As Integer
         Get
-            Return objModelData
+            Return intSelectLayer
         End Get
-        Set(value As ModelData)
-            objModelData = value
+        Set(value As Integer)
+            intSelectLayer = value
+            Redraw()
         End Set
     End Property
 
@@ -96,8 +98,6 @@
 
         objSelectBlock = New SelectBlock
 
-        objModelData = New ModelData
-
         SetWorkAreaSize(intRows, intCols, intCellSize)
     End Sub
 
@@ -108,8 +108,8 @@
     Public Sub SetSelectBlock(pintRows As Integer, pintCols As Integer, pobjColorSetting As BlockColor.ColorSetting, pintRotation As Integer)
         objSelectBlock = New SelectBlock(pintRows, pintCols, pobjColorSetting, pintRotation)
 
-
-        objSelectBlockImage = DirectCast(New BlockImageOutline(objSelectBlock, intCellSize).Image.Clone, Image)
+        'objSelectBlockImage = DirectCast(New BlockImageOutline(objSelectBlock, intCellSize).Image.Clone, Image)
+        objSelectBlockImage = DirectCast(New BlockImage(objSelectBlock, intCellSize).Image.Clone, Bitmap)
 
         Redraw()
     End Sub
@@ -130,12 +130,12 @@
         Height = (Me.intRows + 1) * intCellSize + 1
     End Sub
 
-    Public Function CellPoint(pintRow As Integer, pintCol As Integer) As Point
+    Public Function CellPoint(pintRow As Integer, pintCol As Integer, pintShift As Integer) As Point
         Dim lintX As Integer
         Dim lintY As Integer
 
-        lintX = CInt(Math.Truncate(Me.intCols / 2 + 1) + pintCol) * intCellSize
-        lintY = CInt(Math.Truncate(Me.intRows / 2 + 1) + pintRow) * intCellSize
+        lintX = CInt(Math.Truncate(Me.intCols / 2 + 1) + pintCol) * intCellSize + pintShift
+        lintY = CInt(Math.Truncate(Me.intRows / 2 + 1) + pintRow) * intCellSize + pintShift
 
         Return New Point(lintX, lintY)
     End Function
@@ -172,7 +172,7 @@
 
         'セルの縦線表示
         For i = MinCol To MaxCol
-            lintBuf = CellPoint(0, i).X
+            lintBuf = CellPoint(0, i, 0).X
             g.DrawLine(p, lintBuf, 0, lintBuf, Height - 1)
             If i < 0 Then
                 lobjBrushesBuf = Brushes.Red
@@ -183,7 +183,7 @@
         Next
         'セルの横線表示
         For i = MinRow To MaxRow
-            lintBuf = CellPoint(i, 0).Y
+            lintBuf = CellPoint(i, 0, 0).Y
             g.DrawLine(p, 0, lintBuf, Width - 1, lintBuf)
             If i < 0 Then
                 lobjBrushesBuf = Brushes.Red
@@ -200,9 +200,9 @@
         g.DrawLine(p, intCellSize, 0, intCellSize, Height - 1)
         g.DrawLine(p, 0, intCellSize, Width - 1, intCellSize)
         '座標中央
-        lintBuf = CellPoint(0, 0).X
+        lintBuf = CellPoint(0, 0, 0).X
         g.DrawLine(p, lintBuf, 0, lintBuf, Height - 1)
-        lintBuf = CellPoint(0, 0).Y
+        lintBuf = CellPoint(0, 0, 0).Y
         g.DrawLine(p, 0, lintBuf, Width - 1, lintBuf)
 
         'リソースを解放する
@@ -215,50 +215,119 @@
     End Sub
 
     Public Function IsMouseInArea() As Boolean
-        Dim rect As Rectangle = Me.ClientRectangle
-        Return GetContainState(Me, rect)
-    End Function
-    Private Function GetContainState(ByVal ctrl As Control, ByVal rect As Rectangle) As Boolean
-        ' マウス座標（スクリーン座標系）の取得
         Dim mouseScreenPos As Point = Control.MousePosition
-        ' マウス座標をクライアント座標系へ変換
-        Dim mouseClientPos As Point = ctrl.PointToClient(mouseScreenPos)
-        ' マウス座標（クライアント座標系）が領域内かどうか
-        Return rect.Contains(mouseClientPos)
+        Dim mouseClientPos As Point = Me.PointToClient(mouseScreenPos)
+
+        Return Me.ClientRectangle.Contains(mouseClientPos)
     End Function
 
     Private Sub Redraw()
-        Dim canvas As New Bitmap(Width, Height)
-        Dim g As Graphics
+        Dim objCanvas As New Bitmap(Width, Height)
+        Dim objGraph As Graphics
 
-        Dim posMouse As Point
+        objGraph = Graphics.FromImage(objCanvas)
+        objGraph.DrawImage(objBackImage, 0, 0)
 
-        g = Graphics.FromImage(canvas)
-        g.DrawImage(objBackImage, 0, 0)
+        DrawLayer(objGraph, True)
+        DrawLayer(objGraph, False)
 
         'マウスカーソルが領域内にある場合、ブロック配置用のカーソルを表示
         If IsMouseInArea() Then
-            posMouse = SetSelectBlockPoint()
-            g.DrawImage(objSelectBlockImage, posMouse.X, posMouse.Y)
+            DrawCursor(objGraph)
         End If
 
-        Image = canvas
+        objGraph.Dispose()
+
+        Image = objCanvas
     End Sub
 
-    Private Function SetSelectBlockPoint() As Point
+    Private Sub DrawLayer(pobjGraph As Graphics, pbolUnderLayer As Boolean)
+        Dim intTargetLayer As Integer
+
+        If Common.ModelData Is Nothing Then
+            Exit Sub
+        End If
+
+        If intSelectLayer > Common.ModelData.MaxHeight Then
+            Exit Sub
+        End If
+
+        If pbolUnderLayer AndAlso intSelectLayer <= 0 Then
+            Exit Sub
+        End If
+
+        intTargetLayer = intSelectLayer + CInt(IIf(pbolUnderLayer, -1, 0))
+
+        For Each objBlock As ModelData.Block In Common.ModelData.Layer(intTargetLayer)
+            DrawBlock(pobjGraph, objBlock, pbolUnderLayer)
+        Next
+    End Sub
+    Private Sub DrawBlock(pobjGraph As Graphics, pobjBlock As ModelData.Block, pbolUnderLayer As Boolean)
+        Dim lobjBlockImage As Bitmap
+        Dim lobjPos As Point
+        Dim lobjCM As System.Drawing.Imaging.ColorMatrix
+        Dim lobjImgAtr As System.Drawing.Imaging.ImageAttributes
+
+        lobjBlockImage = DirectCast(New BlockImage(pobjBlock, intCellSize).Image.Clone, Bitmap)
+
+        lobjPos = CellPoint(pobjBlock.Row, pobjBlock.Col, 0)
+
+        If pbolUnderLayer = False Then
+            pobjGraph.DrawImage(lobjBlockImage, lobjPos)
+        Else
+            lobjCM = New System.Drawing.Imaging.ColorMatrix()
+            With lobjCM
+                .Matrix00 = 1
+                .Matrix11 = 1
+                .Matrix22 = 1
+                .Matrix33 = 0.3F
+                .Matrix44 = 1
+            End With
+
+            lobjImgAtr = New System.Drawing.Imaging.ImageAttributes()
+            lobjImgAtr.SetColorMatrix(lobjCM)
+
+            pobjGraph.DrawImage(lobjBlockImage, New Rectangle(lobjPos, lobjBlockImage.Size), 0, 0, lobjBlockImage.Width, lobjBlockImage.Height, GraphicsUnit.Pixel, lobjImgAtr)
+        End If
+    End Sub
+
+    Private Sub DrawCursor(pobjGraph As Graphics)
+        Dim lobjPos As Point
+        Dim lobjCM As System.Drawing.Imaging.ColorMatrix
+        Dim lobjImgAtr As System.Drawing.Imaging.ImageAttributes
+
+        lobjCM = New System.Drawing.Imaging.ColorMatrix()
+        With lobjCM
+            .Matrix00 = 1
+            .Matrix11 = 1
+            .Matrix22 = 1
+            .Matrix33 = 0.8F
+            .Matrix44 = 1
+        End With
+
+        lobjImgAtr = New System.Drawing.Imaging.ImageAttributes()
+        lobjImgAtr.SetColorMatrix(lobjCM)
+
+        lobjPos = SetCursorPoint(3)
+
+        pobjGraph.DrawImage(objSelectBlockImage, New Rectangle(lobjPos, objSelectBlockImage.Size), 0, 0, objSelectBlockImage.Width, objSelectBlockImage.Height, GraphicsUnit.Pixel, lobjImgAtr)
+    End Sub
+
+    Private Function SetCursorPoint(pintShift As Integer) As Point
         Dim posMouse As Point
         Dim posResult As Point
 
         posMouse = PointToClient(Control.MousePosition)
 
-        posResult.X = CInt(posMouse.X - objSelectBlockImage.Width / 2)
-        posResult.Y = CInt(posMouse.Y - objSelectBlockImage.Height / 2)
+        With posResult
+            .X = CInt(posMouse.X - objSelectBlockImage.Width / 2)
+            .X = CInt(Math.Round(posResult.X / intCellSize) * intCellSize)
+            .X = Math.Min(Math.Max(posResult.X, intCellSize), Cols * intCellSize) + pintShift
 
-        posResult.X = CInt(Math.Round(posResult.X / intCellSize) * intCellSize)
-        posResult.Y = CInt(Math.Round(posResult.Y / intCellSize) * intCellSize)
-
-        posResult.X = Math.Min(Math.Max(posResult.X, intCellSize), Cols * intCellSize) + 2
-        posResult.Y = Math.Min(Math.Max(posResult.Y, intCellSize), Rows * intCellSize) + 2
+            .Y = CInt(posMouse.Y - objSelectBlockImage.Height / 2)
+            .Y = CInt(Math.Round(posResult.Y / intCellSize) * intCellSize)
+            .Y = Math.Min(Math.Max(posResult.Y, intCellSize), Rows * intCellSize) + pintShift
+        End With
 
         Return posResult
     End Function

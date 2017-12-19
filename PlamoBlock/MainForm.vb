@@ -9,7 +9,7 @@
         ''ブロック配置エリアの初期化
         'WorkArea.SetWorkAreaSize(32, 32, 16)
         ''カラー選択エリアの初期化
-        ColorSelector.SetBlockColor(New BlockColor)
+        ColorSelector.SetBlockColor(Common.BlockColor)
 
         Dim obj2 As New ModelDataFull
         obj2.LoadJSON(Common.GetResourceText("JSON_ModelTest.json"))
@@ -20,9 +20,13 @@
 
         Dim obj3 As New ModelData
         obj3.SetModelDataFromFull(obj2)
-        Debug.WriteLine(obj3.Layer(0)(0).C)
+        Debug.WriteLine(obj3.Layer(0)(0).Color)
 
-        WorkArea.ModelData.SetModelDataFromFull(obj2)
+        Common.ModelData = New ModelData
+        Common.ModelData.SetModelDataFromFull(obj2)
+
+        LayerSelector.SelectLayer.Value = 4
+
 
     End Sub
 
@@ -53,6 +57,10 @@
         With SelectBlock
             WorkArea.SetSelectBlock(.Rows, .Cols, .ColorSetting, 0)
         End With
+    End Sub
+
+    Private Sub LayerSelector_ChangeLayer(sender As Object, e As EventArgs) Handles LayerSelector.ChangeLayer
+        WorkArea.SelectLayer = LayerSelector.SelectLayer.value
     End Sub
 End Class
 

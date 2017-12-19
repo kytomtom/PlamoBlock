@@ -118,6 +118,14 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="SelectBlock.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAgCAYAAAAbifjMAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABTSURBVEhL7YxBCgAwCMP8/6fdhF4sRWS7jGGglwZiG7+c
+        +Sm/ByDTGPxaKPifQBEIINMY/DrQYQITCMoAZBqDXwsF/xMoAgFkGoNfBzo8FDif+QLwHW3n//5kpwAA
+        AABJRU5ErkJggg==
+</value>
+  </data>
   <data name="WorkArea.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAicAAAInCAYAAABDUPndAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -318,14 +326,6 @@
         jW7sQ3SjG91lusc8tPEZutGNbuxDdKMb3WW6xzy08Rm60Y1u7EN0oxvdZbrHPPRB4wOcn30ANpzvcOJk
         Gd3o5nRd+zB0oxvdZbrHPLTxGbrRjW7sQ3SjG91lutdf3v76GB8vLy+vby/74OXl9fj1Pz/+D3evUSfK
         T/nmAAAAAElFTkSuQmCC
-</value>
-  </data>
-  <data name="SelectBlock.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAgCAYAAAAbifjMAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABTSURBVEhL7YxBCgAwCMP8/6fdhF4sRWS7jGGglwZiG7+c
-        +Sm/ByDTGPxaKPifQBEIINMY/DrQYQITCMoAZBqDXwsF/xMoAgFkGoNfBzo8FDif+QLwHW3n//5kpwAA
-        AABJRU5ErkJggg==
 </value>
   </data>
 </root>

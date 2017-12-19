@@ -1,4 +1,10 @@
 ﻿Public Class Common
+    '色設定
+    Public Shared BlockColor As New BlockColor
+
+    'モデルデータ
+    Public Shared ModelData As ModelData
+
     '埋め込まれたリソースからテキストの内容を取得
     Public Shared Function GetResourceText(pstrFileName As String) As String
         Dim lobjStream As IO.StreamReader

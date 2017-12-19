@@ -108,6 +108,12 @@
     <Compile Include="Common.vb" />
     <Compile Include="Database.vb" />
     <Compile Include="Database_SQLite.vb" />
+    <Compile Include="LayerSelector.Designer.vb">
+      <DependentUpon>LayerSelector.vb</DependentUpon>
+    </Compile>
+    <Compile Include="LayerSelector.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="MainForm.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -139,6 +145,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="LayerSelector.resx">
+      <DependentUpon>LayerSelector.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.vb</DependentUpon>
     </EmbeddedResource>

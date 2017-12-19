@@ -1,34 +1,40 @@
 ﻿Public Class ModelData
-    Private objLayer As Dictionary(Of Integer, List(Of Position))
+    Private objLayer As Dictionary(Of Integer, List(Of Block))
 
-    Public Class Position
-        Public X As Integer
-        Public Y As Integer
-        Public W As Integer
-        Public D As Integer
-        Public R As Integer
-        Public C As String
+    Public Class Block
+        Public Row As Integer
+        Public Col As Integer
+        Public Width As Integer
+        Public Height As Integer
+        Public Rotation As Integer
+        Public Color As String
+
+        Public ReadOnly Property ColorSetting() As BlockColor.ColorSetting
+            Get
+                Return Common.BlockColor.Color(Color)
+            End Get
+        End Property
 
         Public Sub New()
             Clear()
         End Sub
 
         Public Sub Clear()
-            X = 0
-            Y = 0
-            W = 0
-            D = 0
-            R = 0
-            C = ""
+            Col = 0
+            Row = 0
+            Width = 0
+            Height = 0
+            Rotation = 0
+            Color = ""
         End Sub
     End Class
 
-    Public Property Layer(Index As Integer) As List(Of Position)
+    Public Property Layer(Index As Integer) As List(Of Block)
         Get
             AddLayer(Index)
             Return objLayer(Index)
         End Get
-        Set(value As List(Of Position))
+        Set(value As List(Of Block))
             AddLayer(Index)
             objLayer(Index) = value
         End Set
@@ -49,7 +55,7 @@
     End Property
 
     Public Sub New()
-        objLayer = New Dictionary(Of Integer, List(Of Position))
+        objLayer = New Dictionary(Of Integer, List(Of Block))
     End Sub
     Public Sub New(pobjModelDataFull As ModelDataFull)
         Me.New()
@@ -64,25 +70,30 @@
 
             For j = 0 To lobjGroup.Layer.Count - 1
                 For Each lobjBlock As ModelDataFull.Position In lobjGroup.Layer(j)
-                    AddBlockFromFull(lobjGroup.BottomPos + j - 1, lobjBlock)
+                    AddBlockFromFull(pobjModelDataFull, lobjGroup.BottomPos + j - 1, lobjBlock)
                 Next
             Next
         Next
     End Sub
 
-    Public Sub AddBlockFromFull(pintLayerPos As Integer, pobjBlock As ModelDataFull.Position)
-        Dim lobjBlock As Position
+    Public Sub AddBlockFromFull(pobjModelDataFull As ModelDataFull, pintLayerPos As Integer, pobjBlock As ModelDataFull.Position)
+        Dim lobjBlock As Block
 
         AddLayer(pintLayerPos)
 
-        lobjBlock = New Position
+        lobjBlock = New Block
         With lobjBlock
-            .X = pobjBlock.X
-            .Y = pobjBlock.Y
-            .W = pobjBlock.W
-            .D = pobjBlock.D
-            .R = pobjBlock.R
-            .C = pobjBlock.C
+            If pobjModelDataFull.Version < 1 Then
+                .Col = pobjBlock.X - pobjModelDataFull.PlateWidth / 2 - 1
+                .Row = pobjBlock.Y - pobjModelDataFull.PlateHeight / 2 - 1
+            Else
+                .Col = pobjBlock.X
+                .Row = pobjBlock.Y
+            End If
+            .Width = pobjBlock.W
+            .Height = pobjBlock.D
+            .Rotation = pobjBlock.R
+            .Color = pobjBlock.C
         End With
 
         objLayer(pintLayerPos).Add(lobjBlock)
@@ -90,7 +101,7 @@
 
     Public Sub AddLayer(pintLayerPos As Integer)
         If Not objLayer.ContainsKey(pintLayerPos) Then
-            objLayer.Add(pintLayerPos, New List(Of Position))
+            objLayer.Add(pintLayerPos, New List(Of Block))
         End If
     End Sub
 End Class

@@ -4,6 +4,7 @@ Public Class ModelDataFull
     Private objModelData As ModelData
 
     Public Class ModelData
+        Public Version As Single
         Public Chara As CharaData
     End Class
 
@@ -90,6 +91,12 @@ Public Class ModelDataFull
             C = ""
         End Sub
     End Class
+
+    Public ReadOnly Property Version() As Single
+        Get
+            Return objModelData.Version
+        End Get
+    End Property
 
     Public Property Name() As String
         Set(value As String)
