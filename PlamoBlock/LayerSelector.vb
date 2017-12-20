@@ -1,11 +1,21 @@
 ﻿Public Class LayerSelector
     Private objViewPictureBox(3) As PictureBox
+    Private intCellSize As Integer
+
+    Public ReadOnly Property CellSize() As Integer
+        Get
+            Return intCellSize
+        End Get
+    End Property
 
     Public Event ChangeLayer(ByVal sender As Object, ByVal e As EventArgs)
 
     Public Sub New()
         ' この呼び出しはデザイナーで必要です。
         InitializeComponent()
+
+        SelectLayer.Minimum = 0
+        SelectLayer.Maximum = 23
 
         For i As Integer = 0 To 3
             objViewPictureBox(i) = New PictureBox
@@ -31,21 +41,26 @@
         FixViewPictureBoxSize(PanelRight, objViewPictureBox(3))
     End Sub
     Private Sub FixViewPictureBoxSize(pobjPanel As Panel, pobjView As PictureBox)
-        Dim lobjMaxWidth As Integer
-        Dim lobjMaxHeight As Integer
+        Dim lintMaxWidth As Integer
+        Dim lintMaxHeight As Integer
+
+        Dim lintLayers As Integer
+
+        lintLayers = SelectLayer.Maximum - SelectLayer.Minimum + 1
 
         With BaseLayout.ColumnStyles(0)
-            lobjMaxWidth = IIf(.SizeType = SizeType.Percent, .Width * Me.Width / 100, .Width)
+            lintMaxWidth = Math.Truncate(IIf(.SizeType = SizeType.Percent, .Width * Me.Width / 100, .Width) / lintLayers) * lintLayers
         End With
         With BaseLayout.RowStyles(1)
-            lobjMaxHeight = IIf(.SizeType = SizeType.Percent, .Height * Me.Height / 100, .Height) * 2
+            lintMaxHeight = Math.Truncate(IIf(.SizeType = SizeType.Percent, .Height * Me.Height / 100, .Height) * 2 / lintLayers) * lintLayers
         End With
 
         If pobjView IsNot Nothing Then
             With pobjView
-                .Width = Math.Min(lobjMaxWidth, lobjMaxHeight)
+                .Width = Math.Min(lintMaxWidth, lintMaxHeight)
                 .Height = .Width
-                .Location = New Point(CInt((lobjMaxWidth - .Width) / 2), CInt((lobjMaxHeight - .Height) / 2))
+                .Location = New Point(CInt((lintMaxWidth - .Width) / 2), CInt((lintMaxHeight - .Height) / 2))
+                intCellSize = .Width / lintLayers
             End With
         End If
     End Sub

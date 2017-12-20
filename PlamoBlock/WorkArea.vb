@@ -317,6 +317,10 @@
         Dim posMouse As Point
         Dim posResult As Point
 
+        If objSelectBlockImage Is Nothing Then
+            Return New Point(0, 0)
+        End If
+
         posMouse = PointToClient(Control.MousePosition)
 
         With posResult
