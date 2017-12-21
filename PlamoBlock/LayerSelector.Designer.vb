@@ -37,7 +37,7 @@ Partial Class LayerSelector
         'BaseLayout
         '
         Me.BaseLayout.ColumnCount = 3
-        Me.BaseLayout.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
+        Me.BaseLayout.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33332!))
         Me.BaseLayout.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33334!))
         Me.BaseLayout.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33334!))
         Me.BaseLayout.Controls.Add(Me.HeaderPanel, 0, 0)
@@ -50,7 +50,7 @@ Partial Class LayerSelector
         Me.BaseLayout.Margin = New System.Windows.Forms.Padding(0)
         Me.BaseLayout.Name = "BaseLayout"
         Me.BaseLayout.RowCount = 5
-        Me.BaseLayout.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
+        Me.BaseLayout.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24.0!))
         Me.BaseLayout.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.0!))
         Me.BaseLayout.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.0!))
         Me.BaseLayout.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.0!))
@@ -66,56 +66,57 @@ Partial Class LayerSelector
         Me.HeaderPanel.Location = New System.Drawing.Point(0, 0)
         Me.HeaderPanel.Margin = New System.Windows.Forms.Padding(0)
         Me.HeaderPanel.Name = "HeaderPanel"
-        Me.HeaderPanel.Size = New System.Drawing.Size(260, 20)
+        Me.HeaderPanel.Size = New System.Drawing.Size(260, 24)
         Me.HeaderPanel.TabIndex = 0
         '
         'SelectLayer
         '
+        Me.SelectLayer.Font = New System.Drawing.Font("MS UI Gothic", 12.0!)
         Me.SelectLayer.Location = New System.Drawing.Point(0, 0)
         Me.SelectLayer.Margin = New System.Windows.Forms.Padding(0)
         Me.SelectLayer.Maximum = New Decimal(New Integer() {23, 0, 0, 0})
         Me.SelectLayer.Name = "SelectLayer"
-        Me.SelectLayer.Size = New System.Drawing.Size(120, 19)
+        Me.SelectLayer.Size = New System.Drawing.Size(58, 23)
         Me.SelectLayer.TabIndex = 0
         '
         'PanelBack
         '
         Me.PanelBack.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.PanelBack.Location = New System.Drawing.Point(86, 20)
+        Me.PanelBack.Location = New System.Drawing.Point(86, 24)
         Me.PanelBack.Margin = New System.Windows.Forms.Padding(0)
         Me.PanelBack.Name = "PanelBack"
         Me.BaseLayout.SetRowSpan(Me.PanelBack, 2)
-        Me.PanelBack.Size = New System.Drawing.Size(86, 80)
+        Me.PanelBack.Size = New System.Drawing.Size(86, 78)
         Me.PanelBack.TabIndex = 1
         '
         'PanelFront
         '
         Me.PanelFront.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.PanelFront.Location = New System.Drawing.Point(86, 100)
+        Me.PanelFront.Location = New System.Drawing.Point(86, 102)
         Me.PanelFront.Margin = New System.Windows.Forms.Padding(0)
         Me.PanelFront.Name = "PanelFront"
         Me.BaseLayout.SetRowSpan(Me.PanelFront, 2)
-        Me.PanelFront.Size = New System.Drawing.Size(86, 81)
+        Me.PanelFront.Size = New System.Drawing.Size(86, 79)
         Me.PanelFront.TabIndex = 3
         '
         'PanelLeft
         '
         Me.PanelLeft.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.PanelLeft.Location = New System.Drawing.Point(0, 60)
+        Me.PanelLeft.Location = New System.Drawing.Point(0, 63)
         Me.PanelLeft.Margin = New System.Windows.Forms.Padding(0)
         Me.PanelLeft.Name = "PanelLeft"
         Me.BaseLayout.SetRowSpan(Me.PanelLeft, 2)
-        Me.PanelLeft.Size = New System.Drawing.Size(86, 80)
+        Me.PanelLeft.Size = New System.Drawing.Size(86, 78)
         Me.PanelLeft.TabIndex = 4
         '
         'PanelRight
         '
         Me.PanelRight.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.PanelRight.Location = New System.Drawing.Point(172, 60)
+        Me.PanelRight.Location = New System.Drawing.Point(172, 63)
         Me.PanelRight.Margin = New System.Windows.Forms.Padding(0)
         Me.PanelRight.Name = "PanelRight"
         Me.BaseLayout.SetRowSpan(Me.PanelRight, 2)
-        Me.PanelRight.Size = New System.Drawing.Size(88, 80)
+        Me.PanelRight.Size = New System.Drawing.Size(88, 78)
         Me.PanelRight.TabIndex = 2
         '
         'LayerSelector

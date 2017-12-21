@@ -79,8 +79,14 @@
         SetModelDataFromFull(pobjModelDataFull)
     End Sub
 
+    Public Sub Clear()
+        objLayer.Clear()
+    End Sub
+
     Public Sub SetModelDataFromFull(pobjModelDataFull As ModelDataFull)
         Dim lobjGroup As ModelDataFull.BlockGroup
+
+        Clear()
 
         For i As Integer = 0 To pobjModelDataFull.PartsNum - 1
             lobjGroup = pobjModelDataFull.Parts(i)
@@ -101,8 +107,8 @@
         lobjBlock = New Block
         With lobjBlock
             If pobjModelDataFull.Version < 1 Then
-                .Col = pobjBlock.X - pobjModelDataFull.PlateWidth / 2 - 1
-                .Row = pobjBlock.Y - pobjModelDataFull.PlateHeight / 2 - 1
+                .Col = CInt(pobjBlock.X - pobjModelDataFull.PlateWidth / 2 - 1)
+                .Row = CInt(pobjBlock.Y - pobjModelDataFull.PlateHeight / 2 - 1)
             Else
                 .Col = pobjBlock.X
                 .Row = pobjBlock.Y

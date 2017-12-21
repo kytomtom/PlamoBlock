@@ -12,7 +12,7 @@
 
     Public ReadOnly Property Layers() As Integer
         Get
-            Return SelectLayer.Maximum - SelectLayer.Minimum + 1
+            Return CInt(SelectLayer.Maximum - SelectLayer.Minimum + 1)
         End Get
     End Property
     Public ReadOnly Property CellSize() As Integer
@@ -58,10 +58,10 @@
         Dim lintMaxHeight As Integer
 
         With BaseLayout.ColumnStyles(0)
-            lintMaxWidth = Math.Truncate(IIf(.SizeType = SizeType.Percent, .Width * Me.Width / 100, .Width) / Layers) * Layers
+            lintMaxWidth = CInt(Math.Truncate(CDec(IIf(.SizeType = SizeType.Percent, .Width * Width / 100, .Width)) / Layers) * Layers)
         End With
         With BaseLayout.RowStyles(1)
-            lintMaxHeight = Math.Truncate(IIf(.SizeType = SizeType.Percent, .Height * Me.Height / 100, .Height) * 2 / Layers) * Layers
+            lintMaxHeight = CInt(Math.Truncate(CDec(IIf(.SizeType = SizeType.Percent, .Height * Height / 100, .Height)) * 2 / Layers) * Layers)
         End With
 
         If pobjView IsNot Nothing Then
@@ -69,7 +69,7 @@
                 .Width = Math.Min(lintMaxWidth, lintMaxHeight)
                 .Height = .Width
                 .Location = New Point(CInt((lintMaxWidth - .Width) / 2), CInt((lintMaxHeight - .Height) / 2))
-                intCellSize = .Width / Layers
+                intCellSize = CInt(.Width / Layers)
             End With
         End If
     End Sub
@@ -104,14 +104,14 @@
             objGraph = Graphics.FromImage(objCanvas)
 
             '枠線の描画
-            DrawBoxBackGround(objGraph, pintTargetBox)
+            DrawBoxBackGround(objGraph, CType(pintTargetBox, TargetBox))
 
             '各層の描画
-            For i As Integer = SelectLayer.Minimum To SelectLayer.Maximum
-                DrawLayer(objGraph, pintTargetBox, i)
+            For i As Integer = CInt(SelectLayer.Minimum) To CInt(SelectLayer.Maximum)
+                DrawLayer(objGraph, CType(pintTargetBox, TargetBox), i)
             Next
 
-            DrawLayerMarker(objGraph, pintTargetBox)
+            DrawLayerMarker(objGraph, CType(pintTargetBox, TargetBox))
 
             objGraph.Dispose()
 
@@ -177,7 +177,7 @@
         lobjPen = New Pen(Color.Red, 1)
         lobjPen.DashStyle = Drawing2D.DashStyle.Solid
 
-        lintY = objViewPictureBox(pintTargetBox).Height - intCellSize * (SelectLayer.Value + 1)
+        lintY = CInt(objViewPictureBox(pintTargetBox).Height - intCellSize * (SelectLayer.Value + 1))
 
         pobjGraph.DrawRectangle(lobjPen, 0, lintY, objViewPictureBox(pintTargetBox).Width - 1, intCellSize)
 
@@ -189,10 +189,10 @@
 
         Select Case pintTargetBox
             Case TargetBox.Front, TargetBox.Back
-                lobjResult = Common.ModelData.Layer(pintTargetLayer).OrderBy(Function(n) (n.Row + IIf(n.Rotation = 0, n.Height, n.Width) - 1)).ToList()
+                lobjResult = Common.ModelData.Layer(pintTargetLayer).OrderBy(Function(n) (n.Row + CInt(IIf(n.Rotation = 0, n.Height, n.Width)) - 1)).ToList()
 
             Case TargetBox.Left, TargetBox.Right
-                lobjResult = Common.ModelData.Layer(pintTargetLayer).OrderBy(Function(n) (n.Col + IIf(n.Rotation = 0, n.Width, n.Height) - 1)).ToList()
+                lobjResult = Common.ModelData.Layer(pintTargetLayer).OrderBy(Function(n) (n.Col + CInt(IIf(n.Rotation = 0, n.Width, n.Height)) - 1)).ToList()
 
             Case Else
                 lobjResult = Common.ModelData.Layer(pintTargetLayer)
@@ -209,10 +209,10 @@
         With pobjBlock
             Select Case pintTargetBox
                 Case TargetBox.Front, TargetBox.Back
-                    Return IIf(.Rotation = 0, .Width, .Height)
+                    Return CInt(IIf(.Rotation = 0, .Width, .Height))
 
                 Case TargetBox.Left, TargetBox.Right
-                    Return IIf(.Rotation = 0, .Height, .Width)
+                    Return CInt(IIf(.Rotation = 0, .Height, .Width))
             End Select
         End With
 
@@ -229,16 +229,16 @@
                     lintPos = .Col
 
                 Case TargetBox.Back
-                    lintPos = Math.Abs(.Col + 1) * IIf(.Col < 0, 1, -1) - (IIf(.Rotation = 0, .Width, .Height) - 1)
+                    lintPos = Math.Abs(.Col + 1) * CInt(IIf(.Col < 0, 1, -1)) - (CInt(IIf(.Rotation = 0, .Width, .Height)) - 1)
 
                 Case TargetBox.Left
-                    lintPos = Math.Abs(.Row + 1) * IIf(.Row < 0, 1, -1) - (IIf(.Rotation = 0, .Height, .Width) - 1)
+                    lintPos = Math.Abs(.Row + 1) * CInt(IIf(.Row < 0, 1, -1)) - (CInt(IIf(.Rotation = 0, .Height, .Width)) - 1)
 
                 Case TargetBox.Right
                     lintPos = .Row
             End Select
         End With
-        lintPos += Layers / 2
+        lintPos += CInt(Layers / 2)
 
         lintX = intCellSize * lintPos + pintShift
 
@@ -250,7 +250,7 @@
         With pobjBlock
             Select Case pintTargetBox
                 Case TargetBox.Front
-                    If (.Row + IIf(.Rotation = 0, .Height, .Width) - 1) < 0 Then
+                    If (.Row + CInt(IIf(.Rotation = 0, .Height, .Width)) - 1) < 0 Then
                         Return True
                     Else
                         Return False
@@ -264,7 +264,7 @@
                     End If
 
                 Case TargetBox.Left
-                    If (.Col + IIf(.Rotation = 0, .Width, .Height) - 1) < 0 Then
+                    If (.Col + CInt(IIf(.Rotation = 0, .Width, .Height)) - 1) < 0 Then
                         Return True
                     Else
                         Return False

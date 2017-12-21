@@ -38,7 +38,7 @@
     End Sub
 
     Private Sub LayerSelector_ChangeLayer(sender As Object, e As EventArgs) Handles LayerSelector.ChangeLayer
-        WorkArea.SelectLayer = LayerSelector.SelectLayer.Value
+        WorkArea.SelectLayer = CInt(LayerSelector.SelectLayer.Value)
 
         Console.WriteLine(Common.ModelData.ToJSON)
     End Sub
