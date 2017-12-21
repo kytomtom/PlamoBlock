@@ -130,7 +130,7 @@
         Height = (Me.intRows + 1) * intCellSize + 1
     End Sub
 
-    Public Function CellPoint(pintRow As Integer, pintCol As Integer, pintShift As Integer) As Point
+    Private Function CellPoint(pintRow As Integer, pintCol As Integer, pintShift As Integer) As Point
         Dim lintX As Integer
         Dim lintY As Integer
 
@@ -221,7 +221,7 @@
         Return Me.ClientRectangle.Contains(mouseClientPos)
     End Function
 
-    Private Sub Redraw()
+    Public Sub Redraw()
         Dim objCanvas As New Bitmap(Width, Height)
         Dim objGraph As Graphics
 
@@ -248,7 +248,7 @@
             Exit Sub
         End If
 
-        If intSelectLayer > Common.ModelData.MaxHeight Then
+        If intSelectLayer > Common.ModelData.MaxLayer Then
             Exit Sub
         End If
 
@@ -295,6 +295,10 @@
         Dim lobjPos As Point
         Dim lobjCM As System.Drawing.Imaging.ColorMatrix
         Dim lobjImgAtr As System.Drawing.Imaging.ImageAttributes
+
+        If objSelectBlockImage Is Nothing Then
+            Exit Sub
+        End If
 
         lobjCM = New System.Drawing.Imaging.ColorMatrix()
         With lobjCM

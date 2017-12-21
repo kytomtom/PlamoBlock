@@ -27,6 +27,23 @@
             Rotation = 0
             Color = ""
         End Sub
+
+        Public Function ToJSON() As String
+            Dim lobjResult As List(Of String)
+
+            lobjResult = New List(Of String)
+
+            With lobjResult
+                .Add(String.Format("""{0}"":""{1}""", "x", Col))
+                .Add(String.Format("""{0}"":""{1}""", "y", Row))
+                .Add(String.Format("""{0}"":""{1}""", "w", Width))
+                .Add(String.Format("""{0}"":""{1}""", "d", Height))
+                .Add(String.Format("""{0}"":""{1}""", "r", Rotation))
+                .Add(String.Format("""{0}"":""{1}""", "c", Color))
+            End With
+
+            Return String.Concat("{", String.Join(",", lobjResult.ToArray), "}")
+        End Function
     End Class
 
     Public Property Layer(Index As Integer) As List(Of Block)
@@ -40,17 +57,17 @@
         End Set
     End Property
 
-    Public ReadOnly Property MaxHeight() As Integer
+    Public ReadOnly Property MaxLayer() As Integer
         Get
-            Dim lintMaxHeight As Integer
+            Dim lintMaxLayer As Integer
 
-            lintMaxHeight = 0
+            lintMaxLayer = 0
 
             For Each intBuf As Integer In objLayer.Keys
-                lintMaxHeight = Math.Max(lintMaxHeight, intBuf)
+                lintMaxLayer = Math.Max(lintMaxLayer, intBuf)
             Next
 
-            Return lintMaxHeight
+            Return lintMaxLayer
         End Get
     End Property
 
@@ -104,4 +121,41 @@
             objLayer.Add(pintLayerPos, New List(Of Block))
         End If
     End Sub
+
+    Public Function ToJSON() As String
+        Dim lobjResult As List(Of String)
+
+        lobjResult = New List(Of String)
+
+        With lobjResult
+            .Add(String.Format("""{0}"":""{1}""", "Name", "全身"))
+            .Add(String.Format("""{0}"":""{1}""", "BottomPos", 0))
+            .Add(LayerToJSON())
+        End With
+
+        Return String.Concat("{", String.Join(vbCrLf & ",", lobjResult.ToArray), "}")
+    End Function
+
+    Private Function LayerToJSON() As String
+        Dim lobjResult As List(Of String)
+
+        lobjResult = New List(Of String)
+
+        For i As Integer = 0 To MaxLayer
+            lobjResult.Add(LayerToJSON(i))
+        Next
+
+        Return String.Concat("""Layer"":[", String.Join(vbCrLf & ",", lobjResult.ToArray), "]")
+    End Function
+    Private Function LayerToJSON(pintLayer As Integer) As String
+        Dim lobjResult As List(Of String)
+
+        lobjResult = New List(Of String)
+
+        For Each lobjBlock As Block In Layer(pintLayer)
+            lobjResult.Add(lobjBlock.ToJSON)
+        Next
+
+        Return String.Concat("[", String.Join(vbCrLf & ",", lobjResult.ToArray), "]")
+    End Function
 End Class

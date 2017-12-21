@@ -1,4 +1,7 @@
 ﻿Public Class Common
+    'データベース接続
+    Public Shared DB As Database
+
     '色設定
     Public Shared BlockColor As New BlockColor
 
