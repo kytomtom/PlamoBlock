@@ -39,8 +39,6 @@
 
     Private Sub LayerSelector_ChangeLayer(sender As Object, e As EventArgs) Handles LayerSelector.ChangeLayer
         WorkArea.SelectLayer = CInt(LayerSelector.SelectLayer.Value)
-
-        Console.WriteLine(Common.ModelData.ToJSON)
     End Sub
 
     'JSONファイル（旧バージョン）読み込み
@@ -59,6 +57,18 @@
             WorkArea.Redraw()
             LayerSelector.Redraw()
         End If
+    End Sub
+
+    Private Sub MenuItem_Output_OutputJSONText_Click(sender As Object, e As EventArgs) Handles MenuItem_Output_OutputJSONText.Click
+        Dim lobjForm As ResultJSON
+
+        lobjForm = New ResultJSON
+
+        lobjForm.ResultText.Text = Common.ModelData.ToJSON
+
+        lobjForm.ShowDialog()
+
+        lobjForm.Dispose()
     End Sub
 End Class
 

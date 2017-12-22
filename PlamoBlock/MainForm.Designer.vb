@@ -26,19 +26,21 @@ Partial Class MainForm
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MainForm))
         Dim ColorSetting2 As PlamoBlock.BlockColor.ColorSetting = New PlamoBlock.BlockColor.ColorSetting()
         Me.SelectColor = New System.Windows.Forms.Label()
-        Me.SelectBlock = New PlamoBlock.BlockObject()
-        Me.BlockSelector = New PlamoBlock.BlockSelector()
-        Me.ColorSelector = New PlamoBlock.ColorSelector()
-        Me.WorkArea = New PlamoBlock.WorkArea()
-        Me.LayerSelector = New PlamoBlock.LayerSelector()
         Me.MenuBar = New System.Windows.Forms.MenuStrip()
         Me.MenuItem_File = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.MenuItem_File_LoadJsonOldVer = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenFile = New System.Windows.Forms.OpenFileDialog()
+        Me.MenuItem_Output = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuItem_Output_OutputJSONText = New System.Windows.Forms.ToolStripMenuItem()
+        Me.LayerSelector = New PlamoBlock.LayerSelector()
+        Me.SelectBlock = New PlamoBlock.BlockObject()
+        Me.BlockSelector = New PlamoBlock.BlockSelector()
+        Me.ColorSelector = New PlamoBlock.ColorSelector()
+        Me.WorkArea = New PlamoBlock.WorkArea()
+        Me.MenuBar.SuspendLayout()
         CType(Me.SelectBlock, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.WorkArea, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.MenuBar.SuspendLayout()
         Me.SuspendLayout()
         '
         'SelectColor
@@ -49,6 +51,57 @@ Partial Class MainForm
         Me.SelectColor.Size = New System.Drawing.Size(96, 23)
         Me.SelectColor.TabIndex = 2
         Me.SelectColor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'MenuBar
+        '
+        Me.MenuBar.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuItem_File, Me.MenuItem_Output})
+        Me.MenuBar.Location = New System.Drawing.Point(0, 0)
+        Me.MenuBar.Name = "MenuBar"
+        Me.MenuBar.Size = New System.Drawing.Size(993, 24)
+        Me.MenuBar.TabIndex = 10
+        Me.MenuBar.Text = "MenuStrip1"
+        '
+        'MenuItem_File
+        '
+        Me.MenuItem_File.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripSeparator1, Me.MenuItem_File_LoadJsonOldVer})
+        Me.MenuItem_File.Name = "MenuItem_File"
+        Me.MenuItem_File.Size = New System.Drawing.Size(67, 20)
+        Me.MenuItem_File.Text = "ファイル(&F)"
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(193, 6)
+        '
+        'MenuItem_File_LoadJsonOldVer
+        '
+        Me.MenuItem_File_LoadJsonOldVer.Name = "MenuItem_File_LoadJsonOldVer"
+        Me.MenuItem_File_LoadJsonOldVer.Size = New System.Drawing.Size(196, 22)
+        Me.MenuItem_File_LoadJsonOldVer.Text = "JSONファイル読込(旧Ver)"
+        '
+        'OpenFile
+        '
+        Me.OpenFile.Filter = "JSONファイル|*.json|テキストファイル|*.txt"
+        '
+        'MenuItem_Output
+        '
+        Me.MenuItem_Output.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuItem_Output_OutputJSONText})
+        Me.MenuItem_Output.Name = "MenuItem_Output"
+        Me.MenuItem_Output.Size = New System.Drawing.Size(60, 20)
+        Me.MenuItem_Output.Text = "出力(&O)"
+        '
+        'MenuItem_Output_OutputJSONText
+        '
+        Me.MenuItem_Output_OutputJSONText.Name = "MenuItem_Output_OutputJSONText"
+        Me.MenuItem_Output_OutputJSONText.Size = New System.Drawing.Size(126, 22)
+        Me.MenuItem_Output_OutputJSONText.Text = "JSON出力"
+        '
+        'LayerSelector
+        '
+        Me.LayerSelector.Location = New System.Drawing.Point(569, 27)
+        Me.LayerSelector.Name = "LayerSelector"
+        Me.LayerSelector.Size = New System.Drawing.Size(416, 275)
+        Me.LayerSelector.TabIndex = 9
         '
         'SelectBlock
         '
@@ -91,49 +144,10 @@ Partial Class MainForm
         Me.WorkArea.TabIndex = 5
         Me.WorkArea.TabStop = False
         '
-        'LayerSelector
-        '
-        Me.LayerSelector.Location = New System.Drawing.Point(569, 27)
-        Me.LayerSelector.Name = "LayerSelector"
-        Me.LayerSelector.Size = New System.Drawing.Size(416, 275)
-        Me.LayerSelector.TabIndex = 9
-        '
-        'MenuBar
-        '
-        Me.MenuBar.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuItem_File})
-        Me.MenuBar.Location = New System.Drawing.Point(0, 0)
-        Me.MenuBar.Name = "MenuBar"
-        Me.MenuBar.Size = New System.Drawing.Size(993, 24)
-        Me.MenuBar.TabIndex = 10
-        Me.MenuBar.Text = "MenuStrip1"
-        '
-        'MenuItem_File
-        '
-        Me.MenuItem_File.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripSeparator1, Me.MenuItem_File_LoadJsonOldVer})
-        Me.MenuItem_File.Name = "MenuItem_File"
-        Me.MenuItem_File.Size = New System.Drawing.Size(67, 20)
-        Me.MenuItem_File.Text = "ファイル(&F)"
-        '
-        'ToolStripSeparator1
-        '
-        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(193, 6)
-        '
-        'MenuItem_File_LoadJsonOldVer
-        '
-        Me.MenuItem_File_LoadJsonOldVer.Name = "MenuItem_File_LoadJsonOldVer"
-        Me.MenuItem_File_LoadJsonOldVer.Size = New System.Drawing.Size(196, 22)
-        Me.MenuItem_File_LoadJsonOldVer.Text = "JSONファイル読込(旧Ver)"
-        '
-        'OpenFile
-        '
-        Me.OpenFile.Filter = "JSONファイル|*.json|テキストファイル|*.txt"
-        '
         'MainForm
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
-        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(993, 585)
+        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
+        Me.ClientSize = New System.Drawing.Size(993, 589)
         Me.Controls.Add(Me.LayerSelector)
         Me.Controls.Add(Me.SelectBlock)
         Me.Controls.Add(Me.BlockSelector)
@@ -142,13 +156,15 @@ Partial Class MainForm
         Me.Controls.Add(Me.SelectColor)
         Me.Controls.Add(Me.MenuBar)
         Me.DoubleBuffered = True
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
+        Me.MaximizeBox = False
         Me.Name = "MainForm"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "PlamoBlock"
-        CType(Me.SelectBlock, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.WorkArea, System.ComponentModel.ISupportInitialize).EndInit()
         Me.MenuBar.ResumeLayout(False)
         Me.MenuBar.PerformLayout()
+        CType(Me.SelectBlock, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.WorkArea, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -164,4 +180,6 @@ Partial Class MainForm
     Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
     Friend WithEvents MenuItem_File_LoadJsonOldVer As ToolStripMenuItem
     Friend WithEvents OpenFile As OpenFileDialog
+    Friend WithEvents MenuItem_Output As ToolStripMenuItem
+    Friend WithEvents MenuItem_Output_OutputJSONText As ToolStripMenuItem
 End Class

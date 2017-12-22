@@ -139,7 +139,7 @@
             .Add(LayerToJSON())
         End With
 
-        Return String.Concat("{", String.Join(vbCrLf & ",", lobjResult.ToArray), "}")
+        Return String.Concat("{", vbCrLf, String.Join(vbCrLf & ",", lobjResult.ToArray), vbCrLf, "}")
     End Function
 
     Private Function LayerToJSON() As String
@@ -151,7 +151,7 @@
             lobjResult.Add(LayerToJSON(i))
         Next
 
-        Return String.Concat("""Layer"":[", String.Join(vbCrLf & ",", lobjResult.ToArray), "]")
+        Return String.Concat("""Layer"":[", vbCrLf, String.Join(vbCrLf & ",", lobjResult.ToArray), vbCrLf, "]")
     End Function
     Private Function LayerToJSON(pintLayer As Integer) As String
         Dim lobjResult As List(Of String)
@@ -162,6 +162,6 @@
             lobjResult.Add(lobjBlock.ToJSON)
         Next
 
-        Return String.Concat("[", String.Join(vbCrLf & ",", lobjResult.ToArray), "]")
+        Return String.Concat("[", vbCrLf, String.Join(vbCrLf & ",", lobjResult.ToArray), vbCrLf, "]")
     End Function
 End Class
