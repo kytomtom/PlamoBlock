@@ -10,7 +10,6 @@
     Private intRows As Integer
     Private intCellSize As Integer
 
-
     Private objSelectBlock As SelectBlock
 
     Private objBackImage As Bitmap
@@ -113,6 +112,17 @@
 
         Redraw()
     End Sub
+    Public Sub SetSelectBlock(pintRows As Integer, pintCols As Integer, pobjColorSetting As BlockColor.ColorSetting)
+        Dim lintRotation As Integer
+
+        If objSelectBlock Is Nothing Then
+            lintRotation = 0
+        Else
+            lintRotation = objSelectBlock.Rotation
+        End If
+
+        SetSelectBlock(pintRows, pintCols, pobjColorSetting, lintRotation)
+    End Sub
 
     Public Sub SetWorkAreaSize(pintRows As Integer, pintCols As Integer, pintCellSize As Integer)
         intRows = pintRows
@@ -129,16 +139,6 @@
         Width = (Me.intCols + 1) * intCellSize + 1
         Height = (Me.intRows + 1) * intCellSize + 1
     End Sub
-
-    Private Function CellPoint(pintRow As Integer, pintCol As Integer, pintShift As Integer) As Point
-        Dim lintX As Integer
-        Dim lintY As Integer
-
-        lintX = CInt(Math.Truncate(Me.intCols / 2 + 1) + pintCol) * intCellSize + pintShift
-        lintY = CInt(Math.Truncate(Me.intRows / 2 + 1) + pintRow) * intCellSize + pintShift
-
-        Return New Point(lintX, lintY)
-    End Function
 
     Private Sub DrawBackGround()
         Dim g As Graphics
@@ -172,7 +172,7 @@
 
         'セルの縦線表示
         For i = MinCol To MaxCol
-            lintBuf = CellPoint(0, i, 0).X
+            lintBuf = CellToPoint(0, i, 0).X
             g.DrawLine(p, lintBuf, 0, lintBuf, Height - 1)
             If i < 0 Then
                 lobjBrushesBuf = Brushes.Red
@@ -183,7 +183,7 @@
         Next
         'セルの横線表示
         For i = MinRow To MaxRow
-            lintBuf = CellPoint(i, 0, 0).Y
+            lintBuf = CellToPoint(i, 0, 0).Y
             g.DrawLine(p, 0, lintBuf, Width - 1, lintBuf)
             If i < 0 Then
                 lobjBrushesBuf = Brushes.Red
@@ -200,9 +200,9 @@
         g.DrawLine(p, intCellSize, 0, intCellSize, Height - 1)
         g.DrawLine(p, 0, intCellSize, Width - 1, intCellSize)
         '座標中央
-        lintBuf = CellPoint(0, 0, 0).X
+        lintBuf = CellToPoint(0, 0, 0).X
         g.DrawLine(p, lintBuf, 0, lintBuf, Height - 1)
-        lintBuf = CellPoint(0, 0, 0).Y
+        lintBuf = CellToPoint(0, 0, 0).Y
         g.DrawLine(p, 0, lintBuf, Width - 1, lintBuf)
 
         'リソースを解放する
@@ -212,6 +212,10 @@
 
     Private Sub WorkArea_MouseMove(sender As Object, e As MouseEventArgs) Handles Me.MouseMove
         Redraw()
+    End Sub
+
+    Private Sub WorkArea_MouseWheel(sender As Object, e As MouseEventArgs) Handles Me.MouseWheel
+        RotateBlock()
     End Sub
 
     Public Function IsMouseInArea() As Boolean
@@ -270,7 +274,7 @@
 
         lobjBlockImage = DirectCast(New BlockImage(pobjBlock, intCellSize).Image.Clone, Bitmap)
 
-        lobjPos = CellPoint(pobjBlock.Row, pobjBlock.Col, 0)
+        lobjPos = CellToPoint(pobjBlock.Row, pobjBlock.Col, 0)
 
         If pbolUnderLayer = False Then
             pobjGraph.DrawImage(lobjBlockImage, lobjPos)
@@ -312,32 +316,92 @@
         lobjImgAtr = New System.Drawing.Imaging.ImageAttributes()
         lobjImgAtr.SetColorMatrix(lobjCM)
 
-        lobjPos = SetCursorPoint(3)
+        lobjPos = CursorToBlockPoint(3)
 
         pobjGraph.DrawImage(objSelectBlockImage, New Rectangle(lobjPos, objSelectBlockImage.Size), 0, 0, objSelectBlockImage.Width, objSelectBlockImage.Height, GraphicsUnit.Pixel, lobjImgAtr)
     End Sub
 
-    Private Function SetCursorPoint(pintShift As Integer) As Point
-        Dim posMouse As Point
-        Dim posResult As Point
+    Private Function CellToPoint(pintRow As Integer, pintCol As Integer, pintShift As Integer) As Point
+        Dim lintX As Integer
+        Dim lintY As Integer
+
+        lintX = CInt(Math.Truncate(Me.intCols / 2 + 1) + pintCol) * intCellSize + pintShift
+        lintY = CInt(Math.Truncate(Me.intRows / 2 + 1) + pintRow) * intCellSize + pintShift
+
+        Return New Point(lintX, lintY)
+    End Function
+    Private Function CursorToBlockPoint(pintShift As Integer) As Point
+        Dim lposMouse As Point
+        Dim lposResult As Point
 
         If objSelectBlockImage Is Nothing Then
             Return New Point(0, 0)
         End If
 
-        posMouse = PointToClient(Control.MousePosition)
+        lposMouse = PointToClient(Control.MousePosition)
 
-        With posResult
-            .X = CInt(posMouse.X - objSelectBlockImage.Width / 2)
-            .X = CInt(Math.Round(posResult.X / intCellSize) * intCellSize)
-            .X = Math.Min(Math.Max(posResult.X, intCellSize), Cols * intCellSize) + pintShift
+        With lposResult
+            .X = CInt(lposMouse.X - objSelectBlockImage.Width / 2)
+            .X = CInt(Math.Round(lposResult.X / intCellSize) * intCellSize)
+            .X = Math.Min(Math.Max(lposResult.X, intCellSize), Cols * intCellSize) + pintShift
 
-            .Y = CInt(posMouse.Y - objSelectBlockImage.Height / 2)
-            .Y = CInt(Math.Round(posResult.Y / intCellSize) * intCellSize)
-            .Y = Math.Min(Math.Max(posResult.Y, intCellSize), Rows * intCellSize) + pintShift
+            .Y = CInt(lposMouse.Y - objSelectBlockImage.Height / 2)
+            .Y = CInt(Math.Round(lposResult.Y / intCellSize) * intCellSize)
+            .Y = Math.Min(Math.Max(lposResult.Y, intCellSize), Rows * intCellSize) + pintShift
         End With
 
-        Return posResult
+        Return lposResult
+    End Function
+    Private Function PointToCell(pobjPoint As Point) As Integer()
+        Dim lintRow As Integer
+        Dim lintCol As Integer
+
+        lintRow = CInt(Math.Truncate(pobjPoint.Y / intCellSize) + MinRow - 1)
+        lintCol = CInt(Math.Truncate(pobjPoint.X / intCellSize) + MinCol - 1)
+
+        Return {lintRow, lintCol}
     End Function
 
+    Private Sub RotateBlock()
+        If objSelectBlock Is Nothing Then
+            Exit Sub
+        End If
+
+        With objSelectBlock
+            SetSelectBlock(.Height, .Width, .ColorSetting, CInt(Math.Abs(.Rotation - 1)))
+        End With
+    End Sub
+
+    Private Sub PutBlock(pintRow As Integer, pintCol As Integer)
+        Dim lobjBlock As ModelData.Block
+
+        With objSelectBlock
+            lobjBlock = Common.ModelData.AddBlock(pintRow, pintCol, .Width, .Height, .Rotation, .ColorSetting.Name)
+        End With
+
+        Common.ModelData.Layer(intSelectLayer).Add(lobjBlock)
+    End Sub
+    Private Sub PutBlock(pintPoint As Integer())
+        PutBlock(pintPoint(0), pintPoint(1))
+    End Sub
+    Private Sub PutBlock(pobjPoint As Point)
+        PutBlock(pobjPoint.Y, pobjPoint.X)
+    End Sub
+
+    Private Sub WorkArea_MouseClick(sender As Object, e As MouseEventArgs) Handles Me.MouseClick
+        Dim lintCell As Integer()
+
+        Select Case e.Button
+            Case MouseButtons.Left
+                lintCell = PointToCell(CursorToBlockPoint(0))
+
+                If Common.ModelData.IsCellBlank(intSelectLayer, lintCell(0), lintCell(1), objSelectBlock.RotateWidth, objSelectBlock.RotateHeight) = False Then
+                    Exit Sub
+                End If
+
+                PutBlock(lintCell)
+
+                Redraw()
+        End Select
+    End Sub
 End Class

@@ -80,7 +80,7 @@
         Me.New(objBlock.Height, objBlock.Width, pintCellSize, objBlock.ColorSetting, objBlock.Rotation)
     End Sub
     Public Sub New(pobjSelectBlock As SelectBlock, pintCellSize As Integer)
-        Me.New(pobjSelectBlock.Rows, pobjSelectBlock.Cols, pintCellSize, pobjSelectBlock.ColorSetting, pobjSelectBlock.Rotation)
+        Me.New(pobjSelectBlock.Height, pobjSelectBlock.Width, pintCellSize, pobjSelectBlock.ColorSetting, pobjSelectBlock.Rotation)
     End Sub
     Public Sub New()
         Me.New(1, 1, 16, New BlockColor.ColorSetting(), 0)

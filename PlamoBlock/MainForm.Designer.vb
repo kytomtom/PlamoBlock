@@ -30,9 +30,9 @@ Partial Class MainForm
         Me.MenuItem_File = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.MenuItem_File_LoadJsonOldVer = New System.Windows.Forms.ToolStripMenuItem()
-        Me.OpenFile = New System.Windows.Forms.OpenFileDialog()
         Me.MenuItem_Output = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuItem_Output_OutputJSONText = New System.Windows.Forms.ToolStripMenuItem()
+        Me.OpenFile = New System.Windows.Forms.OpenFileDialog()
         Me.LayerSelector = New PlamoBlock.LayerSelector()
         Me.SelectBlock = New PlamoBlock.BlockObject()
         Me.BlockSelector = New PlamoBlock.BlockSelector()
@@ -79,10 +79,6 @@ Partial Class MainForm
         Me.MenuItem_File_LoadJsonOldVer.Size = New System.Drawing.Size(196, 22)
         Me.MenuItem_File_LoadJsonOldVer.Text = "JSONファイル読込(旧Ver)"
         '
-        'OpenFile
-        '
-        Me.OpenFile.Filter = "JSONファイル|*.json|テキストファイル|*.txt"
-        '
         'MenuItem_Output
         '
         Me.MenuItem_Output.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuItem_Output_OutputJSONText})
@@ -95,6 +91,10 @@ Partial Class MainForm
         Me.MenuItem_Output_OutputJSONText.Name = "MenuItem_Output_OutputJSONText"
         Me.MenuItem_Output_OutputJSONText.Size = New System.Drawing.Size(126, 22)
         Me.MenuItem_Output_OutputJSONText.Text = "JSON出力"
+        '
+        'OpenFile
+        '
+        Me.OpenFile.Filter = "JSONファイル|*.json|テキストファイル|*.txt"
         '
         'LayerSelector
         '
@@ -119,7 +119,7 @@ Partial Class MainForm
         Me.BlockSelector.ColorSetting = ColorSetting2
         Me.BlockSelector.Location = New System.Drawing.Point(569, 346)
         Me.BlockSelector.Name = "BlockSelector"
-        Me.BlockSelector.Size = New System.Drawing.Size(307, 107)
+        Me.BlockSelector.Size = New System.Drawing.Size(305, 107)
         Me.BlockSelector.TabIndex = 7
         '
         'ColorSelector

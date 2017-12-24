@@ -47,12 +47,14 @@ Public Class BlockColor
     End Property
 
     Public Class ColorSetting
+        Public Name As String
         Public Kana As String
         Public Base As Color
         Public Edge As Color
         Public Opacity As Single
 
         Public Sub New()
+            Name = ""
             Kana = ""
             Base = System.Drawing.Color.White
             Edge = System.Drawing.Color.Black
@@ -62,5 +64,9 @@ Public Class BlockColor
 
     Public Sub New()
         dicColor = JsonConvert.DeserializeObject(Of Dictionary(Of String, ColorSetting))(Common.GetResourceText("JSON_BlockColor.json"))
+
+        For Each lstrBuf As String In dicColor.Keys
+            dicColor(lstrBuf).Name = lstrBuf
+        Next
     End Sub
 End Class

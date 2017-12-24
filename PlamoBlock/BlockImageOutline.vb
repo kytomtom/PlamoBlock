@@ -7,7 +7,7 @@
         DrawBlockImage()
     End Sub
     Public Sub New(pobjSelectBlock As SelectBlock, pintCellSize As Integer)
-        Me.New(pobjSelectBlock.Rows, pobjSelectBlock.Cols, pintCellSize, pobjSelectBlock.ColorSetting.Edge, pobjSelectBlock.Rotation)
+        Me.New(pobjSelectBlock.Height, pobjSelectBlock.Width, pintCellSize, pobjSelectBlock.ColorSetting.Edge, pobjSelectBlock.Rotation)
     End Sub
     Public Sub New()
         Me.New(1, 1, 16, Color.Black, 0)

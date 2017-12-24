@@ -53,6 +53,7 @@
 
     Public Sub New()
         intCellSize = _Default_CellSize
+        intBlockSize = {1, 1}
         SetBlockSizeList()
         SetBlockObject(New BlockColor.ColorSetting)
     End Sub
@@ -83,7 +84,8 @@
             AddBlock(lintBlockSize(0), lintBlockSize(1))
         Next
 
-        SelectBlock(DirectCast(Controls(0).Tag, Integer()))
+        'SelectBlock(DirectCast(Controls(0).Tag, Integer()))
+        SelectBlock(intBlockSize)
 
         Return True
     End Function

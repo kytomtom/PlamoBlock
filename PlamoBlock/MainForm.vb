@@ -33,7 +33,7 @@
 
     Private Sub SetSelectBlock()
         With SelectBlock
-            WorkArea.SetSelectBlock(.Rows, .Cols, .ColorSetting, 0)
+            WorkArea.SetSelectBlock(.Rows, .Cols, .ColorSetting)
         End With
     End Sub
 

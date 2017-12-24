@@ -15,6 +15,18 @@
             End Get
         End Property
 
+        Public ReadOnly Property RotateWidth() As Integer
+            Get
+                Return CInt(IIf(Rotation = 0, Width, Height))
+            End Get
+        End Property
+
+        Public ReadOnly Property RotateHeight() As Integer
+            Get
+                Return CInt(IIf(Rotation = 0, Height, Width))
+            End Get
+        End Property
+
         Public Sub New()
             Clear()
         End Sub
@@ -93,7 +105,7 @@
 
             For j = 0 To lobjGroup.Layer.Count - 1
                 For Each lobjBlock As ModelDataFull.Position In lobjGroup.Layer(j)
-                    AddBlockFromFull(pobjModelDataFull, lobjGroup.BottomPos + j - 1, lobjBlock)
+                    AddBlockFromFull(pobjModelDataFull, lobjGroup.BottomPos + j, lobjBlock)
                 Next
             Next
         Next
@@ -102,24 +114,31 @@
     Public Sub AddBlockFromFull(pobjModelDataFull As ModelDataFull, pintLayerPos As Integer, pobjBlock As ModelDataFull.Position)
         Dim lobjBlock As Block
 
-        AddLayer(pintLayerPos)
+        Dim lintLayerPos As Integer
+        Dim lintCol As Integer
+        Dim lintRow As Integer
 
-        lobjBlock = New Block
-        With lobjBlock
+        If pobjModelDataFull.Version < 1 Then
+            lintLayerPos = pintLayerPos - 1
+        Else
+            lintLayerPos = pintLayerPos
+        End If
+
+        AddLayer(lintLayerPos)
+
+        With pobjBlock
             If pobjModelDataFull.Version < 1 Then
-                .Col = CInt(pobjBlock.X - pobjModelDataFull.PlateWidth / 2 - 1)
-                .Row = CInt(pobjBlock.Y - pobjModelDataFull.PlateHeight / 2 - 1)
+                lintCol = CInt(.X - pobjModelDataFull.PlateWidth / 2 - 1)
+                lintRow = CInt(.Y - pobjModelDataFull.PlateHeight / 2 - 1)
             Else
-                .Col = pobjBlock.X
-                .Row = pobjBlock.Y
+                lintCol = pobjBlock.X
+                lintRow = pobjBlock.Y
             End If
-            .Width = pobjBlock.W
-            .Height = pobjBlock.D
-            .Rotation = pobjBlock.R
-            .Color = pobjBlock.C
+
+            lobjBlock = AddBlock(lintRow, lintCol, .W, .D, .R, .C)
         End With
 
-        objLayer(pintLayerPos).Add(lobjBlock)
+        objLayer(lintLayerPos).Add(lobjBlock)
     End Sub
 
     Public Sub AddLayer(pintLayerPos As Integer)
@@ -127,6 +146,22 @@
             objLayer.Add(pintLayerPos, New List(Of Block))
         End If
     End Sub
+
+    Public Function AddBlock(pintRow As Integer, pintCol As Integer, pintWidth As Integer, pintHeight As Integer, pintRotation As Integer, pstrColor As String) As Block
+        Dim lobjBlock As Block
+
+        lobjBlock = New Block
+        With lobjBlock
+            .Row = pintRow
+            .Col = pintCol
+            .Width = pintWidth
+            .Height = pintHeight
+            .Rotation = pintRotation
+            .Color = pstrColor
+        End With
+
+        Return lobjBlock
+    End Function
 
     Public Function ToJSON() As String
         Dim lobjResult As List(Of String)
@@ -163,5 +198,26 @@
         Next
 
         Return String.Concat("[", vbCrLf, String.Join(vbCrLf & ",", lobjResult.ToArray), vbCrLf, "]")
+    End Function
+
+    Public Function IsCellBlank(pintLayer As Integer, pintRow As Integer, pintCol As Integer, pintWidth As Integer, pintHeight As Integer) As Boolean
+        Dim lobjRectTarget As Rectangle
+        Dim lobjRectBlock As Rectangle
+
+        lobjRectTarget = New Rectangle(pintCol, pintRow, pintWidth, pintHeight)
+
+        For Each lobjBlock As Block In Layer(pintLayer)
+            With lobjBlock
+                lobjRectBlock = New Rectangle(.Col, .Row, .RotateWidth, .RotateHeight)
+            End With
+            If lobjRectTarget.IntersectsWith(lobjRectBlock) Then
+                Return False
+            End If
+        Next
+
+        Return True
+    End Function
+    Public Function IsCellBlank(pintLayer As Integer, pintRow As Integer, pintCol As Integer) As Boolean
+        Return IsCellBlank(pintLayer, pintRow, pintCol, 1, 1)
     End Function
 End Class
