@@ -38,9 +38,11 @@ Partial Class MainForm
         Me.BlockSelector = New PlamoBlock.BlockSelector()
         Me.ColorSelector = New PlamoBlock.ColorSelector()
         Me.WorkArea = New PlamoBlock.WorkArea()
+        Me.MoeCharaPic = New System.Windows.Forms.PictureBox()
         Me.MenuBar.SuspendLayout()
         CType(Me.SelectBlock, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.WorkArea, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MoeCharaPic, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'SelectColor
@@ -144,10 +146,21 @@ Partial Class MainForm
         Me.WorkArea.TabIndex = 5
         Me.WorkArea.TabStop = False
         '
+        'MoeCharaPic
+        '
+        Me.MoeCharaPic.Image = CType(resources.GetObject("MoeCharaPic.Image"), System.Drawing.Image)
+        Me.MoeCharaPic.Location = New System.Drawing.Point(880, 308)
+        Me.MoeCharaPic.Name = "MoeCharaPic"
+        Me.MoeCharaPic.Size = New System.Drawing.Size(104, 145)
+        Me.MoeCharaPic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.MoeCharaPic.TabIndex = 11
+        Me.MoeCharaPic.TabStop = False
+        '
         'MainForm
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
         Me.ClientSize = New System.Drawing.Size(993, 589)
+        Me.Controls.Add(Me.MoeCharaPic)
         Me.Controls.Add(Me.LayerSelector)
         Me.Controls.Add(Me.SelectBlock)
         Me.Controls.Add(Me.BlockSelector)
@@ -165,6 +178,7 @@ Partial Class MainForm
         Me.MenuBar.PerformLayout()
         CType(Me.SelectBlock, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.WorkArea, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MoeCharaPic, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -182,4 +196,5 @@ Partial Class MainForm
     Friend WithEvents OpenFile As OpenFileDialog
     Friend WithEvents MenuItem_Output As ToolStripMenuItem
     Friend WithEvents MenuItem_Output_OutputJSONText As ToolStripMenuItem
+    Friend WithEvents MoeCharaPic As PictureBox
 End Class

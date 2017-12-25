@@ -27,8 +27,8 @@
         ' この呼び出しはデザイナーで必要です。
         InitializeComponent()
 
-        SelectLayer.Minimum = 0
-        SelectLayer.Maximum = 23
+        SelectLayer.Minimum = 1
+        SelectLayer.Maximum = 24
 
         For i As Integer = 0 To 3
             objViewPictureBox(i) = New PictureBox
@@ -177,7 +177,7 @@
         lobjPen = New Pen(Color.Red, 1)
         lobjPen.DashStyle = Drawing2D.DashStyle.Solid
 
-        lintY = CInt(objViewPictureBox(pintTargetBox).Height - intCellSize * (SelectLayer.Value + 1))
+        lintY = CInt(objViewPictureBox(pintTargetBox).Height - intCellSize * SelectLayer.Value)
 
         pobjGraph.DrawRectangle(lobjPen, 0, lintY, objViewPictureBox(pintTargetBox).Width - 1, intCellSize)
 
@@ -242,7 +242,7 @@
 
         lintX = intCellSize * lintPos + pintShift
 
-        lintY = objViewPictureBox(pintTargetBox).Height - intCellSize * (pintTargetLayer + 1) + pintShift
+        lintY = objViewPictureBox(pintTargetBox).Height - intCellSize * pintTargetLayer + pintShift
 
         Return New Point(lintX, lintY)
     End Function

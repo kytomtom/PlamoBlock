@@ -52,9 +52,10 @@
 
             Common.ModelData.SetModelDataFromFull(lobjModelDataOldVer)
 
-            LayerSelector.SelectLayer.Value = 0
+            LayerSelector.SelectLayer.Value = 1
 
-            WorkArea.Redraw()
+            WorkArea.SelectLayer = LayerSelector.SelectLayer.Value
+
             LayerSelector.Redraw()
         End If
     End Sub
@@ -69,6 +70,10 @@
         lobjForm.ShowDialog()
 
         lobjForm.Dispose()
+    End Sub
+
+    Private Sub WorkArea_ChangeModel(sender As Object, e As EventArgs) Handles WorkArea.ChangeModel
+        LayerSelector.Redraw()
     End Sub
 End Class
 

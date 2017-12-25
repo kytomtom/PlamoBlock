@@ -74,10 +74,12 @@ Partial Class LayerSelector
         Me.SelectLayer.Font = New System.Drawing.Font("MS UI Gothic", 12.0!)
         Me.SelectLayer.Location = New System.Drawing.Point(0, 0)
         Me.SelectLayer.Margin = New System.Windows.Forms.Padding(0)
-        Me.SelectLayer.Maximum = New Decimal(New Integer() {23, 0, 0, 0})
+        Me.SelectLayer.Maximum = New Decimal(New Integer() {24, 0, 0, 0})
+        Me.SelectLayer.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.SelectLayer.Name = "SelectLayer"
         Me.SelectLayer.Size = New System.Drawing.Size(58, 23)
         Me.SelectLayer.TabIndex = 0
+        Me.SelectLayer.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
         'PanelBack
         '

@@ -76,7 +76,9 @@
             lintMaxLayer = 0
 
             For Each intBuf As Integer In objLayer.Keys
-                lintMaxLayer = Math.Max(lintMaxLayer, intBuf)
+                If objLayer(intBuf).Count > 0 Then
+                    lintMaxLayer = Math.Max(lintMaxLayer, intBuf)
+                End If
             Next
 
             Return lintMaxLayer
@@ -111,20 +113,11 @@
         Next
     End Sub
 
-    Public Sub AddBlockFromFull(pobjModelDataFull As ModelDataFull, pintLayerPos As Integer, pobjBlock As ModelDataFull.Position)
+    Public Sub AddBlockFromFull(pobjModelDataFull As ModelDataFull, pintLayer As Integer, pobjBlock As ModelDataFull.Position)
         Dim lobjBlock As Block
 
-        Dim lintLayerPos As Integer
         Dim lintCol As Integer
         Dim lintRow As Integer
-
-        If pobjModelDataFull.Version < 1 Then
-            lintLayerPos = pintLayerPos - 1
-        Else
-            lintLayerPos = pintLayerPos
-        End If
-
-        AddLayer(lintLayerPos)
 
         With pobjBlock
             If pobjModelDataFull.Version < 1 Then
@@ -135,10 +128,8 @@
                 lintRow = pobjBlock.Y
             End If
 
-            lobjBlock = AddBlock(lintRow, lintCol, .W, .D, .R, .C)
+            lobjBlock = AddBlock(pintLayer, lintRow, lintCol, .W, .D, .R, .C)
         End With
-
-        objLayer(lintLayerPos).Add(lobjBlock)
     End Sub
 
     Public Sub AddLayer(pintLayerPos As Integer)
@@ -147,8 +138,10 @@
         End If
     End Sub
 
-    Public Function AddBlock(pintRow As Integer, pintCol As Integer, pintWidth As Integer, pintHeight As Integer, pintRotation As Integer, pstrColor As String) As Block
+    Public Function AddBlock(pintLayer As Integer, pintRow As Integer, pintCol As Integer, pintWidth As Integer, pintHeight As Integer, pintRotation As Integer, pstrColor As String) As Block
         Dim lobjBlock As Block
+
+        AddLayer(pintLayer)
 
         lobjBlock = New Block
         With lobjBlock
@@ -160,6 +153,8 @@
             .Color = pstrColor
         End With
 
+        objLayer(pintLayer).Add(lobjBlock)
+
         Return lobjBlock
     End Function
 
@@ -170,7 +165,7 @@
 
         With lobjResult
             .Add(String.Format("""{0}"":""{1}""", "Name", "全身"))
-            .Add(String.Format("""{0}"":""{1}""", "BottomPos", 0))
+            .Add(String.Format("""{0}"":""{1}""", "BottomPos", 1))
             .Add(LayerToJSON())
         End With
 
@@ -182,7 +177,7 @@
 
         lobjResult = New List(Of String)
 
-        For i As Integer = 0 To MaxLayer
+        For i As Integer = 1 To MaxLayer
             lobjResult.Add(LayerToJSON(i))
         Next
 
@@ -219,5 +214,24 @@
     End Function
     Public Function IsCellBlank(pintLayer As Integer, pintRow As Integer, pintCol As Integer) As Boolean
         Return IsCellBlank(pintLayer, pintRow, pintCol, 1, 1)
+    End Function
+
+    Public Function RemoveCellBlock(pintLayer As Integer, pintRow As Integer, pintCol As Integer) As Block
+        Dim lobjRectTarget As Rectangle
+        Dim lobjRectBlock As Rectangle
+
+        lobjRectTarget = New Rectangle(pintCol, pintRow, 1, 1)
+
+        For Each lobjBlock As Block In Layer(pintLayer)
+            With lobjBlock
+                lobjRectBlock = New Rectangle(.Col, .Row, .RotateWidth, .RotateHeight)
+            End With
+            If lobjRectTarget.IntersectsWith(lobjRectBlock) Then
+                Layer(pintLayer).Remove(lobjBlock)
+                Return lobjBlock
+            End If
+        Next
+
+        Return Nothing
     End Function
 End Class

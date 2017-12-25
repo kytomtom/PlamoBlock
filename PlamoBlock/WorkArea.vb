@@ -17,6 +17,9 @@
 
     Private intSelectLayer As Integer
 
+    Public Event ChangeModel(ByVal sender As Object, ByVal e As EventArgs)
+    Public Event RemoveBlock(ByVal sender As Object, ByVal e As EventArgs)
+
     <System.ComponentModel.Category("_追加設定")>
     <System.ComponentModel.DefaultValue(_Default_Rows)>
     Public Property Rows() As Integer
@@ -94,6 +97,8 @@
         intRows = _Default_Rows
         intCols = _Default_Cols
         intCellSize = _Default_CellSize
+
+        intSelectLayer = 1
 
         objSelectBlock = New SelectBlock
 
@@ -256,7 +261,7 @@
             Exit Sub
         End If
 
-        If pbolUnderLayer AndAlso intSelectLayer <= 0 Then
+        If pbolUnderLayer AndAlso intSelectLayer <= 1 Then
             Exit Sub
         End If
 
@@ -375,11 +380,16 @@
     Private Sub PutBlock(pintRow As Integer, pintCol As Integer)
         Dim lobjBlock As ModelData.Block
 
+        '既にブロックが配置されている場所には配置できない
+        If Common.ModelData.IsCellBlank(intSelectLayer, pintRow, pintCol, objSelectBlock.RotateWidth, objSelectBlock.RotateHeight) = False Then
+            Exit Sub
+        End If
+
         With objSelectBlock
-            lobjBlock = Common.ModelData.AddBlock(pintRow, pintCol, .Width, .Height, .Rotation, .ColorSetting.Name)
+            lobjBlock = Common.ModelData.AddBlock(intSelectLayer, pintRow, pintCol, .Width, .Height, .Rotation, .ColorSetting.Name)
         End With
 
-        Common.ModelData.Layer(intSelectLayer).Add(lobjBlock)
+        'Common.ModelData.Layer(intSelectLayer).Add(lobjBlock)
     End Sub
     Private Sub PutBlock(pintPoint As Integer())
         PutBlock(pintPoint(0), pintPoint(1))
@@ -388,20 +398,46 @@
         PutBlock(pobjPoint.Y, pobjPoint.X)
     End Sub
 
-    Private Sub WorkArea_MouseClick(sender As Object, e As MouseEventArgs) Handles Me.MouseClick
-        Dim lintCell As Integer()
+    Private Sub PullBlock(pintRow As Integer, pintCol As Integer)
+        Dim lobjBlock As ModelData.Block
 
+        If Common.ModelData.IsCellBlank(intSelectLayer, pintRow, pintCol) Then
+            Exit Sub
+        End If
+
+        lobjBlock = Common.ModelData.RemoveCellBlock(intSelectLayer, pintRow, pintCol)
+
+        With objSelectBlock
+            .Width = lobjBlock.Width
+            .Height = lobjBlock.Height
+            .ColorSetting = lobjBlock.ColorSetting
+            .Rotation = lobjBlock.Rotation
+        End With
+        objSelectBlockImage = DirectCast(New BlockImage(objSelectBlock, intCellSize).Image.Clone, Bitmap)
+    End Sub
+    Private Sub PullBlock(pintPoint As Integer())
+        PullBlock(pintPoint(0), pintPoint(1))
+    End Sub
+    Private Sub PullBlock(pobjPoint As Point)
+        PullBlock(pobjPoint.Y, pobjPoint.X)
+    End Sub
+
+    Private Sub WorkArea_MouseClick(sender As Object, e As MouseEventArgs) Handles Me.MouseClick
         Select Case e.Button
             Case MouseButtons.Left
-                lintCell = PointToCell(CursorToBlockPoint(0))
-
-                If Common.ModelData.IsCellBlank(intSelectLayer, lintCell(0), lintCell(1), objSelectBlock.RotateWidth, objSelectBlock.RotateHeight) = False Then
-                    Exit Sub
-                End If
-
-                PutBlock(lintCell)
+                PutBlock(PointToCell(CursorToBlockPoint(0)))
 
                 Redraw()
+
+                RaiseEvent ChangeModel(Me, New EventArgs)
+
+            Case MouseButtons.Right
+                PullBlock(PointToCell(PointToClient(Control.MousePosition)))
+
+                Redraw()
+
+                RaiseEvent RemoveBlock(Me, New EventArgs)
+
         End Select
     End Sub
 End Class

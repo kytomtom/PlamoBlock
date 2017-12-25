@@ -2,6 +2,8 @@ $(function() {
 	var scene, renderer;
 	var camera, cameraA, cameraB;
 	
+	var ModelVersion = 0;
+
 	var BlockSize = 2;
 	var PlateSize;
 	var OffsetY;
@@ -129,6 +131,11 @@ $(function() {
 		// $.getJSON('./modeldata/' + ModelName + '.json', function(obj){ModelData = obj;});
 		$.getJSON('./getmodeldata.php?id=' + ModelName, function(obj){ModelData = obj;});
 		$.ajaxSetup({async: true});
+
+		// データ形式のバージョンを取得
+		if ('Version' in ModelData) {
+			ModelVersion = ModelData.Version;
+		};
 		
 		var obj = ModelData.Chara;
 
@@ -137,7 +144,6 @@ $(function() {
 		LenParts = obj.Block.length;
 		for (var i = 0; i < LenParts; i++) {
 			l = Number(obj.Block[i].BottomPos);
-			LenLayer = obj.Block[i].Layer.length;
 			for (var j = 0; j < LenLayer; j++) {
 				MaxLayer = Math.max(l, MaxLayer);
 				l += 1;
@@ -145,7 +151,8 @@ $(function() {
 		};
 
 		// オフセット設定
-		OffsetY = MaxLayer * 0.4 * -1;
+		// OffsetY = MaxLayer * 0.4 * -1;
+		OffsetY =  MaxLayer * 0.4 * -1 - 9;
 
 		// プレート設置
 		CheckColorExists(obj.Plate[2]);
@@ -317,10 +324,18 @@ $(function() {
 	// 座標計算
 	function BlockPos(l, x, y, w, d) {
 		var PosX, PosY, PosL, RY;
-		
+		var bufX, bufY;
+	
+		bufX = x;
+		bufY = y;
+		if (ModelVersion >= 1) {
+			bufX += (PlateSize[0] / 2 + 1);
+			bufY += (PlateSize[1] / 2 + 1);
+		};
+
 		// 起点計算
-		PosX = (BlockSize * PlateSize[0] / -2) + BlockSize * (x + 0.5);
-		PosY = (BlockSize * PlateSize[1] / -2) + BlockSize * (y + 0.5);
+		PosX = (BlockSize * PlateSize[0] / -2) + BlockSize * (bufX + 0.5);
+		PosY = (BlockSize * PlateSize[1] / -2) + BlockSize * (bufY + 0.5);
 		PosL = BlockSize * (l + OffsetY);
 		
 		// ブロックサイズ分ずらす
