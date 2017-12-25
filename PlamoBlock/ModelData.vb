@@ -48,9 +48,9 @@
             With lobjResult
                 .Add(String.Format("""{0}"":""{1}""", "x", Col))
                 .Add(String.Format("""{0}"":""{1}""", "y", Row))
-                .Add(String.Format("""{0}"":""{1}""", "w", Width))
-                .Add(String.Format("""{0}"":""{1}""", "d", Height))
-                .Add(String.Format("""{0}"":""{1}""", "r", Rotation))
+                .Add(String.Format("""{0}"":""{1}""", "w", IIf(Width < Height, Width, Height)))
+                .Add(String.Format("""{0}"":""{1}""", "d", IIf(Width < Height, Height, Width)))
+                .Add(String.Format("""{0}"":""{1}""", "r", IIf(Width < Height, Rotation, Math.Abs(Rotation - 1))))
                 .Add(String.Format("""{0}"":""{1}""", "c", Color))
             End With
 

@@ -141,7 +141,7 @@ Partial Class MainForm
         Me.WorkArea.Location = New System.Drawing.Point(12, 27)
         Me.WorkArea.Name = "WorkArea"
         Me.WorkArea.Rows = 24
-        Me.WorkArea.SelectLayer = 0
+        Me.WorkArea.SelectLayer = 1
         Me.WorkArea.Size = New System.Drawing.Size(551, 551)
         Me.WorkArea.TabIndex = 5
         Me.WorkArea.TabStop = False

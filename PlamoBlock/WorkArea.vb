@@ -257,9 +257,9 @@
             Exit Sub
         End If
 
-        If intSelectLayer > Common.ModelData.MaxLayer Then
-            Exit Sub
-        End If
+        'If intSelectLayer > Common.ModelData.MaxLayer Then
+        '    Exit Sub
+        'End If
 
         If pbolUnderLayer AndAlso intSelectLayer <= 1 Then
             Exit Sub
@@ -423,6 +423,7 @@
     End Sub
 
     Private Sub WorkArea_MouseClick(sender As Object, e As MouseEventArgs) Handles Me.MouseClick
+        Console.WriteLine(intSelectLayer.ToString)
         Select Case e.Button
             Case MouseButtons.Left
                 PutBlock(PointToCell(CursorToBlockPoint(0)))
@@ -437,7 +438,6 @@
                 Redraw()
 
                 RaiseEvent RemoveBlock(Me, New EventArgs)
-
         End Select
     End Sub
 End Class

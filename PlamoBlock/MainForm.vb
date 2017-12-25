@@ -54,7 +54,7 @@
 
             LayerSelector.SelectLayer.Value = 1
 
-            WorkArea.SelectLayer = LayerSelector.SelectLayer.Value
+            WorkArea.SelectLayer = CInt(LayerSelector.SelectLayer.Value)
 
             LayerSelector.Redraw()
         End If
