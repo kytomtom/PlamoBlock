@@ -28,7 +28,7 @@
         InitializeComponent()
 
         SelectLayer.Minimum = 1
-        SelectLayer.Maximum = 24
+        SelectLayer.Maximum = 30
 
         For i As Integer = 0 To 3
             objViewPictureBox(i) = New PictureBox

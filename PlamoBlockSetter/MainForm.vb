@@ -121,5 +121,15 @@ Public Class MainForm
             LayerSelector.Redraw()
         End If
     End Sub
+
+    Private Sub MenuItem_ModelInfo_Click(sender As Object, e As EventArgs) Handles MenuItem_ModelInfo.Click
+        Dim lobjForm As ModelInfo
+
+        lobjForm = New ModelInfo
+
+        lobjForm.ShowDialog()
+
+        lobjForm.Dispose()
+    End Sub
 End Class
 

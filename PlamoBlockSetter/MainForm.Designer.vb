@@ -33,6 +33,7 @@ Partial Class MainForm
         Me.MenuItem_Output = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuItem_Output_OutputJSONText = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuItem_Output_OutputFile = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuItem_ModelInfo = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuItem_DataClear = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenFile = New System.Windows.Forms.OpenFileDialog()
         Me.MoeCharaPic = New System.Windows.Forms.PictureBox()
@@ -59,7 +60,7 @@ Partial Class MainForm
         '
         'MenuBar
         '
-        Me.MenuBar.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuItem_File, Me.MenuItem_Output, Me.MenuItem_DataClear})
+        Me.MenuBar.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuItem_File, Me.MenuItem_Output, Me.MenuItem_ModelInfo, Me.MenuItem_DataClear})
         Me.MenuBar.Location = New System.Drawing.Point(0, 0)
         Me.MenuBar.Name = "MenuBar"
         Me.MenuBar.Size = New System.Drawing.Size(993, 24)
@@ -103,6 +104,12 @@ Partial Class MainForm
         Me.MenuItem_Output_OutputFile.Size = New System.Drawing.Size(132, 22)
         Me.MenuItem_Output_OutputFile.Text = "ファイル出力"
         '
+        'MenuItem_ModelInfo
+        '
+        Me.MenuItem_ModelInfo.Name = "MenuItem_ModelInfo"
+        Me.MenuItem_ModelInfo.Size = New System.Drawing.Size(71, 20)
+        Me.MenuItem_ModelInfo.Text = "モデル情報"
+        '
         'MenuItem_DataClear
         '
         Me.MenuItem_DataClear.Name = "MenuItem_DataClear"
@@ -116,9 +123,10 @@ Partial Class MainForm
         'MoeCharaPic
         '
         Me.MoeCharaPic.Image = CType(resources.GetObject("MoeCharaPic.Image"), System.Drawing.Image)
-        Me.MoeCharaPic.Location = New System.Drawing.Point(880, 308)
+        Me.MoeCharaPic.Location = New System.Drawing.Point(816, 329)
+        Me.MoeCharaPic.Margin = New System.Windows.Forms.Padding(0, 0, 3, 3)
         Me.MoeCharaPic.Name = "MoeCharaPic"
-        Me.MoeCharaPic.Size = New System.Drawing.Size(104, 145)
+        Me.MoeCharaPic.Size = New System.Drawing.Size(168, 147)
         Me.MoeCharaPic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
         Me.MoeCharaPic.TabIndex = 11
         Me.MoeCharaPic.TabStop = False
@@ -133,7 +141,7 @@ Partial Class MainForm
         '
         Me.LayerSelector.Location = New System.Drawing.Point(569, 27)
         Me.LayerSelector.Name = "LayerSelector"
-        Me.LayerSelector.Size = New System.Drawing.Size(416, 275)
+        Me.LayerSelector.Size = New System.Drawing.Size(416, 299)
         Me.LayerSelector.TabIndex = 9
         '
         'SelectBlock
@@ -141,7 +149,7 @@ Partial Class MainForm
         Me.SelectBlock.ColorSetting = ColorSetting1
         Me.SelectBlock.Cols = 2
         Me.SelectBlock.Image = CType(resources.GetObject("SelectBlock.Image"), System.Drawing.Image)
-        Me.SelectBlock.Location = New System.Drawing.Point(569, 308)
+        Me.SelectBlock.Location = New System.Drawing.Point(569, 332)
         Me.SelectBlock.Name = "SelectBlock"
         Me.SelectBlock.Rotation = 1
         Me.SelectBlock.Rows = 8
@@ -151,10 +159,11 @@ Partial Class MainForm
         '
         'BlockSelector
         '
+        Me.BlockSelector.CellSize = 12
         Me.BlockSelector.ColorSetting = ColorSetting2
-        Me.BlockSelector.Location = New System.Drawing.Point(569, 346)
+        Me.BlockSelector.Location = New System.Drawing.Point(569, 370)
         Me.BlockSelector.Name = "BlockSelector"
-        Me.BlockSelector.Size = New System.Drawing.Size(305, 107)
+        Me.BlockSelector.Size = New System.Drawing.Size(244, 83)
         Me.BlockSelector.TabIndex = 7
         '
         'ColorSelector
@@ -168,14 +177,14 @@ Partial Class MainForm
         'WorkArea
         '
         Me.WorkArea.BackColor = System.Drawing.Color.White
-        Me.WorkArea.CellSize = 22
-        Me.WorkArea.Cols = 24
+        Me.WorkArea.CellSize = 17
+        Me.WorkArea.Cols = 30
         Me.WorkArea.Image = CType(resources.GetObject("WorkArea.Image"), System.Drawing.Image)
         Me.WorkArea.Location = New System.Drawing.Point(12, 27)
         Me.WorkArea.Name = "WorkArea"
-        Me.WorkArea.Rows = 24
+        Me.WorkArea.Rows = 30
         Me.WorkArea.SelectLayer = 1
-        Me.WorkArea.Size = New System.Drawing.Size(551, 551)
+        Me.WorkArea.Size = New System.Drawing.Size(528, 528)
         Me.WorkArea.TabIndex = 5
         Me.WorkArea.TabStop = False
         '
@@ -223,4 +232,5 @@ Partial Class MainForm
     Friend WithEvents MenuItem_Output_OutputFile As ToolStripMenuItem
     Friend WithEvents SaveFile As SaveFileDialog
     Friend WithEvents MenuItem_DataClear As ToolStripMenuItem
+    Friend WithEvents MenuItem_ModelInfo As ToolStripMenuItem
 End Class

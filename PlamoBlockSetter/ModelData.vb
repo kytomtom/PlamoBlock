@@ -97,6 +97,7 @@
 
     Public Sub New()
         objLayer = New Dictionary(Of Integer, List(Of Block))
+        Clear()
     End Sub
     Public Sub New(pobjModelDataFull As ModelDataFull)
         Me.New()
@@ -104,6 +105,14 @@
     End Sub
 
     Public Sub Clear()
+        Name = ""
+        DisplayName = ""
+        Twitter = ""
+        Copyright = ""
+        PlateWidth = 14
+        PlateHeight = 14
+        PlateColor = BlockColor.ColorName.White.ToString
+
         objLayer.Clear()
     End Sub
 

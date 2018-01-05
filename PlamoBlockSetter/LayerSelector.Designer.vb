@@ -25,11 +25,11 @@ Partial Class LayerSelector
         Me.BaseLayout = New System.Windows.Forms.TableLayoutPanel()
         Me.HeaderPanel = New System.Windows.Forms.FlowLayoutPanel()
         Me.SelectLayer = New System.Windows.Forms.NumericUpDown()
+        Me.IsEdgeView = New System.Windows.Forms.CheckBox()
         Me.PanelBack = New System.Windows.Forms.Panel()
         Me.PanelFront = New System.Windows.Forms.Panel()
         Me.PanelLeft = New System.Windows.Forms.Panel()
         Me.PanelRight = New System.Windows.Forms.Panel()
-        Me.IsEdgeView = New System.Windows.Forms.CheckBox()
         Me.BaseLayout.SuspendLayout()
         Me.HeaderPanel.SuspendLayout()
         CType(Me.SelectLayer, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -76,12 +76,24 @@ Partial Class LayerSelector
         Me.SelectLayer.Font = New System.Drawing.Font("MS UI Gothic", 12.0!)
         Me.SelectLayer.Location = New System.Drawing.Point(0, 0)
         Me.SelectLayer.Margin = New System.Windows.Forms.Padding(0)
-        Me.SelectLayer.Maximum = New Decimal(New Integer() {24, 0, 0, 0})
+        Me.SelectLayer.Maximum = New Decimal(New Integer() {30, 0, 0, 0})
         Me.SelectLayer.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.SelectLayer.Name = "SelectLayer"
         Me.SelectLayer.Size = New System.Drawing.Size(58, 23)
         Me.SelectLayer.TabIndex = 0
         Me.SelectLayer.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'IsEdgeView
+        '
+        Me.IsEdgeView.AutoSize = True
+        Me.IsEdgeView.Checked = True
+        Me.IsEdgeView.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.IsEdgeView.Location = New System.Drawing.Point(61, 3)
+        Me.IsEdgeView.Name = "IsEdgeView"
+        Me.IsEdgeView.Size = New System.Drawing.Size(84, 16)
+        Me.IsEdgeView.TabIndex = 1
+        Me.IsEdgeView.Text = "境界線表示"
+        Me.IsEdgeView.UseVisualStyleBackColor = True
         '
         'PanelBack
         '
@@ -122,18 +134,6 @@ Partial Class LayerSelector
         Me.BaseLayout.SetRowSpan(Me.PanelRight, 2)
         Me.PanelRight.Size = New System.Drawing.Size(88, 78)
         Me.PanelRight.TabIndex = 2
-        '
-        'IsEdgeView
-        '
-        Me.IsEdgeView.AutoSize = True
-        Me.IsEdgeView.Checked = True
-        Me.IsEdgeView.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.IsEdgeView.Location = New System.Drawing.Point(61, 3)
-        Me.IsEdgeView.Name = "IsEdgeView"
-        Me.IsEdgeView.Size = New System.Drawing.Size(84, 16)
-        Me.IsEdgeView.TabIndex = 1
-        Me.IsEdgeView.Text = "境界線表示"
-        Me.IsEdgeView.UseVisualStyleBackColor = True
         '
         'LayerSelector
         '
