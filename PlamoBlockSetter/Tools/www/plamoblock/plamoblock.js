@@ -274,8 +274,8 @@ $(function() {
 		};
 		buf += '</tr>'
 		for (var color in BlockCount) {
-			buf += '<tr><td align="right">' + BlockColor[color].kana + '</td>';
-			buf += '<td bgcolor="' + BlockColor[color].base + '" width="30px"></td>';
+			buf += '<tr><td align="right" style="white-space:pre;">' + BlockColor[color].kana + '</td>';
+			buf += '<td bgcolor="' + BlockColor[color].base + '" width="30px" style="min-width:30px;"></td>';
 			for (var i in BlockType) {
 				buf += '<td align="center">'
 				if (BlockCount[color][BlockType[i]]) {
