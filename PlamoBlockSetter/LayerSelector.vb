@@ -1,13 +1,14 @@
 ﻿Public Class LayerSelector
-    Private objViewPictureBox(3) As PictureBox
+    Private objViewPictureBox(4) As PictureBox
     Private intLayers As Integer
     Private intCellSize As Integer
 
     Public Enum TargetBox
-        Front = 0
-        Back = 1
-        Left = 2
-        Right = 3
+        Center = 0
+        Front = 1
+        Back = 2
+        Left = 3
+        Right = 4
     End Enum
 
     Public ReadOnly Property Layers() As Integer
@@ -30,7 +31,7 @@
         SelectLayer.Minimum = 1
         SelectLayer.Maximum = 30
 
-        For i As Integer = 0 To 3
+        For i As Integer = objViewPictureBox.GetLowerBound(0) To objViewPictureBox.GetUpperBound(0)
             objViewPictureBox(i) = New PictureBox
             With objViewPictureBox(i)
                 .Margin = New Padding(0)
@@ -39,6 +40,7 @@
             End With
         Next
 
+        PanelCenter.Controls.Add(objViewPictureBox(TargetBox.Center))
         PanelFront.Controls.Add(objViewPictureBox(TargetBox.Front))
         PanelBack.Controls.Add(objViewPictureBox(TargetBox.Back))
         PanelLeft.Controls.Add(objViewPictureBox(TargetBox.Left))
@@ -48,6 +50,7 @@
     End Sub
 
     Private Sub SetViewPictureBoxSize()
+        FixViewPictureBoxSize(PanelCenter, objViewPictureBox(TargetBox.Center))
         FixViewPictureBoxSize(PanelFront, objViewPictureBox(TargetBox.Front))
         FixViewPictureBoxSize(PanelBack, objViewPictureBox(TargetBox.Back))
         FixViewPictureBoxSize(PanelLeft, objViewPictureBox(TargetBox.Left))
@@ -57,12 +60,24 @@
         Dim lintMaxWidth As Integer
         Dim lintMaxHeight As Integer
 
-        With BaseLayout.ColumnStyles(0)
-            lintMaxWidth = CInt(Math.Truncate(CDec(IIf(.SizeType = SizeType.Percent, .Width * Width / 100, .Width)) / Layers) * Layers)
-        End With
-        With BaseLayout.RowStyles(1)
-            lintMaxHeight = CInt(Math.Truncate(CDec(IIf(.SizeType = SizeType.Percent, .Height * Height / 100, .Height)) * 2 / Layers) * Layers)
-        End With
+        Dim lintCellWidth As Integer
+        Dim lintCellHeight As Integer
+
+        lintCellWidth = 0
+        For i = 0 To BaseLayout.GetColumnSpan(pobjPanel) - 1
+            With BaseLayout.ColumnStyles(BaseLayout.GetColumn(pobjPanel) + i)
+                lintCellWidth += CInt(IIf(.SizeType = SizeType.Percent, .Width * BaseLayout.Width / 100, .Width))
+            End With
+        Next
+        lintMaxWidth = CInt(Math.Truncate(lintCellWidth / Layers) * Layers)
+
+        lintCellHeight = 0
+        For i = 0 To BaseLayout.GetRowSpan(pobjPanel) - 1
+            With BaseLayout.RowStyles(BaseLayout.GetRow(pobjPanel) + i)
+                lintCellHeight += CInt(IIf(.SizeType = SizeType.Percent, .Height * BaseLayout.Height / 100, .Height))
+            End With
+        Next
+        lintMaxHeight = CInt(Math.Truncate(lintCellHeight / Layers) * Layers)
 
         If pobjView IsNot Nothing Then
             With pobjView

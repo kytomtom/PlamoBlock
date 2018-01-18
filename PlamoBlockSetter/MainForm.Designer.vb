@@ -52,9 +52,9 @@ Partial Class MainForm
         'SelectColor
         '
         Me.SelectColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.SelectColor.Location = New System.Drawing.Point(569, 456)
+        Me.SelectColor.Location = New System.Drawing.Point(797, 601)
         Me.SelectColor.Name = "SelectColor"
-        Me.SelectColor.Size = New System.Drawing.Size(96, 23)
+        Me.SelectColor.Size = New System.Drawing.Size(96, 26)
         Me.SelectColor.TabIndex = 2
         Me.SelectColor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -63,7 +63,7 @@ Partial Class MainForm
         Me.MenuBar.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuItem_File, Me.MenuItem_Output, Me.MenuItem_ModelInfo, Me.MenuItem_DataClear})
         Me.MenuBar.Location = New System.Drawing.Point(0, 0)
         Me.MenuBar.Name = "MenuBar"
-        Me.MenuBar.Size = New System.Drawing.Size(993, 24)
+        Me.MenuBar.Size = New System.Drawing.Size(1224, 24)
         Me.MenuBar.TabIndex = 10
         Me.MenuBar.Text = "MenuStrip1"
         '
@@ -123,10 +123,10 @@ Partial Class MainForm
         'MoeCharaPic
         '
         Me.MoeCharaPic.Image = CType(resources.GetObject("MoeCharaPic.Image"), System.Drawing.Image)
-        Me.MoeCharaPic.Location = New System.Drawing.Point(816, 329)
+        Me.MoeCharaPic.Location = New System.Drawing.Point(1044, 474)
         Me.MoeCharaPic.Margin = New System.Windows.Forms.Padding(0, 0, 3, 3)
         Me.MoeCharaPic.Name = "MoeCharaPic"
-        Me.MoeCharaPic.Size = New System.Drawing.Size(168, 147)
+        Me.MoeCharaPic.Size = New System.Drawing.Size(168, 150)
         Me.MoeCharaPic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
         Me.MoeCharaPic.TabIndex = 11
         Me.MoeCharaPic.TabStop = False
@@ -139,9 +139,9 @@ Partial Class MainForm
         '
         'LayerSelector
         '
-        Me.LayerSelector.Location = New System.Drawing.Point(569, 27)
+        Me.LayerSelector.Location = New System.Drawing.Point(747, 169)
         Me.LayerSelector.Name = "LayerSelector"
-        Me.LayerSelector.Size = New System.Drawing.Size(416, 299)
+        Me.LayerSelector.Size = New System.Drawing.Size(416, 302)
         Me.LayerSelector.TabIndex = 9
         '
         'SelectBlock
@@ -149,7 +149,7 @@ Partial Class MainForm
         Me.SelectBlock.ColorSetting = ColorSetting1
         Me.SelectBlock.Cols = 2
         Me.SelectBlock.Image = CType(resources.GetObject("SelectBlock.Image"), System.Drawing.Image)
-        Me.SelectBlock.Location = New System.Drawing.Point(569, 332)
+        Me.SelectBlock.Location = New System.Drawing.Point(797, 477)
         Me.SelectBlock.Name = "SelectBlock"
         Me.SelectBlock.Rotation = 1
         Me.SelectBlock.Rows = 8
@@ -161,15 +161,15 @@ Partial Class MainForm
         '
         Me.BlockSelector.CellSize = 12
         Me.BlockSelector.ColorSetting = ColorSetting2
-        Me.BlockSelector.Location = New System.Drawing.Point(569, 370)
+        Me.BlockSelector.Location = New System.Drawing.Point(797, 515)
         Me.BlockSelector.Name = "BlockSelector"
-        Me.BlockSelector.Size = New System.Drawing.Size(244, 83)
+        Me.BlockSelector.Size = New System.Drawing.Size(244, 86)
         Me.BlockSelector.TabIndex = 7
         '
         'ColorSelector
         '
         Me.ColorSelector.ButtonWidth = 52
-        Me.ColorSelector.Location = New System.Drawing.Point(569, 482)
+        Me.ColorSelector.Location = New System.Drawing.Point(797, 627)
         Me.ColorSelector.Name = "ColorSelector"
         Me.ColorSelector.Size = New System.Drawing.Size(416, 96)
         Me.ColorSelector.TabIndex = 6
@@ -191,7 +191,7 @@ Partial Class MainForm
         'MainForm
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
-        Me.ClientSize = New System.Drawing.Size(993, 589)
+        Me.ClientSize = New System.Drawing.Size(1224, 729)
         Me.Controls.Add(Me.MoeCharaPic)
         Me.Controls.Add(Me.LayerSelector)
         Me.Controls.Add(Me.SelectBlock)
