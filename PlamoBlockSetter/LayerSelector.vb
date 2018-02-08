@@ -1,7 +1,15 @@
 ﻿Public Class LayerSelector
+    'プロパティの既定値
+    Private Const _Default_Rows As Integer = 8
+    Private Const _Default_Cols As Integer = 8
+    Private Const _Default_Layers As Integer = 8
+
     Private objViewPictureBox(4) As PictureBox
+    Private intCols As Integer
+    Private intRows As Integer
     Private intLayers As Integer
     Private intCellSize As Integer
+    Private intCellSizeQ As Integer
 
     Public Enum TargetBox
         Center = 0
@@ -11,7 +19,36 @@
         Right = 4
     End Enum
 
-    Public ReadOnly Property Layers() As Integer
+    <System.ComponentModel.Category("_追加設定")>
+    <System.ComponentModel.DefaultValue(_Default_Rows)>
+    Public Property Rows() As Integer
+        Get
+            Return intRows
+        End Get
+        Set(ByVal value As Integer)
+            intRows = value
+            SetViewPictureBoxSize()
+            Redraw()
+        End Set
+    End Property
+    <System.ComponentModel.Category("_追加設定")>
+    <System.ComponentModel.DefaultValue(_Default_Cols)>
+    Public Property Cols() As Integer
+        Get
+            Return intCols
+        End Get
+        Set(ByVal value As Integer)
+            intCols = value
+            SetViewPictureBoxSize()
+            Redraw()
+        End Set
+    End Property
+    Public Property Layers() As Integer
+        Set(value As Integer)
+            SelectLayer.Maximum = value
+            SetViewPictureBoxSize()
+            Redraw()
+        End Set
         Get
             Return CInt(SelectLayer.Maximum - SelectLayer.Minimum + 1)
         End Get
@@ -21,6 +58,11 @@
             Return intCellSize
         End Get
     End Property
+    Public ReadOnly Property CellSizeQ() As Integer
+        Get
+            Return intCellSizeQ
+        End Get
+    End Property
 
     Public Event ChangeLayer(ByVal sender As Object, ByVal e As EventArgs)
 
@@ -28,8 +70,10 @@
         ' この呼び出しはデザイナーで必要です。
         InitializeComponent()
 
+        intRows = _Default_Rows
+        intCols = _Default_Cols
         SelectLayer.Minimum = 1
-        SelectLayer.Maximum = 30
+        SelectLayer.Maximum = _Default_Layers
 
         For i As Integer = objViewPictureBox.GetLowerBound(0) To objViewPictureBox.GetUpperBound(0)
             objViewPictureBox(i) = New PictureBox
@@ -50,18 +94,22 @@
     End Sub
 
     Private Sub SetViewPictureBoxSize()
-        FixViewPictureBoxSize(PanelCenter, objViewPictureBox(TargetBox.Center))
-        FixViewPictureBoxSize(PanelFront, objViewPictureBox(TargetBox.Front))
-        FixViewPictureBoxSize(PanelBack, objViewPictureBox(TargetBox.Back))
-        FixViewPictureBoxSize(PanelLeft, objViewPictureBox(TargetBox.Left))
-        FixViewPictureBoxSize(PanelRight, objViewPictureBox(TargetBox.Right))
+        FixViewPictureBoxSize(PanelCenter, TargetBox.Center)
+        FixViewPictureBoxSize(PanelFront, TargetBox.Front)
+        FixViewPictureBoxSize(PanelBack, TargetBox.Back)
+        FixViewPictureBoxSize(PanelLeft, TargetBox.Left)
+        FixViewPictureBoxSize(PanelRight, TargetBox.Right)
     End Sub
-    Private Sub FixViewPictureBoxSize(pobjPanel As Panel, pobjView As PictureBox)
+    Private Sub FixViewPictureBoxSize(pobjPanel As Panel, pintTargetBox As TargetBox)
         Dim lintMaxWidth As Integer
         Dim lintMaxHeight As Integer
 
         Dim lintCellWidth As Integer
         Dim lintCellHeight As Integer
+
+        Dim lintMaxSize As Integer
+
+        lintMaxSize = Math.Max(Layers, Math.Max(Cols, Rows))
 
         lintCellWidth = 0
         For i = 0 To BaseLayout.GetColumnSpan(pobjPanel) - 1
@@ -69,7 +117,7 @@
                 lintCellWidth += CInt(IIf(.SizeType = SizeType.Percent, .Width * BaseLayout.Width / 100, .Width))
             End With
         Next
-        lintMaxWidth = CInt(Math.Truncate(lintCellWidth / Layers) * Layers)
+        lintMaxWidth = CInt(Math.Truncate(lintCellWidth / lintMaxSize) * lintMaxSize)
 
         lintCellHeight = 0
         For i = 0 To BaseLayout.GetRowSpan(pobjPanel) - 1
@@ -77,14 +125,22 @@
                 lintCellHeight += CInt(IIf(.SizeType = SizeType.Percent, .Height * BaseLayout.Height / 100, .Height))
             End With
         Next
-        lintMaxHeight = CInt(Math.Truncate(lintCellHeight / Layers) * Layers)
+        lintMaxHeight = CInt(Math.Truncate(lintCellHeight / lintMaxSize) * lintMaxSize)
 
-        If pobjView IsNot Nothing Then
-            With pobjView
+        If objViewPictureBox(pintTargetBox) IsNot Nothing Then
+            With objViewPictureBox(pintTargetBox)
                 .Width = Math.Min(lintMaxWidth, lintMaxHeight)
-                .Height = .Width
+                If pintTargetBox = TargetBox.Center Then
+                    .Height = .Width * 1.5
+                Else
+                    .Height = .Width
+                End If
                 .Location = New Point(CInt((lintMaxWidth - .Width) / 2), CInt((lintMaxHeight - .Height) / 2))
-                intCellSize = CInt(.Width / Layers)
+                If pintTargetBox = TargetBox.Center Then
+                    intCellSizeQ = CInt(.Width / lintMaxSize)
+                Else
+                    intCellSize = CInt(.Width / lintMaxSize)
+                End If
             End With
         End If
     End Sub
@@ -126,7 +182,9 @@
                 DrawLayer(objGraph, CType(pintTargetBox, TargetBox), i)
             Next
 
-            DrawLayerMarker(objGraph, CType(pintTargetBox, TargetBox))
+            If pintTargetBox <> TargetBox.Center Then
+                DrawLayerMarker(objGraph, CType(pintTargetBox, TargetBox))
+            End If
 
             objGraph.Dispose()
 
@@ -149,7 +207,11 @@
         End If
 
         For Each objBlock As ModelData.Block In SortBlock(pintTargetBox, pintTargetLayer)
-            DrawBlock(pobjGraph, pintTargetBox, pintTargetLayer, objBlock)
+            If pintTargetBox = TargetBox.Center Then
+                DrawBlockQ(pobjGraph, pintTargetBox, pintTargetLayer, objBlock)
+            Else
+                DrawBlock(pobjGraph, pintTargetBox, pintTargetLayer, objBlock)
+            End If
         Next
     End Sub
     Private Sub DrawBlock(pobjGraph As Graphics, pintTargetBox As TargetBox, pintTargetLayer As Integer, pobjBlock As ModelData.Block)
@@ -183,6 +245,19 @@
 
             pobjGraph.DrawImage(lobjBlockImage, New Rectangle(lobjPos, lobjBlockImage.Size), 0, 0, lobjBlockImage.Width, lobjBlockImage.Height, GraphicsUnit.Pixel, lobjImgAtr)
         End If
+    End Sub
+    Private Sub DrawBlockQ(pobjGraph As Graphics, pintTargetBox As TargetBox, pintTargetLayer As Integer, pobjBlock As ModelData.Block)
+        Dim lobjBlockImage As Bitmap
+        Dim lobjPos As Point
+        Dim lintLen As Integer
+
+        'lintLen = BlockLen(pintTargetBox, pobjBlock)
+
+        lobjBlockImage = DirectCast(New BlockImageQuarter(pobjBlock, intCellSizeQ, IsEdgeView.Checked).Image.Clone, Bitmap)
+
+        lobjPos = CellPointQ(pintTargetBox, pintTargetLayer, pobjBlock, 0)
+
+        pobjGraph.DrawImage(lobjBlockImage, lobjPos)
     End Sub
     Private Sub DrawLayerMarker(pobjGraph As Graphics, pintTargetBox As TargetBox)
         Dim lobjPen As Pen
@@ -226,7 +301,7 @@
                 Case TargetBox.Front, TargetBox.Back
                     Return CInt(IIf(.Rotation = 0, .Width, .Height))
 
-                Case TargetBox.Left, TargetBox.Right
+                Case TargetBox.Left, TargetBox.Right, TargetBox.Center
                     Return CInt(IIf(.Rotation = 0, .Height, .Width))
             End Select
         End With
@@ -244,10 +319,10 @@
                     lintPos = .Col
 
                 Case TargetBox.Back
-                    lintPos = Math.Abs(.Col + 1) * CInt(IIf(.Col < 0, 1, -1)) - (CInt(IIf(.Rotation = 0, .Width, .Height)) - 1)
+                    lintPos = Math.Abs(.Col + 1) * CInt(IIf(.Col < 0, 1, -1)) - (.RotateWidth - 1)
 
                 Case TargetBox.Left
-                    lintPos = Math.Abs(.Row + 1) * CInt(IIf(.Row < 0, 1, -1)) - (CInt(IIf(.Rotation = 0, .Height, .Width)) - 1)
+                    lintPos = Math.Abs(.Row + 1) * CInt(IIf(.Row < 0, 1, -1)) - (.RotateHeight - 1)
 
                 Case TargetBox.Right
                     lintPos = .Row
@@ -258,6 +333,38 @@
         lintX = intCellSize * lintPos + pintShift
 
         lintY = objViewPictureBox(pintTargetBox).Height - intCellSize * pintTargetLayer + pintShift
+
+        Return New Point(lintX, lintY)
+    End Function
+    Private Function CellPointQ(pintTargetBox As TargetBox, pintTargetLayer As Integer, pobjBlock As ModelData.Block, pintShift As Integer) As Point
+        Dim lintX As Integer
+        Dim lintY As Integer
+        Dim lintPos As Integer
+
+        With pobjBlock
+            lintX = intCellSizeQ * 0.5 * .Col
+            lintY = intCellSizeQ * 0.25 * .Row '- intCellSizeQ * (0.5 + .RotateHeight * 0.25)
+
+
+            'Select Case pintTargetBox
+            '    Case TargetBox.Front
+            '        lintPos = .Col
+
+            '    Case TargetBox.Back
+            '        lintPos = Math.Abs(.Col + 1) * CInt(IIf(.Col < 0, 1, -1)) - (CInt(IIf(.Rotation = 0, .Width, .Height)) - 1)
+
+            '    Case TargetBox.Left
+            '        lintPos = Math.Abs(.Row + 1) * CInt(IIf(.Row < 0, 1, -1)) - (CInt(IIf(.Rotation = 0, .Height, .Width)) - 1)
+
+            '    Case TargetBox.Right
+            '        lintPos = .Row
+            'End Select
+        End With
+        'lintPos += CInt(Layers / 2)
+
+        'lintX = intCellSize * lintPos + pintShift
+
+        'lintY = objViewPictureBox(pintTargetBox).Height - intCellSize * pintTargetLayer + pintShift
 
         Return New Point(lintX, lintY)
     End Function

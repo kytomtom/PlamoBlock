@@ -139,9 +139,12 @@ Partial Class MainForm
         '
         'LayerSelector
         '
-        Me.LayerSelector.Location = New System.Drawing.Point(747, 169)
+        Me.LayerSelector.Cols = 30
+        Me.LayerSelector.Layers = 30
+        Me.LayerSelector.Location = New System.Drawing.Point(562, 38)
         Me.LayerSelector.Name = "LayerSelector"
-        Me.LayerSelector.Size = New System.Drawing.Size(416, 302)
+        Me.LayerSelector.Rows = 30
+        Me.LayerSelector.Size = New System.Drawing.Size(651, 422)
         Me.LayerSelector.TabIndex = 9
         '
         'SelectBlock

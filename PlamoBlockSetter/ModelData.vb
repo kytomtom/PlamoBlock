@@ -30,7 +30,6 @@
                 Return CInt(IIf(Rotation = 0, Width, Height))
             End Get
         End Property
-
         Public ReadOnly Property RotateHeight() As Integer
             Get
                 Return CInt(IIf(Rotation = 0, Height, Width))
