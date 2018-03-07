@@ -19,6 +19,8 @@
 
     Public Event ChangeModel(ByVal sender As Object, ByVal e As EventArgs)
     Public Event RemoveBlock(ByVal sender As Object, ByVal e As EventArgs)
+    Public Event LayerUp(ByVal sender As Object, ByVal e As EventArgs)
+    Public Event LayerDown(ByVal sender As Object, ByVal e As EventArgs)
 
     <System.ComponentModel.Category("_追加設定")>
     <System.ComponentModel.DefaultValue(_Default_Rows)>
@@ -220,7 +222,15 @@
     End Sub
 
     Private Sub WorkArea_MouseWheel(sender As Object, e As MouseEventArgs) Handles Me.MouseWheel
-        RotateBlock()
+        If (Control.ModifierKeys And Keys.Shift) = Keys.Shift Then
+            If e.Delta > 1 Then
+                RaiseEvent LayerUp(Me, New EventArgs)
+            Else
+                RaiseEvent LayerDown(Me, New EventArgs)
+            End If
+        Else
+            RotateBlock()
+        End If
     End Sub
 
     Public Function IsMouseInArea() As Boolean
@@ -413,7 +423,7 @@
             .ColorSetting = lobjBlock.ColorSetting
             .Rotation = lobjBlock.Rotation
         End With
-        objSelectBlockImage = DirectCast(New BlockImage(objSelectBlock, intCellSize).Image.Clone, Bitmap)
+        'objSelectBlockImage = DirectCast(New BlockImage(objSelectBlock, intCellSize).Image.Clone, Bitmap)
     End Sub
     Private Sub PullBlock(pintPoint As Integer())
         PullBlock(pintPoint(0), pintPoint(1))

@@ -34,7 +34,14 @@ Partial Class MainForm
         Me.MenuItem_Output_OutputJSONText = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuItem_Output_OutputFile = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuItem_ModelInfo = New System.Windows.Forms.ToolStripMenuItem()
-        Me.MenuItem_DataClear = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuItem_Operation = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuItem_Operation_ShiftLayerUp = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuItem_Operation_ShiftLayerDown = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuItem_Operation_Clear = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuItem_Operation_ShiftColPl = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuItem_Operation_ShiftColMi = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuItem_Operation_ShiftRowMi = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuItem_Operation_ShiftRowPl = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenFile = New System.Windows.Forms.OpenFileDialog()
         Me.MoeCharaPic = New System.Windows.Forms.PictureBox()
         Me.SaveFile = New System.Windows.Forms.SaveFileDialog()
@@ -52,7 +59,7 @@ Partial Class MainForm
         'SelectColor
         '
         Me.SelectColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.SelectColor.Location = New System.Drawing.Point(797, 601)
+        Me.SelectColor.Location = New System.Drawing.Point(716, 589)
         Me.SelectColor.Name = "SelectColor"
         Me.SelectColor.Size = New System.Drawing.Size(96, 26)
         Me.SelectColor.TabIndex = 2
@@ -60,7 +67,7 @@ Partial Class MainForm
         '
         'MenuBar
         '
-        Me.MenuBar.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuItem_File, Me.MenuItem_Output, Me.MenuItem_ModelInfo, Me.MenuItem_DataClear})
+        Me.MenuBar.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuItem_File, Me.MenuItem_Output, Me.MenuItem_ModelInfo, Me.MenuItem_Operation})
         Me.MenuBar.Location = New System.Drawing.Point(0, 0)
         Me.MenuBar.Name = "MenuBar"
         Me.MenuBar.Size = New System.Drawing.Size(1224, 24)
@@ -110,11 +117,62 @@ Partial Class MainForm
         Me.MenuItem_ModelInfo.Size = New System.Drawing.Size(71, 20)
         Me.MenuItem_ModelInfo.Text = "モデル情報"
         '
-        'MenuItem_DataClear
+        'MenuItem_Operation
         '
-        Me.MenuItem_DataClear.Name = "MenuItem_DataClear"
-        Me.MenuItem_DataClear.Size = New System.Drawing.Size(71, 20)
-        Me.MenuItem_DataClear.Text = "データクリア"
+        Me.MenuItem_Operation.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuItem_Operation_ShiftLayerUp, Me.MenuItem_Operation_ShiftLayerDown, Me.MenuItem_Operation_ShiftRowMi, Me.MenuItem_Operation_ShiftRowPl, Me.MenuItem_Operation_ShiftColPl, Me.MenuItem_Operation_ShiftColMi, Me.MenuItem_Operation_Clear})
+        Me.MenuItem_Operation.Name = "MenuItem_Operation"
+        Me.MenuItem_Operation.Size = New System.Drawing.Size(69, 20)
+        Me.MenuItem_Operation.Text = "データ操作"
+        '
+        'MenuItem_Operation_ShiftLayerUp
+        '
+        Me.MenuItem_Operation_ShiftLayerUp.Name = "MenuItem_Operation_ShiftLayerUp"
+        Me.MenuItem_Operation_ShiftLayerUp.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
+            Or System.Windows.Forms.Keys.Up), System.Windows.Forms.Keys)
+        Me.MenuItem_Operation_ShiftLayerUp.Size = New System.Drawing.Size(264, 22)
+        Me.MenuItem_Operation_ShiftLayerUp.Text = "上のレイヤーへシフト"
+        '
+        'MenuItem_Operation_ShiftLayerDown
+        '
+        Me.MenuItem_Operation_ShiftLayerDown.Name = "MenuItem_Operation_ShiftLayerDown"
+        Me.MenuItem_Operation_ShiftLayerDown.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
+            Or System.Windows.Forms.Keys.Down), System.Windows.Forms.Keys)
+        Me.MenuItem_Operation_ShiftLayerDown.Size = New System.Drawing.Size(264, 22)
+        Me.MenuItem_Operation_ShiftLayerDown.Text = "下のレイヤーへシフト"
+        '
+        'MenuItem_Operation_Clear
+        '
+        Me.MenuItem_Operation_Clear.Name = "MenuItem_Operation_Clear"
+        Me.MenuItem_Operation_Clear.Size = New System.Drawing.Size(264, 22)
+        Me.MenuItem_Operation_Clear.Text = "クリア"
+        '
+        'MenuItem_Operation_ShiftColPl
+        '
+        Me.MenuItem_Operation_ShiftColPl.Name = "MenuItem_Operation_ShiftColPl"
+        Me.MenuItem_Operation_ShiftColPl.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Right), System.Windows.Forms.Keys)
+        Me.MenuItem_Operation_ShiftColPl.Size = New System.Drawing.Size(264, 22)
+        Me.MenuItem_Operation_ShiftColPl.Text = "右へシフト"
+        '
+        'MenuItem_Operation_ShiftColMi
+        '
+        Me.MenuItem_Operation_ShiftColMi.Name = "MenuItem_Operation_ShiftColMi"
+        Me.MenuItem_Operation_ShiftColMi.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Left), System.Windows.Forms.Keys)
+        Me.MenuItem_Operation_ShiftColMi.Size = New System.Drawing.Size(264, 22)
+        Me.MenuItem_Operation_ShiftColMi.Text = "左へシフト"
+        '
+        'MenuItem_Operation_ShiftRowMi
+        '
+        Me.MenuItem_Operation_ShiftRowMi.Name = "MenuItem_Operation_ShiftRowMi"
+        Me.MenuItem_Operation_ShiftRowMi.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Up), System.Windows.Forms.Keys)
+        Me.MenuItem_Operation_ShiftRowMi.Size = New System.Drawing.Size(264, 22)
+        Me.MenuItem_Operation_ShiftRowMi.Text = "上へシフト"
+        '
+        'MenuItem_Operation_ShiftRowPl
+        '
+        Me.MenuItem_Operation_ShiftRowPl.Name = "MenuItem_Operation_ShiftRowPl"
+        Me.MenuItem_Operation_ShiftRowPl.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Down), System.Windows.Forms.Keys)
+        Me.MenuItem_Operation_ShiftRowPl.Size = New System.Drawing.Size(264, 22)
+        Me.MenuItem_Operation_ShiftRowPl.Text = "下へシフト"
         '
         'OpenFile
         '
@@ -123,10 +181,10 @@ Partial Class MainForm
         'MoeCharaPic
         '
         Me.MoeCharaPic.Image = CType(resources.GetObject("MoeCharaPic.Image"), System.Drawing.Image)
-        Me.MoeCharaPic.Location = New System.Drawing.Point(1044, 474)
+        Me.MoeCharaPic.Location = New System.Drawing.Point(1022, 447)
         Me.MoeCharaPic.Margin = New System.Windows.Forms.Padding(0, 0, 3, 3)
         Me.MoeCharaPic.Name = "MoeCharaPic"
-        Me.MoeCharaPic.Size = New System.Drawing.Size(168, 150)
+        Me.MoeCharaPic.Size = New System.Drawing.Size(190, 168)
         Me.MoeCharaPic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
         Me.MoeCharaPic.TabIndex = 11
         Me.MoeCharaPic.TabStop = False
@@ -139,12 +197,12 @@ Partial Class MainForm
         '
         'LayerSelector
         '
-        Me.LayerSelector.Cols = 30
-        Me.LayerSelector.Layers = 30
-        Me.LayerSelector.Location = New System.Drawing.Point(562, 38)
+        Me.LayerSelector.Cols = 32
+        Me.LayerSelector.Layers = 32
+        Me.LayerSelector.Location = New System.Drawing.Point(716, 27)
         Me.LayerSelector.Name = "LayerSelector"
-        Me.LayerSelector.Rows = 30
-        Me.LayerSelector.Size = New System.Drawing.Size(651, 422)
+        Me.LayerSelector.Rows = 32
+        Me.LayerSelector.Size = New System.Drawing.Size(496, 414)
         Me.LayerSelector.TabIndex = 9
         '
         'SelectBlock
@@ -152,7 +210,7 @@ Partial Class MainForm
         Me.SelectBlock.ColorSetting = ColorSetting1
         Me.SelectBlock.Cols = 2
         Me.SelectBlock.Image = CType(resources.GetObject("SelectBlock.Image"), System.Drawing.Image)
-        Me.SelectBlock.Location = New System.Drawing.Point(797, 477)
+        Me.SelectBlock.Location = New System.Drawing.Point(716, 444)
         Me.SelectBlock.Name = "SelectBlock"
         Me.SelectBlock.Rotation = 1
         Me.SelectBlock.Rows = 8
@@ -162,32 +220,33 @@ Partial Class MainForm
         '
         'BlockSelector
         '
-        Me.BlockSelector.CellSize = 12
+        Me.BlockSelector.CellSize = 14
         Me.BlockSelector.ColorSetting = ColorSetting2
-        Me.BlockSelector.Location = New System.Drawing.Point(797, 515)
+        Me.BlockSelector.Location = New System.Drawing.Point(716, 482)
         Me.BlockSelector.Name = "BlockSelector"
-        Me.BlockSelector.Size = New System.Drawing.Size(244, 86)
+        Me.BlockSelector.Size = New System.Drawing.Size(275, 104)
         Me.BlockSelector.TabIndex = 7
         '
         'ColorSelector
         '
         Me.ColorSelector.ButtonWidth = 52
-        Me.ColorSelector.Location = New System.Drawing.Point(797, 627)
+        Me.ColorSelector.Location = New System.Drawing.Point(716, 618)
+        Me.ColorSelector.MaxCols = 9
         Me.ColorSelector.Name = "ColorSelector"
-        Me.ColorSelector.Size = New System.Drawing.Size(416, 96)
+        Me.ColorSelector.Size = New System.Drawing.Size(468, 96)
         Me.ColorSelector.TabIndex = 6
         '
         'WorkArea
         '
         Me.WorkArea.BackColor = System.Drawing.Color.White
-        Me.WorkArea.CellSize = 17
-        Me.WorkArea.Cols = 30
+        Me.WorkArea.CellSize = 20
+        Me.WorkArea.Cols = 32
         Me.WorkArea.Image = CType(resources.GetObject("WorkArea.Image"), System.Drawing.Image)
         Me.WorkArea.Location = New System.Drawing.Point(12, 27)
         Me.WorkArea.Name = "WorkArea"
-        Me.WorkArea.Rows = 30
+        Me.WorkArea.Rows = 32
         Me.WorkArea.SelectLayer = 1
-        Me.WorkArea.Size = New System.Drawing.Size(528, 528)
+        Me.WorkArea.Size = New System.Drawing.Size(661, 661)
         Me.WorkArea.TabIndex = 5
         Me.WorkArea.TabStop = False
         '
@@ -234,6 +293,13 @@ Partial Class MainForm
     Friend WithEvents MoeCharaPic As PictureBox
     Friend WithEvents MenuItem_Output_OutputFile As ToolStripMenuItem
     Friend WithEvents SaveFile As SaveFileDialog
-    Friend WithEvents MenuItem_DataClear As ToolStripMenuItem
+    Friend WithEvents MenuItem_Operation As ToolStripMenuItem
     Friend WithEvents MenuItem_ModelInfo As ToolStripMenuItem
+    Friend WithEvents MenuItem_Operation_Clear As ToolStripMenuItem
+    Friend WithEvents MenuItem_Operation_ShiftLayerUp As ToolStripMenuItem
+    Friend WithEvents MenuItem_Operation_ShiftLayerDown As ToolStripMenuItem
+    Friend WithEvents MenuItem_Operation_ShiftColPl As ToolStripMenuItem
+    Friend WithEvents MenuItem_Operation_ShiftColMi As ToolStripMenuItem
+    Friend WithEvents MenuItem_Operation_ShiftRowMi As ToolStripMenuItem
+    Friend WithEvents MenuItem_Operation_ShiftRowPl As ToolStripMenuItem
 End Class

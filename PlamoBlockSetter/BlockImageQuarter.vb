@@ -74,7 +74,7 @@
     End Property
     Public ReadOnly Property Height() As Integer
         Get
-            Return (0.5 + (RotateRows - 1) * 0.25 + (RotateCols - 1) * 0.25) * intCellSize
+            Return (1 + (RotateRows - 1) * 0.5 + (RotateCols - 1) * 0.5) * intCellSize
         End Get
     End Property
 
@@ -116,37 +116,40 @@
         Dim p As Pen
 
         Dim points As Point()
+        Dim PointCenter As Point
         Dim myPath As New Drawing2D.GraphicsPath
 
         canvas = New Bitmap(Width, Height)
 
         points = {
-                    New Point(0, intCellSize * 0.25 * RotateCols) _
-                    , New Point(0, Height - intCellSize * 0.25 * RotateRows) _
-                    , New Point(intCellSize * 0.5 * RotateRows, Height) _
-                    , New Point(Width, Height - intCellSize * 0.25 * RotateCols) _
-                    , New Point(Width, intCellSize * 0.25 * RotateCols) _
-                    , New Point(Width - intCellSize * 0.5 * RotateRows, 0)
+                    New Point(0 * intCellSize, (RotateRows * 0.25) * intCellSize) _
+                    , New Point(0 * intCellSize, (RotateRows * 0.25 + 0.5) * intCellSize) _
+                    , New Point((RotateCols * 0.5) * intCellSize, ((RotateCols + RotateRows) * 0.25 + 0.5) * intCellSize) _
+                    , New Point(((RotateCols + RotateRows) * 0.5) * intCellSize, (RotateCols * 0.25 + 0.5) * intCellSize) _
+                    , New Point(((RotateCols + RotateRows) * 0.5) * intCellSize, (RotateCols * 0.25) * intCellSize) _
+                    , New Point((RotateRows * 0.5) * intCellSize, 0 * intCellSize)
                 }
+        PointCenter = New Point(points(2).X, points(2).Y - 0.5 * intCellSize)
         With myPath
             '輪郭
             .StartFigure()
             .AddPolygon(points)
-            .AddLine(New Point(0, intCellSize * 0.25 * RotateCols), New Point(intCellSize * 0.5 * RotateRows, Height - intCellSize * 0.5))
-            .AddLine(New Point(intCellSize * 0.5 * RotateRows, Height), New Point(intCellSize * 0.5 * RotateRows, Height - intCellSize * 0.5))
-            .AddLine(New Point(intCellSize * 0.25 * RotateRows, Height - intCellSize * 0.25 * RotateCols), New Point(intCellSize * 0.5 * RotateRows, Height - intCellSize * 0.5))
+            .AddLine(points(0), PointCenter)
+            .AddLine(points(2), PointCenter)
+            .AddLine(points(4), PointCenter)
         End With
         Console.WriteLine(points.ToString)
         g = Graphics.FromImage(canvas)
 
         'r = New Rectangle(0, 0, Width - 1, Height - 1)
 
-        'b = New SolidBrush(Color.FromArgb(CInt(255 * sngOpacity), objBaseColor))
+        b = New SolidBrush(Color.FromArgb(CInt(255 * sngOpacity), objBaseColor))
         'g.FillRectangle(b, r)
 
         p = New Pen(objEdgeColor, 1)
         p.DashStyle = Drawing2D.DashStyle.Solid
         'g.DrawRectangle(p, r)
+        g.FillPath(b, myPath)
         g.DrawPath(p, myPath)
 
         'For row As Integer = 1 To CInt(IIf(intRotation = 0, intRows, intCols))

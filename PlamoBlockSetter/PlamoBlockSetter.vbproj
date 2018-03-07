@@ -77,7 +77,6 @@
   <ItemGroup>
     <Compile Include="BlockColor.vb" />
     <Compile Include="BlockImageOutline.vb" />
-    <Compile Include="BlockImageQuarter.vb" />
     <Compile Include="BlockImageSide.vb" />
     <Compile Include="BlockObject.vb">
       <SubType>Component</SubType>

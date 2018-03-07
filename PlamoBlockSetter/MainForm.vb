@@ -110,7 +110,7 @@ Public Class MainForm
         End If
     End Sub
 
-    Private Sub MenuItem_DataClear_Click(sender As Object, e As EventArgs) Handles MenuItem_DataClear.Click
+    Private Sub MenuItem_Operation_Clearr_Click(sender As Object, e As EventArgs) Handles MenuItem_Operation_Clear.Click
         If MsgBox("表示されているデータを消去しますか？", MsgBoxStyle.Information + MsgBoxStyle.OkCancel) = MsgBoxResult.Ok Then
             Common.ModelData.Clear()
 
@@ -131,5 +131,60 @@ Public Class MainForm
 
         lobjForm.Dispose()
     End Sub
+
+    Private Sub WorkArea_LayerUp(sender As Object, e As EventArgs) Handles WorkArea.LayerUp
+        LayerSelector.LayerShift(1)
+    End Sub
+
+    Private Sub WorkArea_LayerDown(sender As Object, e As EventArgs) Handles WorkArea.LayerDown
+        LayerSelector.LayerShift(-1)
+    End Sub
+
+    Private Sub MenuItem_Operation_ShiftLayerUp_Click(sender As Object, e As EventArgs) Handles MenuItem_Operation_ShiftLayerUp.Click
+        Common.ModelData.ShiftLayerUp(LayerSelector.SelectLayer.Maximum)
+        Common.SaveModel(Path.Combine(My.Application.Info.DirectoryPath, Common.ConstTempFileName))
+        LayerSelector.Redraw()
+        WorkArea.Redraw()
+    End Sub
+
+    Private Sub MenuItem_Operation_ShiftLayerDown_Click(sender As Object, e As EventArgs) Handles MenuItem_Operation_ShiftLayerDown.Click
+        Common.ModelData.ShiftLayerDown(LayerSelector.SelectLayer.Maximum)
+        Common.SaveModel(Path.Combine(My.Application.Info.DirectoryPath, Common.ConstTempFileName))
+        LayerSelector.Redraw()
+        WorkArea.Redraw()
+    End Sub
+
+    Private Sub MenuItem_Operation_ShiftColPl_Click(sender As Object, e As EventArgs) Handles MenuItem_Operation_ShiftColPl.Click
+        Common.ModelData.ShiftColPl(WorkArea.MaxCol)
+        Common.SaveModel(Path.Combine(My.Application.Info.DirectoryPath, Common.ConstTempFileName))
+        LayerSelector.Redraw()
+        WorkArea.Redraw()
+    End Sub
+
+    Private Sub MenuItem_Operation_ShiftColMi_Click(sender As Object, e As EventArgs) Handles MenuItem_Operation_ShiftColMi.Click
+        Common.ModelData.ShiftColMi(WorkArea.MinCol)
+        Common.SaveModel(Path.Combine(My.Application.Info.DirectoryPath, Common.ConstTempFileName))
+        LayerSelector.Redraw()
+        WorkArea.Redraw()
+    End Sub
+
+    Private Sub WorkArea_RemoveBlock(sender As Object, e As EventArgs) Handles WorkArea.RemoveBlock
+        Common.SaveModel(Path.Combine(My.Application.Info.DirectoryPath, Common.ConstTempFileName))
+    End Sub
+
+    Private Sub MenuItem_Operation_ShiftRowMi_Click(sender As Object, e As EventArgs) Handles MenuItem_Operation_ShiftRowMi.Click
+        Common.ModelData.ShiftRowMi(WorkArea.MinRow)
+        Common.SaveModel(Path.Combine(My.Application.Info.DirectoryPath, Common.ConstTempFileName))
+        LayerSelector.Redraw()
+        WorkArea.Redraw()
+    End Sub
+
+    Private Sub MenuItem_Operation_ShiftRowPl_Click(sender As Object, e As EventArgs) Handles MenuItem_Operation_ShiftRowPl.Click
+        Common.ModelData.ShiftRowPl(WorkArea.MaxRow)
+        Common.SaveModel(Path.Combine(My.Application.Info.DirectoryPath, Common.ConstTempFileName))
+        LayerSelector.Redraw()
+        WorkArea.Redraw()
+    End Sub
+
 End Class
 

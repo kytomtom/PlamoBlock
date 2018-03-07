@@ -292,4 +292,167 @@
 
         Return Nothing
     End Function
+
+    Private Sub CopyLayerBuf(pobjLayerBuf As Dictionary(Of Integer, List(Of Block)))
+        objLayer.Clear()
+        For Each i As Integer In pobjLayerBuf.Keys
+            objLayer.Add(i, pobjLayerBuf(i))
+        Next
+    End Sub
+
+    Public Sub ShiftLayerUp(pintTopLayer As Integer)
+        Dim lobjLayerBuf As Dictionary(Of Integer, List(Of Block))
+        Dim lintNew As Integer
+
+        lobjLayerBuf = New Dictionary(Of Integer, List(Of Block))
+
+        For Each lintOld As Integer In objLayer.Keys
+            If lintOld = pintTopLayer Then
+                lintNew = 1
+            Else
+                lintNew = lintOld + 1
+            End If
+
+            lobjLayerBuf.Add(lintNew, objLayer(lintOld))
+        Next
+
+        CopyLayerBuf(lobjLayerBuf)
+        lobjLayerBuf = Nothing
+    End Sub
+    Public Sub ShiftLayerDown(pintTopLayer As Integer)
+        Dim lobjLayerBuf As Dictionary(Of Integer, List(Of Block))
+        Dim lintNew As Integer
+
+        lobjLayerBuf = New Dictionary(Of Integer, List(Of Block))
+
+        For Each lintOld As Integer In objLayer.Keys
+            If lintOld = 1 Then
+                lintNew = pintTopLayer
+            Else
+                lintNew = lintOld - 1
+            End If
+
+            lobjLayerBuf.Add(lintNew, objLayer(lintOld))
+        Next
+
+        objLayer.Clear()
+
+        For Each i As Integer In lobjLayerBuf.Keys
+            objLayer.Add(i, lobjLayerBuf(i))
+        Next
+
+        CopyLayerBuf(lobjLayerBuf)
+        lobjLayerBuf = Nothing
+    End Sub
+
+    Public Sub ShiftColPl(pintMax As Integer)
+        Dim lbolCanShift As Boolean
+
+        lbolCanShift = True
+        For Each pobjLayer As List(Of Block) In objLayer.Values
+            For Each pobjBlock As Block In pobjLayer
+                If pobjBlock.Col + pobjBlock.RotateWidth - 1 + 1 > pintMax Then
+                    lbolCanShift = False
+                    Exit For
+                End If
+            Next
+
+            If lbolCanShift = False Then
+                Exit For
+            End If
+        Next
+
+        If lbolCanShift = False Then
+            Exit Sub
+        End If
+
+        For Each pobjLayer As List(Of Block) In objLayer.Values
+            For Each pobjBlock As Block In pobjLayer
+                pobjBlock.Col += 1
+            Next
+        Next
+    End Sub
+    Public Sub ShiftColMi(pintMin As Integer)
+        Dim lbolCanShift As Boolean
+
+        lbolCanShift = True
+        For Each pobjLayer As List(Of Block) In objLayer.Values
+            For Each pobjBlock As Block In pobjLayer
+                If pobjBlock.Col - 1 < pintMin Then
+                    lbolCanShift = False
+                    Exit For
+                End If
+            Next
+
+            If lbolCanShift = False Then
+                Exit For
+            End If
+        Next
+
+        If lbolCanShift = False Then
+            Exit Sub
+        End If
+
+        For Each pobjLayer As List(Of Block) In objLayer.Values
+            For Each pobjBlock As Block In pobjLayer
+                pobjBlock.Col -= 1
+            Next
+        Next
+    End Sub
+
+    Public Sub ShiftRowPl(pintMax As Integer)
+        Dim lbolCanShift As Boolean
+
+        lbolCanShift = True
+        For Each pobjLayer As List(Of Block) In objLayer.Values
+            For Each pobjBlock As Block In pobjLayer
+                If pobjBlock.Row + pobjBlock.RotateHeight - 1 + 1 > pintMax Then
+                    lbolCanShift = False
+                    Exit For
+                End If
+            Next
+
+            If lbolCanShift = False Then
+                Exit For
+            End If
+        Next
+
+        If lbolCanShift = False Then
+            Exit Sub
+        End If
+
+        For Each pobjLayer As List(Of Block) In objLayer.Values
+            For Each pobjBlock As Block In pobjLayer
+                pobjBlock.Row += 1
+            Next
+        Next
+    End Sub
+    Public Sub ShiftRowMi(pintMin As Integer)
+        Dim lbolCanShift As Boolean
+
+        lbolCanShift = True
+        For Each pobjLayer As List(Of Block) In objLayer.Values
+            For Each pobjBlock As Block In pobjLayer
+                If pobjBlock.Row - 1 < pintMin Then
+                    lbolCanShift = False
+                    Exit For
+                End If
+            Next
+
+            If lbolCanShift = False Then
+                Exit For
+            End If
+        Next
+
+        If lbolCanShift = False Then
+            Exit Sub
+        End If
+
+        For Each pobjLayer As List(Of Block) In objLayer.Values
+            For Each pobjBlock As Block In pobjLayer
+                pobjBlock.Row -= 1
+            Next
+        Next
+    End Sub
+
 End Class
