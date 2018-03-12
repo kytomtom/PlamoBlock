@@ -417,12 +417,12 @@
 
         lobjBlock = Common.ModelData.RemoveCellBlock(intSelectLayer, pintRow, pintCol)
 
-        With objSelectBlock
-            .Width = lobjBlock.Width
-            .Height = lobjBlock.Height
-            .ColorSetting = lobjBlock.ColorSetting
-            .Rotation = lobjBlock.Rotation
-        End With
+        'With objSelectBlock
+        '    .Width = lobjBlock.Width
+        '    .Height = lobjBlock.Height
+        '    .ColorSetting = lobjBlock.ColorSetting
+        '    .Rotation = lobjBlock.Rotation
+        'End With
         'objSelectBlockImage = DirectCast(New BlockImage(objSelectBlock, intCellSize).Image.Clone, Bitmap)
     End Sub
     Private Sub PullBlock(pintPoint As Integer())
