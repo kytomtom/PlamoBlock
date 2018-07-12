@@ -15,6 +15,7 @@
     Private objBackImage As Bitmap
     Private objSelectBlockImage As Bitmap
 
+    Private strSelectGroup As String
     Private intSelectLayer As Integer
 
     Public Event ChangeModel(ByVal sender As Object, ByVal e As EventArgs)
@@ -93,6 +94,16 @@
         End Set
     End Property
 
+    Public Property SelectGroup() As String
+        Get
+            Return strSelectGroup
+        End Get
+        Set(value As String)
+            strSelectGroup = value
+            Redraw()
+        End Set
+    End Property
+
     Public Sub New()
         BackColor = Color.White
 
@@ -101,6 +112,7 @@
         intCellSize = _Default_CellSize
 
         intSelectLayer = 1
+        strSelectGroup = ""
 
         objSelectBlock = New SelectBlock
 
@@ -277,15 +289,21 @@
 
         intTargetLayer = intSelectLayer + CInt(IIf(pbolUnderLayer, -1, 0))
 
-        For Each objBlock As ModelData.Block In Common.ModelData.Layer(intTargetLayer)
-            DrawBlock(pobjGraph, objBlock, pbolUnderLayer)
-        Next
+        If Common.ModelData.Group.ContainsKey(strSelectGroup) Then
+            For Each lstrGroup As String In Common.ModelData.Group.Keys
+                For Each objBlock As ModelDataG.Block In Common.ModelData.Group(lstrGroup).Layer(intTargetLayer)
+                    DrawBlock(pobjGraph, objBlock, lstrGroup, pbolUnderLayer)
+                Next
+            Next
+        End If
     End Sub
-    Private Sub DrawBlock(pobjGraph As Graphics, pobjBlock As ModelData.Block, pbolUnderLayer As Boolean)
+    Private Sub DrawBlock(pobjGraph As Graphics, pobjBlock As ModelDataG.Block, pstrGroup As String, pbolUnderLayer As Boolean)
         Dim lobjBlockImage As Bitmap
         Dim lobjPos As Point
         Dim lobjCM As System.Drawing.Imaging.ColorMatrix
         Dim lobjImgAtr As System.Drawing.Imaging.ImageAttributes
+
+        Dim lobjBrush As Brush
 
         lobjBlockImage = DirectCast(New BlockImage(pobjBlock, intCellSize).Image.Clone, Bitmap)
 
@@ -307,6 +325,12 @@
             lobjImgAtr.SetColorMatrix(lobjCM)
 
             pobjGraph.DrawImage(lobjBlockImage, New Rectangle(lobjPos, lobjBlockImage.Size), 0, 0, lobjBlockImage.Width, lobjBlockImage.Height, GraphicsUnit.Pixel, lobjImgAtr)
+        End If
+
+        If pstrGroup <> strSelectGroup Then
+            lobjBrush = New SolidBrush(Color.FromArgb(200, 0, 0, 0))
+            pobjGraph.FillRectangle(lobjBrush, New Rectangle(lobjPos, lobjBlockImage.Size))
+            lobjBrush.Dispose()
         End If
     End Sub
 
@@ -388,7 +412,7 @@
     End Sub
 
     Private Sub PutBlock(pintRow As Integer, pintCol As Integer)
-        Dim lobjBlock As ModelData.Block
+        Dim lobjBlock As ModelDataG.Block
 
         '既にブロックが配置されている場所には配置できない
         If Common.ModelData.IsCellBlank(intSelectLayer, pintRow, pintCol, objSelectBlock.RotateWidth, objSelectBlock.RotateHeight) = False Then
@@ -396,7 +420,7 @@
         End If
 
         With objSelectBlock
-            lobjBlock = Common.ModelData.AddBlock(intSelectLayer, pintRow, pintCol, .Width, .Height, .Rotation, .ColorSetting.Name)
+            lobjBlock = Common.ModelData.Group(strSelectGroup).AddBlock(intSelectLayer, pintRow, pintCol, .Width, .Height, .Rotation, .ColorSetting.Name)
         End With
 
         'Common.ModelData.Layer(intSelectLayer).Add(lobjBlock)
@@ -409,13 +433,13 @@
     End Sub
 
     Private Sub PullBlock(pintRow As Integer, pintCol As Integer)
-        Dim lobjBlock As ModelData.Block
+        Dim lobjBlock As ModelDataG.Block
 
         If Common.ModelData.IsCellBlank(intSelectLayer, pintRow, pintCol) Then
             Exit Sub
         End If
 
-        lobjBlock = Common.ModelData.RemoveCellBlock(intSelectLayer, pintRow, pintCol)
+        lobjBlock = Common.ModelData.RemoveCellBlock(strSelectGroup, intSelectLayer, pintRow, pintCol)
 
         'With objSelectBlock
         '    .Width = lobjBlock.Width
@@ -432,6 +456,25 @@
         PullBlock(pobjPoint.Y, pobjPoint.X)
     End Sub
 
+    Private Sub MoveGroup(pintRow As Integer, pintCol As Integer)
+        Dim lobjBlock As ModelDataG.Block
+
+        For Each lstrGroup As String In Common.ModelData.Group.Keys
+            If Common.ModelData.Group(lstrGroup).IsCellBlank(intSelectLayer, pintRow, pintCol) = False Then
+                lobjBlock = Common.ModelData.RemoveCellBlock(lstrGroup, intSelectLayer, pintRow, pintCol)
+                Common.ModelData.Group(strSelectGroup).AddBlock(intSelectLayer, lobjBlock)
+
+                Return
+            End If
+        Next
+    End Sub
+    Private Sub MoveGroup(pintPoint As Integer())
+        MoveGroup(pintPoint(0), pintPoint(1))
+    End Sub
+    Private Sub MoveGroup(pobjPoint As Point)
+        MoveGroup(pobjPoint.Y, pobjPoint.X)
+    End Sub
+
     Private Sub WorkArea_MouseClick(sender As Object, e As MouseEventArgs) Handles Me.MouseClick
         Select Case e.Button
             Case MouseButtons.Left
@@ -442,11 +485,20 @@
                 RaiseEvent ChangeModel(Me, New EventArgs)
 
             Case MouseButtons.Right
-                PullBlock(PointToCell(PointToClient(Control.MousePosition)))
+                If (Control.ModifierKeys And Keys.Control) = Keys.Control Then
+                    MoveGroup(PointToCell(PointToClient(Control.MousePosition)))
 
-                Redraw()
+                    Redraw()
 
-                RaiseEvent RemoveBlock(Me, New EventArgs)
+                    RaiseEvent ChangeModel(Me, New EventArgs)
+
+                Else
+                    PullBlock(PointToCell(PointToClient(Control.MousePosition)))
+
+                    Redraw()
+
+                    RaiseEvent RemoveBlock(Me, New EventArgs)
+                End If
         End Select
     End Sub
 End Class

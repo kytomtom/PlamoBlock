@@ -37,11 +37,11 @@ Partial Class MainForm
         Me.MenuItem_Operation = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuItem_Operation_ShiftLayerUp = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuItem_Operation_ShiftLayerDown = New System.Windows.Forms.ToolStripMenuItem()
-        Me.MenuItem_Operation_Clear = New System.Windows.Forms.ToolStripMenuItem()
-        Me.MenuItem_Operation_ShiftColPl = New System.Windows.Forms.ToolStripMenuItem()
-        Me.MenuItem_Operation_ShiftColMi = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuItem_Operation_ShiftRowMi = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuItem_Operation_ShiftRowPl = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuItem_Operation_ShiftColPl = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuItem_Operation_ShiftColMi = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuItem_Operation_Clear = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenFile = New System.Windows.Forms.OpenFileDialog()
         Me.MoeCharaPic = New System.Windows.Forms.PictureBox()
         Me.SaveFile = New System.Windows.Forms.SaveFileDialog()
@@ -84,12 +84,12 @@ Partial Class MainForm
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(157, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(177, 6)
         '
         'MenuItem_File_LoadJson
         '
         Me.MenuItem_File_LoadJson.Name = "MenuItem_File_LoadJson"
-        Me.MenuItem_File_LoadJson.Size = New System.Drawing.Size(160, 22)
+        Me.MenuItem_File_LoadJson.Size = New System.Drawing.Size(180, 22)
         Me.MenuItem_File_LoadJson.Text = "JSONファイル読込"
         '
         'MenuItem_Output
@@ -140,11 +140,19 @@ Partial Class MainForm
         Me.MenuItem_Operation_ShiftLayerDown.Size = New System.Drawing.Size(264, 22)
         Me.MenuItem_Operation_ShiftLayerDown.Text = "下のレイヤーへシフト"
         '
-        'MenuItem_Operation_Clear
+        'MenuItem_Operation_ShiftRowMi
         '
-        Me.MenuItem_Operation_Clear.Name = "MenuItem_Operation_Clear"
-        Me.MenuItem_Operation_Clear.Size = New System.Drawing.Size(264, 22)
-        Me.MenuItem_Operation_Clear.Text = "クリア"
+        Me.MenuItem_Operation_ShiftRowMi.Name = "MenuItem_Operation_ShiftRowMi"
+        Me.MenuItem_Operation_ShiftRowMi.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Up), System.Windows.Forms.Keys)
+        Me.MenuItem_Operation_ShiftRowMi.Size = New System.Drawing.Size(264, 22)
+        Me.MenuItem_Operation_ShiftRowMi.Text = "上へシフト"
+        '
+        'MenuItem_Operation_ShiftRowPl
+        '
+        Me.MenuItem_Operation_ShiftRowPl.Name = "MenuItem_Operation_ShiftRowPl"
+        Me.MenuItem_Operation_ShiftRowPl.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Down), System.Windows.Forms.Keys)
+        Me.MenuItem_Operation_ShiftRowPl.Size = New System.Drawing.Size(264, 22)
+        Me.MenuItem_Operation_ShiftRowPl.Text = "下へシフト"
         '
         'MenuItem_Operation_ShiftColPl
         '
@@ -160,19 +168,11 @@ Partial Class MainForm
         Me.MenuItem_Operation_ShiftColMi.Size = New System.Drawing.Size(264, 22)
         Me.MenuItem_Operation_ShiftColMi.Text = "左へシフト"
         '
-        'MenuItem_Operation_ShiftRowMi
+        'MenuItem_Operation_Clear
         '
-        Me.MenuItem_Operation_ShiftRowMi.Name = "MenuItem_Operation_ShiftRowMi"
-        Me.MenuItem_Operation_ShiftRowMi.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Up), System.Windows.Forms.Keys)
-        Me.MenuItem_Operation_ShiftRowMi.Size = New System.Drawing.Size(264, 22)
-        Me.MenuItem_Operation_ShiftRowMi.Text = "上へシフト"
-        '
-        'MenuItem_Operation_ShiftRowPl
-        '
-        Me.MenuItem_Operation_ShiftRowPl.Name = "MenuItem_Operation_ShiftRowPl"
-        Me.MenuItem_Operation_ShiftRowPl.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Down), System.Windows.Forms.Keys)
-        Me.MenuItem_Operation_ShiftRowPl.Size = New System.Drawing.Size(264, 22)
-        Me.MenuItem_Operation_ShiftRowPl.Text = "下へシフト"
+        Me.MenuItem_Operation_Clear.Name = "MenuItem_Operation_Clear"
+        Me.MenuItem_Operation_Clear.Size = New System.Drawing.Size(264, 22)
+        Me.MenuItem_Operation_Clear.Text = "クリア"
         '
         'OpenFile
         '
@@ -202,7 +202,7 @@ Partial Class MainForm
         Me.LayerSelector.Location = New System.Drawing.Point(716, 27)
         Me.LayerSelector.Name = "LayerSelector"
         Me.LayerSelector.Rows = 32
-        Me.LayerSelector.Size = New System.Drawing.Size(496, 414)
+        Me.LayerSelector.Size = New System.Drawing.Size(496, 411)
         Me.LayerSelector.TabIndex = 9
         '
         'SelectBlock

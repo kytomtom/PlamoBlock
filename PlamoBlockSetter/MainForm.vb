@@ -7,7 +7,7 @@ Public Class MainForm
         'Common.DB = New Database("PlamoBlock.db", Setting.DatabaseVersion)
 
         'モデルデータ初期化
-        Common.ModelData = New ModelData
+        Common.ModelData = New ModelDataG
 
         ''カラー選択エリアの初期化
         ColorSelector.SetBlockColor(Common.BlockColor)
@@ -46,6 +46,9 @@ Public Class MainForm
     Private Sub LayerSelector_ChangeLayer(sender As Object, e As EventArgs) Handles LayerSelector.ChangeLayer
         WorkArea.SelectLayer = CInt(LayerSelector.SelectLayer.Value)
     End Sub
+    Private Sub LayerSelector_ChangeGroup(sender As Object, e As EventArgs) Handles LayerSelector.ChangeGroup
+        WorkArea.SelectGroup = LayerSelector.SelectGroup.SelectedItem.ToString
+    End Sub
 
     Private Sub WorkArea_ChangeModel(sender As Object, e As EventArgs) Handles WorkArea.ChangeModel
         Common.SaveModel(Path.Combine(My.Application.Info.DirectoryPath, Common.ConstTempFileName))
@@ -65,7 +68,14 @@ Public Class MainForm
         If MsgBox("前回の状態を表示しますか？", MsgBoxStyle.Information + MsgBoxStyle.OkCancel) = MsgBoxResult.Ok Then
             Common.LoadModel(lstrTempFile)
 
-            LayerSelector.SelectLayer.Value = 1
+            With LayerSelector
+                .SelectLayer.Value = 1
+                .SelectGroup.Items.Clear()
+                For Each lstrGroup As String In Common.ModelData.Group.Keys
+                    .SelectGroup.Items.Add(Common.ModelData.Group(lstrGroup).Name)
+                Next
+                .SelectGroup.SelectedIndex = 0
+            End With
 
             WorkArea.SelectLayer = CInt(LayerSelector.SelectLayer.Value)
 
@@ -76,7 +86,14 @@ Public Class MainForm
     Private Sub LoadModel(pstrFileName As String)
         Common.LoadModel(pstrFileName)
 
-        LayerSelector.SelectLayer.Value = 1
+        With LayerSelector
+            .SelectLayer.Value = 1
+            .SelectGroup.Items.Clear()
+            For Each lstrGroup As String In Common.ModelData.Group.Keys
+                .SelectGroup.Items.Add(Common.ModelData.Group(lstrGroup).Name)
+            Next
+            .SelectGroup.SelectedIndex = 0
+        End With
 
         WorkArea.SelectLayer = CInt(LayerSelector.SelectLayer.Value)
 

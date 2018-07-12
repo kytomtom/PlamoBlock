@@ -61,6 +61,7 @@
     End Property
 
     Public Event ChangeLayer(ByVal sender As Object, ByVal e As EventArgs)
+    Public Event ChangeGroup(ByVal sender As Object, ByVal e As EventArgs)
 
     Public Sub New()
         ' この呼び出しはデザイナーで必要です。
@@ -164,9 +165,13 @@
             DrawBoxBackGround(objGraph, CType(pintTargetBox, TargetBox))
 
             '各層の描画
-            For i As Integer = CInt(SelectLayer.Minimum) To CInt(SelectLayer.Maximum)
-                DrawLayer(objGraph, CType(pintTargetBox, TargetBox), i)
-            Next
+            If Common.ModelData IsNot Nothing Then
+                For Each lstrGroup As String In Common.ModelData.Group.Keys
+                    For i As Integer = CInt(SelectLayer.Minimum) To CInt(SelectLayer.Maximum)
+                        DrawLayer(objGraph, CType(pintTargetBox, TargetBox), lstrGroup, i)
+                    Next
+                Next
+            End If
 
             DrawLayerMarker(objGraph, CType(pintTargetBox, TargetBox))
 
@@ -185,21 +190,23 @@
 
         lobjPen.Dispose()
     End Sub
-    Private Sub DrawLayer(pobjGraph As Graphics, pintTargetBox As TargetBox, pintTargetLayer As Integer)
+    Private Sub DrawLayer(pobjGraph As Graphics, pintTargetBox As TargetBox, pstrGroup As String, pintTargetLayer As Integer)
         If Common.ModelData Is Nothing Then
             Exit Sub
         End If
 
-        For Each objBlock As ModelData.Block In SortBlock(pintTargetBox, pintTargetLayer)
-            DrawBlock(pobjGraph, pintTargetBox, pintTargetLayer, objBlock)
+        For Each objBlock As ModelDataG.Block In SortBlock(pintTargetBox, pstrGroup, pintTargetLayer)
+            DrawBlock(pobjGraph, pintTargetBox, pstrGroup, pintTargetLayer, objBlock)
         Next
     End Sub
-    Private Sub DrawBlock(pobjGraph As Graphics, pintTargetBox As TargetBox, pintTargetLayer As Integer, pobjBlock As ModelData.Block)
+    Private Sub DrawBlock(pobjGraph As Graphics, pintTargetBox As TargetBox, pstrGroup As String, pintTargetLayer As Integer, pobjBlock As ModelDataG.Block)
         Dim lobjBlockImage As Bitmap
         Dim lobjPos As Point
         Dim lobjCM As System.Drawing.Imaging.ColorMatrix
         Dim lobjImgAtr As System.Drawing.Imaging.ImageAttributes
         Dim lintLen As Integer
+
+        Dim lobjBrush As Brush
 
         lintLen = BlockLen(pintTargetBox, pobjBlock)
 
@@ -225,6 +232,12 @@
 
             pobjGraph.DrawImage(lobjBlockImage, New Rectangle(lobjPos, lobjBlockImage.Size), 0, 0, lobjBlockImage.Width, lobjBlockImage.Height, GraphicsUnit.Pixel, lobjImgAtr)
         End If
+
+        If pstrGroup <> SelectGroup.SelectedItem.ToString Then
+            lobjBrush = New SolidBrush(Color.FromArgb(200, 0, 0, 0))
+            pobjGraph.FillRectangle(lobjBrush, New Rectangle(lobjPos, lobjBlockImage.Size))
+            lobjBrush.Dispose()
+        End If
     End Sub
     Private Sub DrawLayerMarker(pobjGraph As Graphics, pintTargetBox As TargetBox)
         Dim lobjPen As Pen
@@ -241,18 +254,18 @@
         lobjPen.Dispose()
     End Sub
 
-    Public Function SortBlock(pintTargetBox As TargetBox, pintTargetLayer As Integer) As List(Of ModelData.Block)
-        Dim lobjResult As List(Of ModelData.Block)
+    Public Function SortBlock(pintTargetBox As TargetBox, pstrGroup As String, pintTargetLayer As Integer) As List(Of ModelDataG.Block)
+        Dim lobjResult As List(Of ModelDataG.Block)
 
         Select Case pintTargetBox
             Case TargetBox.Front, TargetBox.Back
-                lobjResult = Common.ModelData.Layer(pintTargetLayer).OrderBy(Function(n) (n.Row + CInt(IIf(n.Rotation = 0, n.Height, n.Width)) - 1)).ToList()
+                lobjResult = Common.ModelData.Group(pstrGroup).Layer(pintTargetLayer).OrderBy(Function(n) (n.Row + CInt(IIf(n.Rotation = 0, n.Height, n.Width)) - 1)).ToList()
 
             Case TargetBox.Left, TargetBox.Right
-                lobjResult = Common.ModelData.Layer(pintTargetLayer).OrderBy(Function(n) (n.Col + CInt(IIf(n.Rotation = 0, n.Width, n.Height)) - 1)).ToList()
+                lobjResult = Common.ModelData.Group(pstrGroup).Layer(pintTargetLayer).OrderBy(Function(n) (n.Col + CInt(IIf(n.Rotation = 0, n.Width, n.Height)) - 1)).ToList()
 
             Case Else
-                lobjResult = Common.ModelData.Layer(pintTargetLayer)
+                lobjResult = Common.ModelData.Group(pstrGroup).Layer(pintTargetLayer)
         End Select
 
         Select Case pintTargetBox
@@ -262,7 +275,7 @@
 
         Return lobjResult
     End Function
-    Private Function BlockLen(pintTargetBox As TargetBox, pobjBlock As ModelData.Block) As Integer
+    Private Function BlockLen(pintTargetBox As TargetBox, pobjBlock As ModelDataG.Block) As Integer
         With pobjBlock
             Select Case pintTargetBox
                 Case TargetBox.Front, TargetBox.Back
@@ -275,7 +288,7 @@
 
         Return 0
     End Function
-    Private Function CellPoint(pintTargetBox As TargetBox, pintTargetLayer As Integer, pobjBlock As ModelData.Block, pintShift As Integer) As Point
+    Private Function CellPoint(pintTargetBox As TargetBox, pintTargetLayer As Integer, pobjBlock As ModelDataG.Block, pintShift As Integer) As Point
         Dim lintX As Integer
         Dim lintY As Integer
         Dim lintPos As Integer
@@ -303,7 +316,7 @@
 
         Return New Point(lintX, lintY)
     End Function
-    Private Function IsLatterHalfArea(pintTargetBox As TargetBox, pobjBlock As ModelData.Block) As Boolean
+    Private Function IsLatterHalfArea(pintTargetBox As TargetBox, pobjBlock As ModelDataG.Block) As Boolean
         With pobjBlock
             Select Case pintTargetBox
                 Case TargetBox.Front
@@ -349,4 +362,27 @@
         End With
         Return SelectLayer.Value
     End Function
+
+    Private Sub SelectGroup_SelectedValueChanged(sender As Object, e As EventArgs) Handles SelectGroup.SelectedValueChanged
+        Redraw()
+        RaiseEvent ChangeGroup(Me, New EventArgs)
+    End Sub
+
+    Private Sub BtnAddNewGroup_Click(sender As Object, e As EventArgs) Handles BtnAddNewGroup.Click
+        Dim lstrBuf As String
+
+        lstrBuf = InputBox("新しい部品グループ名")
+
+        If String.IsNullOrWhiteSpace(lstrBuf) Then
+            Return
+        End If
+
+        If SelectGroup.Items.Contains(lstrBuf) Then
+            MsgBox("そのグループはすでに存在します", MsgBoxStyle.Critical)
+            Return
+        End If
+
+        Common.ModelData.AddGroup(lstrBuf, 1)
+        SelectGroup.SelectedIndex = SelectGroup.Items.Add(lstrBuf)
+    End Sub
 End Class

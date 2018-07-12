@@ -8,7 +8,7 @@
     Public Shared BlockColor As New BlockColor
 
     'モデルデータ
-    Public Shared ModelData As ModelData
+    Public Shared ModelData As ModelDataG
 
     '埋め込まれたリソースからテキストの内容を取得
     Public Shared Function GetResourceText(pstrFileName As String) As String
@@ -45,7 +45,7 @@
     End Sub
 
     Public Shared Sub LoadModel(pstrFileName As String)
-        Dim lobjModelDataOldVer As New ModelDataFull
+        Dim lobjModelDataOldVer As ModelDataFull
 
         lobjModelDataOldVer = New ModelDataFull
 
