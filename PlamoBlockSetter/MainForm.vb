@@ -110,7 +110,7 @@ Public Class MainForm
         End If
     End Sub
 
-    Private Sub MenuItem_Operation_Clearr_Click(sender As Object, e As EventArgs) Handles MenuItem_Operation_Clear.Click
+    Private Sub MenuItem_Operation_ClearALL_Click(sender As Object, e As EventArgs) Handles MenuItem_Operation_ClearALL.Click
         If MsgBox("表示されているデータを消去しますか？", MsgBoxStyle.Information + MsgBoxStyle.OkCancel) = MsgBoxResult.Ok Then
             Common.ModelData.Clear()
 
@@ -120,6 +120,12 @@ Public Class MainForm
 
             LayerSelector.Redraw()
         End If
+    End Sub
+
+    Private Sub MenuItem_Operation_ClearLayer_Click(sender As Object, e As EventArgs) Handles MenuItem_Operation_ClearLayer.Click
+        Common.ModelData.ClearLayer(CInt(LayerSelector.SelectLayer.Value))
+
+        LayerSelector.Redraw()
     End Sub
 
     Private Sub MenuItem_ModelInfo_Click(sender As Object, e As EventArgs) Handles MenuItem_ModelInfo.Click

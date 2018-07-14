@@ -37,11 +37,11 @@ Partial Class MainForm
         Me.MenuItem_Operation = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuItem_Operation_ShiftLayerUp = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuItem_Operation_ShiftLayerDown = New System.Windows.Forms.ToolStripMenuItem()
-        Me.MenuItem_Operation_Clear = New System.Windows.Forms.ToolStripMenuItem()
-        Me.MenuItem_Operation_ShiftColPl = New System.Windows.Forms.ToolStripMenuItem()
-        Me.MenuItem_Operation_ShiftColMi = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuItem_Operation_ShiftRowMi = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuItem_Operation_ShiftRowPl = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuItem_Operation_ShiftColPl = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuItem_Operation_ShiftColMi = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuItem_Operation_ClearALL = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenFile = New System.Windows.Forms.OpenFileDialog()
         Me.MoeCharaPic = New System.Windows.Forms.PictureBox()
         Me.SaveFile = New System.Windows.Forms.SaveFileDialog()
@@ -50,6 +50,7 @@ Partial Class MainForm
         Me.BlockSelector = New PlamoBlockSetter.BlockSelector()
         Me.ColorSelector = New PlamoBlockSetter.ColorSelector()
         Me.WorkArea = New PlamoBlockSetter.WorkArea()
+        Me.MenuItem_Operation_ClearLayer = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuBar.SuspendLayout()
         CType(Me.MoeCharaPic, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.SelectBlock, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -119,7 +120,7 @@ Partial Class MainForm
         '
         'MenuItem_Operation
         '
-        Me.MenuItem_Operation.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuItem_Operation_ShiftLayerUp, Me.MenuItem_Operation_ShiftLayerDown, Me.MenuItem_Operation_ShiftRowMi, Me.MenuItem_Operation_ShiftRowPl, Me.MenuItem_Operation_ShiftColPl, Me.MenuItem_Operation_ShiftColMi, Me.MenuItem_Operation_Clear})
+        Me.MenuItem_Operation.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuItem_Operation_ShiftLayerUp, Me.MenuItem_Operation_ShiftLayerDown, Me.MenuItem_Operation_ShiftRowMi, Me.MenuItem_Operation_ShiftRowPl, Me.MenuItem_Operation_ShiftColPl, Me.MenuItem_Operation_ShiftColMi, Me.MenuItem_Operation_ClearLayer, Me.MenuItem_Operation_ClearALL})
         Me.MenuItem_Operation.Name = "MenuItem_Operation"
         Me.MenuItem_Operation.Size = New System.Drawing.Size(69, 20)
         Me.MenuItem_Operation.Text = "データ操作"
@@ -140,11 +141,19 @@ Partial Class MainForm
         Me.MenuItem_Operation_ShiftLayerDown.Size = New System.Drawing.Size(264, 22)
         Me.MenuItem_Operation_ShiftLayerDown.Text = "下のレイヤーへシフト"
         '
-        'MenuItem_Operation_Clear
+        'MenuItem_Operation_ShiftRowMi
         '
-        Me.MenuItem_Operation_Clear.Name = "MenuItem_Operation_Clear"
-        Me.MenuItem_Operation_Clear.Size = New System.Drawing.Size(264, 22)
-        Me.MenuItem_Operation_Clear.Text = "クリア"
+        Me.MenuItem_Operation_ShiftRowMi.Name = "MenuItem_Operation_ShiftRowMi"
+        Me.MenuItem_Operation_ShiftRowMi.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Up), System.Windows.Forms.Keys)
+        Me.MenuItem_Operation_ShiftRowMi.Size = New System.Drawing.Size(264, 22)
+        Me.MenuItem_Operation_ShiftRowMi.Text = "上へシフト"
+        '
+        'MenuItem_Operation_ShiftRowPl
+        '
+        Me.MenuItem_Operation_ShiftRowPl.Name = "MenuItem_Operation_ShiftRowPl"
+        Me.MenuItem_Operation_ShiftRowPl.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Down), System.Windows.Forms.Keys)
+        Me.MenuItem_Operation_ShiftRowPl.Size = New System.Drawing.Size(264, 22)
+        Me.MenuItem_Operation_ShiftRowPl.Text = "下へシフト"
         '
         'MenuItem_Operation_ShiftColPl
         '
@@ -160,19 +169,11 @@ Partial Class MainForm
         Me.MenuItem_Operation_ShiftColMi.Size = New System.Drawing.Size(264, 22)
         Me.MenuItem_Operation_ShiftColMi.Text = "左へシフト"
         '
-        'MenuItem_Operation_ShiftRowMi
+        'MenuItem_Operation_ClearALL
         '
-        Me.MenuItem_Operation_ShiftRowMi.Name = "MenuItem_Operation_ShiftRowMi"
-        Me.MenuItem_Operation_ShiftRowMi.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Up), System.Windows.Forms.Keys)
-        Me.MenuItem_Operation_ShiftRowMi.Size = New System.Drawing.Size(264, 22)
-        Me.MenuItem_Operation_ShiftRowMi.Text = "上へシフト"
-        '
-        'MenuItem_Operation_ShiftRowPl
-        '
-        Me.MenuItem_Operation_ShiftRowPl.Name = "MenuItem_Operation_ShiftRowPl"
-        Me.MenuItem_Operation_ShiftRowPl.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Down), System.Windows.Forms.Keys)
-        Me.MenuItem_Operation_ShiftRowPl.Size = New System.Drawing.Size(264, 22)
-        Me.MenuItem_Operation_ShiftRowPl.Text = "下へシフト"
+        Me.MenuItem_Operation_ClearALL.Name = "MenuItem_Operation_ClearALL"
+        Me.MenuItem_Operation_ClearALL.Size = New System.Drawing.Size(264, 22)
+        Me.MenuItem_Operation_ClearALL.Text = "すべてクリア"
         '
         'OpenFile
         '
@@ -250,6 +251,12 @@ Partial Class MainForm
         Me.WorkArea.TabIndex = 5
         Me.WorkArea.TabStop = False
         '
+        'MenuItem_Operation_ClearLayer
+        '
+        Me.MenuItem_Operation_ClearLayer.Name = "MenuItem_Operation_ClearLayer"
+        Me.MenuItem_Operation_ClearLayer.Size = New System.Drawing.Size(264, 22)
+        Me.MenuItem_Operation_ClearLayer.Text = "現在のレイヤをクリア"
+        '
         'MainForm
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
@@ -295,11 +302,12 @@ Partial Class MainForm
     Friend WithEvents SaveFile As SaveFileDialog
     Friend WithEvents MenuItem_Operation As ToolStripMenuItem
     Friend WithEvents MenuItem_ModelInfo As ToolStripMenuItem
-    Friend WithEvents MenuItem_Operation_Clear As ToolStripMenuItem
+    Friend WithEvents MenuItem_Operation_ClearALL As ToolStripMenuItem
     Friend WithEvents MenuItem_Operation_ShiftLayerUp As ToolStripMenuItem
     Friend WithEvents MenuItem_Operation_ShiftLayerDown As ToolStripMenuItem
     Friend WithEvents MenuItem_Operation_ShiftColPl As ToolStripMenuItem
     Friend WithEvents MenuItem_Operation_ShiftColMi As ToolStripMenuItem
     Friend WithEvents MenuItem_Operation_ShiftRowMi As ToolStripMenuItem
     Friend WithEvents MenuItem_Operation_ShiftRowPl As ToolStripMenuItem
+    Friend WithEvents MenuItem_Operation_ClearLayer As ToolStripMenuItem
 End Class

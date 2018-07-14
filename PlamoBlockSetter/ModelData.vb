@@ -115,6 +115,10 @@
         objLayer.Clear()
     End Sub
 
+    Public Sub ClearLayer(pintLayer As Integer)
+        Layer(pintLayer).Clear()
+    End Sub
+
     Public Sub SetModelDataFromFull(pobjModelDataFull As ModelDataFull)
         Dim lobjGroup As ModelDataFull.BlockGroup
 
