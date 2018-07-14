@@ -76,7 +76,7 @@
     Public Sub New(pintRows As Integer, pintCols As Integer, pintCellSize As Integer, pobjColorSetting As BlockColor.ColorSetting, pintRotation As Integer)
         Me.New(pintRows, pintCols, pintCellSize, pobjColorSetting.Base, pobjColorSetting.Edge, pobjColorSetting.Opacity, pintRotation)
     End Sub
-    Public Sub New(objBlock As ModelData.Block, pintCellSize As Integer)
+    Public Sub New(objBlock As ModelDataG.Block, pintCellSize As Integer)
         Me.New(objBlock.Height, objBlock.Width, pintCellSize, objBlock.ColorSetting, objBlock.Rotation)
     End Sub
     Public Sub New(pobjSelectBlock As SelectBlock, pintCellSize As Integer)
