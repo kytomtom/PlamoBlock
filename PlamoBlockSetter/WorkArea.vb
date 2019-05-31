@@ -419,6 +419,8 @@
             Exit Sub
         End If
 
+        Common.SetUndoData()
+
         With objSelectBlock
             lobjBlock = Common.ModelData.Group(strSelectGroup).AddBlock(intSelectLayer, pintRow, pintCol, .Width, .Height, .Rotation, .ColorSetting.Name)
         End With
@@ -439,6 +441,8 @@
             Exit Sub
         End If
 
+        Common.SetUndoData()
+
         lobjBlock = Common.ModelData.RemoveCellBlock(strSelectGroup, intSelectLayer, pintRow, pintCol)
 
         'With objSelectBlock
@@ -458,6 +462,8 @@
 
     Private Sub MoveGroup(pintRow As Integer, pintCol As Integer)
         Dim lobjBlock As ModelDataG.Block
+
+        Common.SetUndoData()
 
         For Each lstrGroup As String In Common.ModelData.Group.Keys
             If Common.ModelData.Group(lstrGroup).IsCellBlank(intSelectLayer, pintRow, pintCol) = False Then
