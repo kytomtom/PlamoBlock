@@ -67,20 +67,20 @@ Public Class MainForm
 
         If MsgBox("前回の状態を表示しますか？", MsgBoxStyle.Information + MsgBoxStyle.OkCancel) = MsgBoxResult.Ok Then
             Common.LoadModel(lstrTempFile)
-
-            With LayerSelector
-                .SelectLayer.Value = 1
-                .SelectGroup.Items.Clear()
-                For Each lstrGroup As String In Common.ModelData.Group.Keys
-                    .SelectGroup.Items.Add(Common.ModelData.Group(lstrGroup).Name)
-                Next
-                .SelectGroup.SelectedIndex = 0
-            End With
-
-            WorkArea.SelectLayer = CInt(LayerSelector.SelectLayer.Value)
-
-            LayerSelector.Redraw()
         End If
+
+        With LayerSelector
+            .SelectLayer.Value = 1
+            .SelectGroup.Items.Clear()
+            For Each lstrGroup As String In Common.ModelData.Group.Keys
+                .SelectGroup.Items.Add(Common.ModelData.Group(lstrGroup).Name)
+            Next
+            .SelectGroup.SelectedIndex = 0
+        End With
+
+        WorkArea.SelectLayer = CInt(LayerSelector.SelectLayer.Value)
+
+        LayerSelector.Redraw()
     End Sub
 
     Private Sub LoadModel(pstrFileName As String)
@@ -140,9 +140,11 @@ Public Class MainForm
     End Sub
 
     Private Sub MenuItem_Operation_ClearLayer_Click(sender As Object, e As EventArgs) Handles MenuItem_Operation_ClearLayer.Click
-        Common.ModelData.ClearLayer(CInt(LayerSelector.SelectLayer.Value))
+        If MsgBox("表示されているレイヤーを消去しますか？", MsgBoxStyle.Information + MsgBoxStyle.OkCancel) = MsgBoxResult.Ok Then
+            Common.ModelData.ClearLayer(CInt(LayerSelector.SelectLayer.Value))
 
-        LayerSelector.Redraw()
+            LayerSelector.Redraw()
+        End If
     End Sub
 
     Private Sub MenuItem_ModelInfo_Click(sender As Object, e As EventArgs) Handles MenuItem_ModelInfo.Click
@@ -164,6 +166,8 @@ Public Class MainForm
     End Sub
 
     Private Sub MenuItem_Operation_ShiftLayerUp_Click(sender As Object, e As EventArgs) Handles MenuItem_Operation_ShiftLayerUp.Click
+        Common.SetUndoData()
+
         Common.ModelData.ShiftLayerUp(LayerSelector.SelectLayer.Maximum)
         Common.SaveModel(Path.Combine(My.Application.Info.DirectoryPath, Common.ConstTempFileName))
         LayerSelector.Redraw()
@@ -171,6 +175,8 @@ Public Class MainForm
     End Sub
 
     Private Sub MenuItem_Operation_ShiftLayerDown_Click(sender As Object, e As EventArgs) Handles MenuItem_Operation_ShiftLayerDown.Click
+        Common.SetUndoData()
+
         Common.ModelData.ShiftLayerDown(LayerSelector.SelectLayer.Maximum)
         Common.SaveModel(Path.Combine(My.Application.Info.DirectoryPath, Common.ConstTempFileName))
         LayerSelector.Redraw()
@@ -178,6 +184,8 @@ Public Class MainForm
     End Sub
 
     Private Sub MenuItem_Operation_ShiftColPl_Click(sender As Object, e As EventArgs) Handles MenuItem_Operation_ShiftColPl.Click
+        Common.SetUndoData()
+
         Common.ModelData.ShiftColPl(WorkArea.MaxCol)
         Common.SaveModel(Path.Combine(My.Application.Info.DirectoryPath, Common.ConstTempFileName))
         LayerSelector.Redraw()
@@ -185,6 +193,8 @@ Public Class MainForm
     End Sub
 
     Private Sub MenuItem_Operation_ShiftColMi_Click(sender As Object, e As EventArgs) Handles MenuItem_Operation_ShiftColMi.Click
+        Common.SetUndoData()
+
         Common.ModelData.ShiftColMi(WorkArea.MinCol)
         Common.SaveModel(Path.Combine(My.Application.Info.DirectoryPath, Common.ConstTempFileName))
         LayerSelector.Redraw()
@@ -196,6 +206,8 @@ Public Class MainForm
     End Sub
 
     Private Sub MenuItem_Operation_ShiftRowMi_Click(sender As Object, e As EventArgs) Handles MenuItem_Operation_ShiftRowMi.Click
+        Common.SetUndoData()
+
         Common.ModelData.ShiftRowMi(WorkArea.MinRow)
         Common.SaveModel(Path.Combine(My.Application.Info.DirectoryPath, Common.ConstTempFileName))
         LayerSelector.Redraw()
@@ -203,11 +215,24 @@ Public Class MainForm
     End Sub
 
     Private Sub MenuItem_Operation_ShiftRowPl_Click(sender As Object, e As EventArgs) Handles MenuItem_Operation_ShiftRowPl.Click
+        Common.SetUndoData()
+
         Common.ModelData.ShiftRowPl(WorkArea.MaxRow)
         Common.SaveModel(Path.Combine(My.Application.Info.DirectoryPath, Common.ConstTempFileName))
         LayerSelector.Redraw()
         WorkArea.Redraw()
     End Sub
 
+    Private Sub MenuItem_Operation_Undo_Click(sender As Object, e As EventArgs) Handles MenuItem_Operation_Undo.Click
+        Common.UndoModel()
+        Common.SaveModel(Path.Combine(My.Application.Info.DirectoryPath, Common.ConstTempFileName))
+        WorkArea.Redraw()
+    End Sub
+
+    Private Sub MenuItem_Operation_Redo_Click(sender As Object, e As EventArgs) Handles MenuItem_Operation_Redo.Click
+        Common.RedoModel()
+        Common.SaveModel(Path.Combine(My.Application.Info.DirectoryPath, Common.ConstTempFileName))
+        WorkArea.Redraw()
+    End Sub
 End Class
 

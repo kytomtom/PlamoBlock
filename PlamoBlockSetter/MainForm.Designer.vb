@@ -35,6 +35,8 @@ Partial Class MainForm
         Me.MenuItem_Output_OutputFile = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuItem_ModelInfo = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuItem_Operation = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuItem_Operation_Undo = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuItem_Operation_Redo = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuItem_Operation_ShiftLayerUp = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuItem_Operation_ShiftLayerDown = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuItem_Operation_ShiftRowMi = New System.Windows.Forms.ToolStripMenuItem()
@@ -42,6 +44,8 @@ Partial Class MainForm
         Me.MenuItem_Operation_ShiftColPl = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuItem_Operation_ShiftColMi = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuItem_Operation_Clear = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuItem_Operation_ClearAll = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuItem_Operation_ClearLayer = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenFile = New System.Windows.Forms.OpenFileDialog()
         Me.MoeCharaPic = New System.Windows.Forms.PictureBox()
         Me.SaveFile = New System.Windows.Forms.SaveFileDialog()
@@ -84,12 +88,12 @@ Partial Class MainForm
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(177, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(157, 6)
         '
         'MenuItem_File_LoadJson
         '
         Me.MenuItem_File_LoadJson.Name = "MenuItem_File_LoadJson"
-        Me.MenuItem_File_LoadJson.Size = New System.Drawing.Size(180, 22)
+        Me.MenuItem_File_LoadJson.Size = New System.Drawing.Size(160, 22)
         Me.MenuItem_File_LoadJson.Text = "JSONファイル読込"
         '
         'MenuItem_Output
@@ -119,10 +123,24 @@ Partial Class MainForm
         '
         'MenuItem_Operation
         '
-        Me.MenuItem_Operation.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuItem_Operation_ShiftLayerUp, Me.MenuItem_Operation_ShiftLayerDown, Me.MenuItem_Operation_ShiftRowMi, Me.MenuItem_Operation_ShiftRowPl, Me.MenuItem_Operation_ShiftColPl, Me.MenuItem_Operation_ShiftColMi, Me.MenuItem_Operation_Clear})
+        Me.MenuItem_Operation.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuItem_Operation_Undo, Me.MenuItem_Operation_Redo, Me.MenuItem_Operation_ShiftLayerUp, Me.MenuItem_Operation_ShiftLayerDown, Me.MenuItem_Operation_ShiftRowMi, Me.MenuItem_Operation_ShiftRowPl, Me.MenuItem_Operation_ShiftColPl, Me.MenuItem_Operation_ShiftColMi, Me.MenuItem_Operation_Clear})
         Me.MenuItem_Operation.Name = "MenuItem_Operation"
         Me.MenuItem_Operation.Size = New System.Drawing.Size(69, 20)
         Me.MenuItem_Operation.Text = "データ操作"
+        '
+        'MenuItem_Operation_Undo
+        '
+        Me.MenuItem_Operation_Undo.Name = "MenuItem_Operation_Undo"
+        Me.MenuItem_Operation_Undo.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Z), System.Windows.Forms.Keys)
+        Me.MenuItem_Operation_Undo.Size = New System.Drawing.Size(264, 22)
+        Me.MenuItem_Operation_Undo.Text = "Undo"
+        '
+        'RedoToolStripMenuItem
+        '
+        Me.MenuItem_Operation_Redo.Name = "RedoToolStripMenuItem"
+        Me.MenuItem_Operation_Redo.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Y), System.Windows.Forms.Keys)
+        Me.MenuItem_Operation_Redo.Size = New System.Drawing.Size(264, 22)
+        Me.MenuItem_Operation_Redo.Text = "Redo"
         '
         'MenuItem_Operation_ShiftLayerUp
         '
@@ -170,9 +188,22 @@ Partial Class MainForm
         '
         'MenuItem_Operation_Clear
         '
+        Me.MenuItem_Operation_Clear.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuItem_Operation_ClearAll, Me.MenuItem_Operation_ClearLayer})
         Me.MenuItem_Operation_Clear.Name = "MenuItem_Operation_Clear"
         Me.MenuItem_Operation_Clear.Size = New System.Drawing.Size(264, 22)
         Me.MenuItem_Operation_Clear.Text = "クリア"
+        '
+        'MenuItem_Operation_ClearAll
+        '
+        Me.MenuItem_Operation_ClearAll.Name = "MenuItem_Operation_ClearAll"
+        Me.MenuItem_Operation_ClearAll.Size = New System.Drawing.Size(144, 22)
+        Me.MenuItem_Operation_ClearAll.Text = "すべて"
+        '
+        'MenuItem_Operation_ClearLayer
+        '
+        Me.MenuItem_Operation_ClearLayer.Name = "MenuItem_Operation_ClearLayer"
+        Me.MenuItem_Operation_ClearLayer.Size = New System.Drawing.Size(144, 22)
+        Me.MenuItem_Operation_ClearLayer.Text = "現在のレイヤー"
         '
         'OpenFile
         '
@@ -245,6 +276,7 @@ Partial Class MainForm
         Me.WorkArea.Location = New System.Drawing.Point(12, 27)
         Me.WorkArea.Name = "WorkArea"
         Me.WorkArea.Rows = 32
+        Me.WorkArea.SelectGroup = ""
         Me.WorkArea.SelectLayer = 1
         Me.WorkArea.Size = New System.Drawing.Size(661, 661)
         Me.WorkArea.TabIndex = 5
@@ -302,4 +334,8 @@ Partial Class MainForm
     Friend WithEvents MenuItem_Operation_ShiftColMi As ToolStripMenuItem
     Friend WithEvents MenuItem_Operation_ShiftRowMi As ToolStripMenuItem
     Friend WithEvents MenuItem_Operation_ShiftRowPl As ToolStripMenuItem
+    Friend WithEvents MenuItem_Operation_ClearAll As ToolStripMenuItem
+    Friend WithEvents MenuItem_Operation_ClearLayer As ToolStripMenuItem
+    Friend WithEvents MenuItem_Operation_Undo As ToolStripMenuItem
+    Friend WithEvents MenuItem_Operation_Redo As ToolStripMenuItem
 End Class

@@ -15,11 +15,27 @@
         Public Name As String
         Public BottomPos As Integer
 
-        Private objLayer As Dictionary(Of Integer, List(Of Block))
+        Friend objLayer As Dictionary(Of Integer, List(Of Block))
 
         Public Sub New()
             objLayer = New Dictionary(Of Integer, List(Of Block))
             Clear()
+        End Sub
+
+        Public Sub New(pobjBlockGroup As BlockGroup)
+            With pobjBlockGroup
+                Name = .Name
+                BottomPos = .BottomPos
+
+                objLayer = New Dictionary(Of Integer, List(Of Block))
+                For Each lintKey As Integer In .objLayer.Keys
+                    objLayer.Add(lintKey, New List(Of Block))
+
+                    For Each lobjBlock As Block In .objLayer(lintKey)
+                        objLayer(lintKey).Add(New Block(lobjBlock))
+                    Next
+                Next
+            End With
         End Sub
 
         Public Property Layer() As Dictionary(Of Integer, List(Of Block))
@@ -118,6 +134,12 @@
             Name = ""
             BottomPos = 0
             objLayer = New Dictionary(Of Integer, List(Of Block))
+        End Sub
+
+        Public Sub ClearLayer(pintLayer As Integer)
+            If objLayer.ContainsKey(pintLayer) Then
+                objLayer(pintLayer).Clear()
+            End If
         End Sub
 
         Public Function IsCellBlank(pintLayer As Integer, pintRow As Integer, pintCol As Integer, pintWidth As Integer, pintHeight As Integer) As Boolean
@@ -349,6 +371,17 @@
             Clear()
         End Sub
 
+        Public Sub New(pobjBlock As Block)
+            With pobjBlock
+                Row = .Row
+                Col = .Col
+                Width = .Width
+                Height = .Height
+                Rotation = .Rotation
+                Color = .Color
+            End With
+        End Sub
+
         Public Sub Clear()
             Col = 0
             Row = 0
@@ -409,6 +442,23 @@
         SetModelDataFromFull(pobjModelDataFull)
     End Sub
 
+    Public Sub New(pobjModelDataG As ModelDataG)
+        With pobjModelDataG
+            Name = .Name
+            DisplayName = .DisplayName
+            Twitter = .Twitter
+            Copyright = .Copyright
+            PlateWidth = .PlateWidth
+            PlateHeight = .PlateHeight
+            PlateColor = .PlateColor
+
+            Group = New Dictionary(Of String, BlockGroup)
+            For Each lstrKey As String In .Group.Keys
+                Group.Add(lstrKey, New BlockGroup(.Group(lstrKey)))
+            Next
+        End With
+    End Sub
+
     Public Sub Clear()
         Name = ""
         DisplayName = ""
@@ -419,6 +469,13 @@
         PlateColor = BlockColor.ColorName.White.ToString
 
         Group.Clear()
+        AddGroup("デフォルト", 1)
+    End Sub
+
+    Public Sub ClearLayer(pintLayer As Integer)
+        For Each lobjGroup As BlockGroup In Group.Values
+            lobjGroup.ClearLayer(pintLayer)
+        Next
     End Sub
 
     Public Sub SetModelDataFromFull(pobjModelDataFull As ModelDataFull)
@@ -436,6 +493,7 @@
             PlateColor = .PlateColor
         End With
 
+        Group.Clear()
         For i As Integer = 0 To pobjModelDataFull.PartsNum - 1
             lobjGroup = pobjModelDataFull.Parts(i)
 

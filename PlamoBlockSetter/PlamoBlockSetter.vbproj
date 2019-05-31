@@ -102,8 +102,8 @@
       <DependentUpon>MainForm.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ModelDataG.vb" />
     <Compile Include="ModelDataFull.vb" />
+    <Compile Include="ModelDataG.vb" />
     <Compile Include="ModelInfo.Designer.vb">
       <DependentUpon>ModelInfo.vb</DependentUpon>
     </Compile>
@@ -175,6 +175,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Sample\EnnoTsuina.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Sample\EnnoTsuina_Pink_SPPN.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Sample\EnnoTsuina_Pink_ver2.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Sample\FK_Ringo.json">
