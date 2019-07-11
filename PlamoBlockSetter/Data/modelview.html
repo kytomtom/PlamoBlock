@@ -1,0 +1,63 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Three.jsでプラモブロック</title>
+    <!-- -->
+    <script type="text/javascript" src="./jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="./three.min.js"></script>
+    <script type="text/javascript" src="./OrbitControls.js"></script>
+    <script type="text/javascript" src="./plamoblockofficial.js"></script>
+</head>
+    <body>
+        <h1>Three.jsでプラモブロック</h1>
+
+        <!-- 3Dモデル表示領域 Start ================================================ -->
+    <table>
+        <tr>
+            <td style="vertical-align:top;">
+                <P>
+                    <span id="PlamoBlock"></span>
+                </P>
+            </td>
+            <td style="vertical-align:top;">
+                <p>
+                    <span>境界線表示：</span><br />
+                    <select id="EdgeColor" name="EdgeColor">
+                        <option value="none">なし</option>
+                        <option value="black">黒</option>
+                        <option value="gray">灰色</option>
+                        <option value="system" selected>システム設定値</option>
+                    </select>
+                    <button id="Renew">再表示</button>
+                </p>
+                <p>
+                    <button id="CameraToggle">カメラ切替</button>
+                    <span>（平行／遠近）</span><br />
+                </p>
+                <p>
+                    <span>表示する層：</span><br />
+                    <input id="LayerNumButtom" type="number" name="LayerNumButtom" step="1" min="1" max="100" style="width:40px;">
+                    ～
+                    <input id="LayerNumTop" type="number" name="LayerNumTop" step="1" min="1" max="100" style="width:40px;">
+                    <br />
+                    <span>※指定した範囲の層のみ表示します（最下層 = 1）</span>
+                </p>
+                <p>
+                    <span>表示するパーツ：</span><br />
+                    <span id="ViewParts"></span>
+                </p>
+                <p>
+                    <span id="UseBlock"></span>
+                </p>
+            </td>
+        </tr>
+    </table>
+    <!-- 3Dモデル表示領域 End ================================================ -->
+
+    <div style="font-size: 90%;">
+        <hr>
+        <span>・プラモブロック®は合同会社フィールドワンの登録商標商品です。</span><br />
+    </div>
+    </body>
+</html>

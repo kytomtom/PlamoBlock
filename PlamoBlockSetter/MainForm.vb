@@ -11,6 +11,8 @@ Public Class MainForm
 
         ''カラー選択エリアの初期化
         ColorSelector.SetBlockColor(Common.BlockColor)
+
+        Preview.Show()
     End Sub
 
     Private Sub MainForm_Shown(sender As Object, e As EventArgs) Handles Me.Shown
