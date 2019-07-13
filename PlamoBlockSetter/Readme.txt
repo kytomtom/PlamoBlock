@@ -18,7 +18,7 @@
 　　当ツールで作成したJSONデータをプラモブロックの組立データとして
 　　表示するWebツールです。
 
-　　http://kytomtom.sakura.ne.jp/plamoblock/index.html
+　　http://www.kytomtom.site/plamoblock/index.html
 
 　・マスコットアプリ文化祭
 　　プロ生ちゃんおよび合同会社プロ生が主催する、萌えキャラを使用した

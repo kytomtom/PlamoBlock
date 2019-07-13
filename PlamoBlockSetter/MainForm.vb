@@ -11,8 +11,6 @@ Public Class MainForm
 
         ''カラー選択エリアの初期化
         ColorSelector.SetBlockColor(Common.BlockColor)
-
-        Preview.Show()
     End Sub
 
     Private Sub MainForm_Shown(sender As Object, e As EventArgs) Handles Me.Shown
@@ -49,7 +47,11 @@ Public Class MainForm
         WorkArea.SelectLayer = CInt(LayerSelector.SelectLayer.Value)
     End Sub
     Private Sub LayerSelector_ChangeGroup(sender As Object, e As EventArgs) Handles LayerSelector.ChangeGroup
-        WorkArea.SelectGroup = LayerSelector.SelectGroup.SelectedItem.ToString
+        If LayerSelector.SelectGroup.SelectedItem Is Nothing Then
+            Return
+        End If
+
+        WorkArea.SelectGroup = Common.ModelData.GroupKey(LayerSelector.SelectGroup.SelectedItem.ToString)
     End Sub
 
     Private Sub WorkArea_ChangeModel(sender As Object, e As EventArgs) Handles WorkArea.ChangeModel
@@ -235,6 +237,10 @@ Public Class MainForm
         Common.RedoModel()
         Common.SaveModel(Path.Combine(My.Application.Info.DirectoryPath, Common.ConstTempFileName))
         WorkArea.Redraw()
+    End Sub
+
+    Private Sub MenuItem_Preview_Click(sender As Object, e As EventArgs) Handles MenuItem_Preview.Click
+        Preview.Show()
     End Sub
 End Class
 

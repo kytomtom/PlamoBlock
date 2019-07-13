@@ -208,6 +208,10 @@
 
         Dim lobjBrush As Brush
 
+        If SelectGroup.SelectedItem Is Nothing Then
+            Return
+        End If
+
         lintLen = BlockLen(pintTargetBox, pobjBlock)
 
         lobjBlockImage = DirectCast(New BlockImageSide(lintLen, intCellSize, pobjBlock.ColorSetting, IsEdgeView.Checked).Image.Clone, Bitmap)
@@ -233,7 +237,7 @@
             pobjGraph.DrawImage(lobjBlockImage, New Rectangle(lobjPos, lobjBlockImage.Size), 0, 0, lobjBlockImage.Width, lobjBlockImage.Height, GraphicsUnit.Pixel, lobjImgAtr)
         End If
 
-        If pstrGroup <> SelectGroup.SelectedItem.ToString Then
+        If Common.ModelData.Group(pstrGroup).Name <> SelectGroup.SelectedItem.ToString Then
             lobjBrush = New SolidBrush(Color.FromArgb(200, 0, 0, 0))
             pobjGraph.FillRectangle(lobjBrush, New Rectangle(lobjPos, lobjBlockImage.Size))
             lobjBrush.Dispose()
@@ -371,7 +375,7 @@
     Private Sub BtnAddNewGroup_Click(sender As Object, e As EventArgs) Handles BtnAddNewGroup.Click
         Dim lstrBuf As String
 
-        lstrBuf = InputBox("新しい部品グループ名")
+        lstrBuf = InputBox("新しい部品グループ名").Trim
 
         If String.IsNullOrWhiteSpace(lstrBuf) Then
             Return
@@ -384,5 +388,48 @@
 
         Common.ModelData.AddGroup(lstrBuf, 1)
         SelectGroup.SelectedIndex = SelectGroup.Items.Add(lstrBuf)
+    End Sub
+
+    Private Sub BtnChangeGroupName_Click(sender As Object, e As EventArgs) Handles BtnChangeGroupName.Click
+        Dim lstrNewName As String
+
+        Dim lstrOldName As String
+
+        lstrOldName = Common.ModelData.Group(SelectGroup.SelectedItem.ToString).Name
+
+        lstrNewName = InputBox("新しい部品グループ名").Trim
+
+        If String.IsNullOrWhiteSpace(lstrNewName) Then
+            Return
+        End If
+
+        If lstrNewName = lstrOldName Then
+            Return
+        End If
+
+        For Each lobjBuf As ModelDataG.BlockGroup In Common.ModelData.Group.Values
+            If lobjBuf.Name = lstrNewName Then
+                MsgBox("そのグループはすでに存在します", MsgBoxStyle.Critical)
+                Return
+            End If
+        Next
+
+        'Common.ModelData.Group.Add(lstrBuf, Common.ModelData.Group(lstrOldName))
+        'Common.ModelData.Group.Remove(lstrOldName)
+        Common.ModelData.Group(lstrOldName).Name = lstrNewName
+        Call SelSelectGroup()
+
+        SelectGroup.SelectedIndex = SelectGroup.Items().IndexOf(lstrNewName)
+    End Sub
+
+    Public Sub SelSelectGroup(pintSelectedIndex As Integer)
+        SelectGroup.Items.Clear()
+        For Each lstrGroup As String In Common.ModelData.Group.Keys
+            SelectGroup.Items.Add(Common.ModelData.Group(lstrGroup).Name)
+        Next
+        SelectGroup.SelectedIndex = pintSelectedIndex
+    End Sub
+    Public Sub SelSelectGroup()
+        Call SelSelectGroup(0)
     End Sub
 End Class

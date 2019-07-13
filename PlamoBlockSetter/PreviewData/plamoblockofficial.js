@@ -30,16 +30,11 @@ $(function () {
 	animate();
 
 	function init() {
-		if (arg.model) {
-			ModelName = arg.model;
-		} else {
-			ModelName = 'YaoRyoka';
-		};
-		EdgeColor = $('#EdgeColor').val();
+		EdgeColor = 'edge';
 		
 		scene = new THREE.Scene();
 		
-		var width  = 500;
+		var width  = 600;
 		var height = 600;
 		var fov    = 60;
 		var aspect = width / height;
@@ -78,17 +73,7 @@ $(function () {
 
 		// ブロックの色の読み込み
 		$.ajaxSetup({async: false});
-		// $.getJSON('./BlockClolor.json', function(obj){BlockColor = obj;});
-        // $.getJSON(arg.color, function (obj) { BlockColor = obj; });
-        // var BlockColor = $.parseJSON(arg.color);
-        // $.get('./BlockColor.json', function (obj) { strBlockColor = obj; });
-        // var BlockColor = $.parseJSON(strBlockColor);
-        //alert(decodeURIComponent(arg.color));
-        //var BlockColor = $.parseJSON(decodeURIComponent(arg.color));
-        alert(decodeURIComponent(arg.path) + '/Data/BlockColor.json');
-        $.getJSON(decodeURIComponent(arg.path)+'/Data/BlockColor.json', function (obj) { BlockColor = obj; });
-        alert(BlockColor);
-
+		BlockColor = gblBlockColor;
 		$.ajaxSetup({async: true});
 
 		SetModelData();
@@ -137,8 +122,7 @@ $(function () {
 
 		// キャラクターデータの読み込み
 		$.ajaxSetup({async: false});
-		// $.getJSON('./modeldata/' + ModelName + '.json', function(obj){ModelData = obj;});
-		$.getJSON('./modeldata.json', function(obj){ModelData = obj;});
+		ModelData = gblModelData;
 		$.ajaxSetup({async: true});
 
 		// データ形式のバージョンを取得
@@ -210,97 +194,6 @@ $(function () {
 				l += 1;
 			};
 		};
-	
-		// モデル名表示
-		/*
-		var doc = document.getElementById('ModelName');
-		while (doc.childNodes.length > 0) {
-			doc.removeChild(doc.firstChild);
-		};
-		if (obj.Twitter) {
- 			doc.appendChild(document.createTextNode(obj.DisplayName + '('));
- 			
-			var element = document.createElement('a'); 
-			element.href = 'https://twitter.com/' + obj.Twitter; 
-			element.innerHTML = '@' + obj.Twitter; 
- 			doc.appendChild(element);
-
- 			doc.appendChild(document.createTextNode(')だよー！'));
-		} else {
- 			doc.appendChild(document.createTextNode(obj.DisplayName + 'だよー！'));
-		};
-		*/
-
-		// コピーライト表示
-		/*
-		var doc = document.getElementById('Copyright');
-		while (doc.childNodes.length > 0) {
-			doc.removeChild(doc.firstChild);
-		};
-		if (obj.Copyright) {
- 			doc.appendChild(document.createTextNode('・当サイトは下記著作権者の画像を利用しています。該当画像の転載・配付等は禁止します。'));
- 			doc.appendChild(document.createElement('br'));
-
-			var element = document.createElement('span'); 
-			element.style.marginLeft = '8px'; 
-			element.innerHTML = obj.Copyright; 
- 			doc.appendChild(element);
-		};
-		*/
-
-		/* 入力フォームの設定変更 */
-		// 表示レイヤー
-		$('#LayerNumButtom').attr('max', MaxLayer);
-		$('#LayerNumButtom').val(1);
-		$('#LayerNumTop').attr('max', MaxLayer);
-		$('#LayerNumTop').val(MaxLayer);
-		
-		// 表示パーツ
-		var doc = document.getElementById('ViewParts');
-		while (doc.childNodes.length > 0) {
-			doc.removeChild(doc.firstChild);
-		};
-		for (var i in PartsName) {
-			var element = document.createElement('input'); 
-			element.type = 'checkbox';
-			element.id = 'ViewPartsSelect';
-			element.name = 'ViewPartsSelect';
-			element.value = PartsName[i]; 
-			element.innerHTML = PartsName[i]; 
-			element.checked = 'checked';
-			doc.appendChild(element);
-
- 			doc.appendChild(document.createTextNode(PartsName[i]));
- 			doc.appendChild(document.createElement('br'));
-		};
-		
-		// 使用ブロック
-		var doc = document.getElementById('UseBlock');
-		while (doc.childNodes.length > 0) {
-			doc.removeChild(doc.firstChild);
-		};
-		var element = document.createElement('table'); 
-		element.id = 'ViewPartsSelect';
-		buf = '<table border="1">';
-		buf += '<tr><th colspan="2">使用ブロック</th>'
-		for (var i in BlockType) {
-			buf += '<th>' + BlockType[i] + '</th>'
-		};
-		buf += '</tr>'
-		for (var color in BlockCount) {
-			buf += '<tr><td align="right" style="white-space:pre;">' + BlockColor[color].kana + '</td>';
-			buf += '<td bgcolor="' + BlockColor[color].base + '" width="30px" style="min-width:30px;"></td>';
-			for (var i in BlockType) {
-				buf += '<td align="center">'
-				if (BlockCount[color][BlockType[i]]) {
-					buf += BlockCount[color][BlockType[i]]
-				};
-				buf += '</td>'
-			};
-			buf += '</tr>'
-		};
-		buf += '</table>';
-		doc.innerHTML = buf;
 	};
 
 	// 指定座標にブロックを作成
@@ -394,23 +287,6 @@ $(function () {
 		Material_Edge = new THREE.LineBasicMaterial({color: eg, linewidth: 2});
 		
 		// ベース作成
-		/*
-		const Block_Base = new THREE.Geometry();
-		Block_Base.vertices.push(new THREE.Vector3(0, 0, 1));
-		Block_Base.vertices.push(new THREE.Vector3(1, 0, 0));
-		Block_Base.vertices.push(new THREE.Vector3(0, -1, 0));
-		Block_Base.vertices.push(new THREE.Vector3(-1, 0, 0));
-		Block_Base.vertices.push(new THREE.Vector3(0, 1, 0));
-		Block_Base.vertices.push(new THREE.Vector3(0, 0, -1));
-		Block_Base.faces.push(new THREE.Face3( 0, 2, 1));
-		Block_Base.faces.push(new THREE.Face3( 0, 3, 2));
-		Block_Base.faces.push(new THREE.Face3( 0, 4, 3));
-		Block_Base.faces.push(new THREE.Face3( 0, 1, 4));
-		Block_Base.faces.push(new THREE.Face3( 5, 1, 2));
-		Block_Base.faces.push(new THREE.Face3( 5, 2, 3));
-		Block_Base.faces.push(new THREE.Face3( 5, 3, 4));
-		Block_Base.faces.push(new THREE.Face3( 5, 4, 1));
-		*/
 		const Block_Base = new THREE.BoxGeometry(BlockSize * w, BlockSize, BlockSize * d);
 		Matrix.makeTranslation(0, 0, 0);	
 		Block.merge(Block_Base, Matrix);
@@ -453,96 +329,9 @@ $(function () {
 		return BlockGroup;
 	};
 
-	function RemoveModel() {
-		for (var i in SceneObj) {
-			scene.remove(SceneObj[i].object);
-			
-			for (var j in SceneObj[i].object.children) {
-				if(SceneObj[i].object.children[j].geometry) {
-					SceneObj[i].object.children[j].geometry.dispose();
-				};
-				if(SceneObj[i].object.children[j].material) {
-					SceneObj[i].object.children[j].material.dispose();
-				};
-				if(SceneObj[i].object.children[j].mesh) {
-					SceneObj[i].object.children[j].mesh.dispose();
-				};
-				if(SceneObj[i].object.children[j].texture) {
-					SceneObj[i].object.children[j].texture.dispose();
-				};
-
-				delete  SceneObj[i].object.children[j];
-			};
-			
-			delete  SceneObj[i].object;
-			delete  SceneObj[i];
-		};
-		
-		SceneObj.length = 0;
-		PartsName.length = 0;
-	};
-
-	function ChangeBlockVisible() {
-		var LayerB = Number($('#LayerNumButtom').val());
-		var LayerT = Number($('#LayerNumTop').val());
-		var Parts = [];
-		$('[name=ViewPartsSelect]:checked').each(function() {
-			Parts.push($(this).val());
-		});
-
-		if (LayerB > LayerT) {
-			var tmp = LayerB;
-			LayerB = LayerT;
-			LayerT = tmp;
-		};
-
-		for (var i in SceneObj) {
-			if (SceneObj[i].type == 'Panel') {
-				if ($.inArray(PartsName[0], Parts) != -1) {
-					SceneObj[i].object.visible = true;
-				} else {
-					SceneObj[i].object.visible = false;
-				};
-			};
-			if (SceneObj[i].type == 'Block') {
-				if (SceneObj[i].layer >= LayerB && SceneObj[i].layer <= LayerT && $.inArray(SceneObj[i].parts, Parts) != -1) {
-					SceneObj[i].object.visible = true;
-				} else {
-					SceneObj[i].object.visible = false;
-				};
-			};
-		};
-	};
-
 	function CheckColorExists(c) {
 		if (!BlockColor[c]) {
 			console.error('No Exists Color Setting : ' + c);
 		};
 	};
-
-	$('#LayerNumButtom').on('keyup change click', function() {
-	    ChangeBlockVisible();
-	});
-	$('#LayerNumTop').on('keyup change click', function() {
-	    ChangeBlockVisible();
-	});
-
-	$('#ViewParts').change(function() {
-	    ChangeBlockVisible();
-	});
-
-	$('#Renew').click(function() {
-		RemoveModel();
-		
-		EdgeColor = $('#EdgeColor').val();
-		SetModelData();
-	});
-
-	$('#Remove').click(function() {
-		RemoveModel();
-	});
-
-	$('#CameraToggle').click(function() {
-		setCamera();
-	});
 });

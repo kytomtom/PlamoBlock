@@ -493,10 +493,10 @@
             PlateColor = .PlateColor
         End With
 
+        Group.Clear()
         For i As Integer = 0 To pobjModelDataFull.PartsNum - 1
             lobjGroup = pobjModelDataFull.Parts(i)
 
-            Group.Clear()
             Group.Add(lobjGroup.Name, New BlockGroup)
             With Group(lobjGroup.Name)
                 .Name = lobjGroup.Name
@@ -654,5 +654,15 @@
             Group(lstrGroup).ShiftRowMi(pintMin)
         Next
     End Sub
+
+    Public Function GroupKey(pstrGroupName As String) As String
+        For Each lstrKey As String In Group.Keys
+            If Group(lstrKey).Name = pstrGroupName Then
+                Return lstrKey
+            End If
+        Next
+
+        Return ""
+    End Function
 
 End Class

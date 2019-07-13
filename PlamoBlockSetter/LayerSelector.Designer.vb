@@ -32,10 +32,13 @@ Partial Class LayerSelector
         Me.PanelFront = New System.Windows.Forms.Panel()
         Me.PanelLeft = New System.Windows.Forms.Panel()
         Me.SelectGroup = New System.Windows.Forms.ComboBox()
+        Me.FlowLayoutPanel1 = New System.Windows.Forms.FlowLayoutPanel()
         Me.BtnAddNewGroup = New System.Windows.Forms.Button()
+        Me.BtnChangeGroupName = New System.Windows.Forms.Button()
         Me.BaseLayout.SuspendLayout()
         Me.HeaderPanel.SuspendLayout()
         CType(Me.SelectLayer, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.FlowLayoutPanel1.SuspendLayout()
         Me.SuspendLayout()
         '
         'BaseLayout
@@ -49,8 +52,7 @@ Partial Class LayerSelector
         Me.BaseLayout.Controls.Add(Me.PanelBack, 1, 2)
         Me.BaseLayout.Controls.Add(Me.PanelFront, 1, 4)
         Me.BaseLayout.Controls.Add(Me.PanelLeft, 0, 3)
-        Me.BaseLayout.Controls.Add(Me.SelectGroup, 0, 1)
-        Me.BaseLayout.Controls.Add(Me.BtnAddNewGroup, 1, 1)
+        Me.BaseLayout.Controls.Add(Me.FlowLayoutPanel1, 0, 1)
         Me.BaseLayout.Dock = System.Windows.Forms.DockStyle.Fill
         Me.BaseLayout.Location = New System.Drawing.Point(0, 0)
         Me.BaseLayout.Margin = New System.Windows.Forms.Padding(0)
@@ -62,17 +64,17 @@ Partial Class LayerSelector
         Me.BaseLayout.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.0!))
         Me.BaseLayout.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.0!))
         Me.BaseLayout.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.0!))
-        Me.BaseLayout.Size = New System.Drawing.Size(360, 240)
+        Me.BaseLayout.Size = New System.Drawing.Size(500, 240)
         Me.BaseLayout.TabIndex = 0
         '
         'PanelRight
         '
         Me.PanelRight.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.PanelRight.Location = New System.Drawing.Point(240, 96)
+        Me.PanelRight.Location = New System.Drawing.Point(332, 96)
         Me.PanelRight.Margin = New System.Windows.Forms.Padding(0)
         Me.PanelRight.Name = "PanelRight"
         Me.BaseLayout.SetRowSpan(Me.PanelRight, 2)
-        Me.PanelRight.Size = New System.Drawing.Size(120, 96)
+        Me.PanelRight.Size = New System.Drawing.Size(168, 96)
         Me.PanelRight.TabIndex = 2
         '
         'HeaderPanel
@@ -85,7 +87,7 @@ Partial Class LayerSelector
         Me.HeaderPanel.Location = New System.Drawing.Point(0, 0)
         Me.HeaderPanel.Margin = New System.Windows.Forms.Padding(0)
         Me.HeaderPanel.Name = "HeaderPanel"
-        Me.HeaderPanel.Size = New System.Drawing.Size(360, 24)
+        Me.HeaderPanel.Size = New System.Drawing.Size(500, 24)
         Me.HeaderPanel.TabIndex = 0
         '
         'SelectLayer
@@ -123,21 +125,21 @@ Partial Class LayerSelector
         'PanelBack
         '
         Me.PanelBack.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.PanelBack.Location = New System.Drawing.Point(120, 48)
+        Me.PanelBack.Location = New System.Drawing.Point(166, 48)
         Me.PanelBack.Margin = New System.Windows.Forms.Padding(0)
         Me.PanelBack.Name = "PanelBack"
         Me.BaseLayout.SetRowSpan(Me.PanelBack, 2)
-        Me.PanelBack.Size = New System.Drawing.Size(120, 96)
+        Me.PanelBack.Size = New System.Drawing.Size(166, 96)
         Me.PanelBack.TabIndex = 1
         '
         'PanelFront
         '
         Me.PanelFront.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.PanelFront.Location = New System.Drawing.Point(120, 144)
+        Me.PanelFront.Location = New System.Drawing.Point(166, 144)
         Me.PanelFront.Margin = New System.Windows.Forms.Padding(0)
         Me.PanelFront.Name = "PanelFront"
         Me.BaseLayout.SetRowSpan(Me.PanelFront, 2)
-        Me.PanelFront.Size = New System.Drawing.Size(120, 96)
+        Me.PanelFront.Size = New System.Drawing.Size(166, 96)
         Me.PanelFront.TabIndex = 3
         '
         'PanelLeft
@@ -147,29 +149,53 @@ Partial Class LayerSelector
         Me.PanelLeft.Margin = New System.Windows.Forms.Padding(0)
         Me.PanelLeft.Name = "PanelLeft"
         Me.BaseLayout.SetRowSpan(Me.PanelLeft, 2)
-        Me.PanelLeft.Size = New System.Drawing.Size(120, 96)
+        Me.PanelLeft.Size = New System.Drawing.Size(166, 96)
         Me.PanelLeft.TabIndex = 4
         '
         'SelectGroup
         '
         Me.SelectGroup.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.SelectGroup.FormattingEnabled = True
-        Me.SelectGroup.Location = New System.Drawing.Point(0, 28)
+        Me.SelectGroup.Location = New System.Drawing.Point(0, 3)
         Me.SelectGroup.Margin = New System.Windows.Forms.Padding(0)
         Me.SelectGroup.Name = "SelectGroup"
         Me.SelectGroup.Size = New System.Drawing.Size(119, 20)
         Me.SelectGroup.TabIndex = 5
         '
+        'FlowLayoutPanel1
+        '
+        Me.BaseLayout.SetColumnSpan(Me.FlowLayoutPanel1, 3)
+        Me.FlowLayoutPanel1.Controls.Add(Me.SelectGroup)
+        Me.FlowLayoutPanel1.Controls.Add(Me.BtnAddNewGroup)
+        Me.FlowLayoutPanel1.Controls.Add(Me.BtnChangeGroupName)
+        Me.FlowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.FlowLayoutPanel1.Location = New System.Drawing.Point(0, 24)
+        Me.FlowLayoutPanel1.Margin = New System.Windows.Forms.Padding(0)
+        Me.FlowLayoutPanel1.Name = "FlowLayoutPanel1"
+        Me.FlowLayoutPanel1.Size = New System.Drawing.Size(500, 24)
+        Me.FlowLayoutPanel1.TabIndex = 8
+        '
         'BtnAddNewGroup
         '
         Me.BtnAddNewGroup.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.BtnAddNewGroup.Location = New System.Drawing.Point(120, 25)
+        Me.BtnAddNewGroup.Location = New System.Drawing.Point(119, 0)
         Me.BtnAddNewGroup.Margin = New System.Windows.Forms.Padding(0)
         Me.BtnAddNewGroup.Name = "BtnAddNewGroup"
-        Me.BtnAddNewGroup.Size = New System.Drawing.Size(75, 23)
+        Me.BtnAddNewGroup.Size = New System.Drawing.Size(89, 23)
         Me.BtnAddNewGroup.TabIndex = 6
-        Me.BtnAddNewGroup.Text = "パーツ追加"
+        Me.BtnAddNewGroup.Text = "グループ追加"
         Me.BtnAddNewGroup.UseVisualStyleBackColor = True
+        '
+        'BtnChangeGroupName
+        '
+        Me.BtnChangeGroupName.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.BtnChangeGroupName.Location = New System.Drawing.Point(208, 0)
+        Me.BtnChangeGroupName.Margin = New System.Windows.Forms.Padding(0)
+        Me.BtnChangeGroupName.Name = "BtnChangeGroupName"
+        Me.BtnChangeGroupName.Size = New System.Drawing.Size(89, 23)
+        Me.BtnChangeGroupName.TabIndex = 7
+        Me.BtnChangeGroupName.Text = "グループ名変更"
+        Me.BtnChangeGroupName.UseVisualStyleBackColor = True
         '
         'LayerSelector
         '
@@ -177,10 +203,11 @@ Partial Class LayerSelector
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.Controls.Add(Me.BaseLayout)
         Me.Name = "LayerSelector"
-        Me.Size = New System.Drawing.Size(360, 240)
+        Me.Size = New System.Drawing.Size(500, 240)
         Me.BaseLayout.ResumeLayout(False)
         Me.HeaderPanel.ResumeLayout(False)
         CType(Me.SelectLayer, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.FlowLayoutPanel1.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -196,4 +223,6 @@ Partial Class LayerSelector
     Friend WithEvents Label1 As Label
     Friend WithEvents SelectGroup As ComboBox
     Friend WithEvents BtnAddNewGroup As Button
+    Friend WithEvents FlowLayoutPanel1 As FlowLayoutPanel
+    Friend WithEvents BtnChangeGroupName As Button
 End Class

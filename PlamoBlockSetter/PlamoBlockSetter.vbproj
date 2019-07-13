@@ -225,10 +225,10 @@
   <ItemGroup>
     <EmbeddedResource Include="JSON\JSON_BlockColor.json" />
     <EmbeddedResource Include="JSON\JSON_ModelTest.json" />
-    <None Include="Data\BlockColor.json">
+    <None Include="PreviewData\BlockColor.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Data\modeldata.json">
+    <None Include="PreviewData\modeldata.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="My Project\Application.myapp">
@@ -316,19 +316,19 @@
     <EmbeddedResource Include="SQL\Select_Version.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Data\jquery-3.3.1.min.js">
+    <Content Include="PreviewData\jquery-3.3.1.min.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\modelview.html">
+    <Content Include="PreviewData\modelview.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\OrbitControls.js">
+    <Content Include="PreviewData\OrbitControls.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\plamoblockofficial.js">
+    <Content Include="PreviewData\plamoblockofficial.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\three.min.js">
+    <Content Include="PreviewData\three.min.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Readme.txt">
