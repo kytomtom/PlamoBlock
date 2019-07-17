@@ -22,44 +22,27 @@ Partial Class Preview
     'コード エディターを使って変更しないでください。
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Me.Browser = New DotNetBrowser.WinForms.WinFormsBrowserView()
-        Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
+        Me.PreviewLayout = New System.Windows.Forms.TableLayoutPanel()
         Me.FlowLayoutPanel1 = New System.Windows.Forms.FlowLayoutPanel()
         Me.btnReload = New System.Windows.Forms.Button()
-        Me.TableLayoutPanel1.SuspendLayout()
-        Me.FlowLayoutPanel1.SuspendLayout()
-        Me.SuspendLayout()
+        Me.PreviewLayout.SuspendLayout
+        Me.FlowLayoutPanel1.SuspendLayout
+        Me.SuspendLayout
         '
-        'Browser
+        'PreviewLayout
         '
-        Me.Browser.AcceptLanguage = Nothing
-        Me.Browser.AudioMuted = Nothing
-        Me.Browser.BrowserType = DotNetBrowser.BrowserType.HEAVYWEIGHT
-        Me.Browser.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Browser.InitialFocusOwner = False
-        Me.Browser.Location = New System.Drawing.Point(3, 43)
-        Me.Browser.Name = "Browser"
-        Me.Browser.Preferences = Nothing
-        Me.Browser.Size = New System.Drawing.Size(620, 620)
-        Me.Browser.TabIndex = 0
-        Me.Browser.URL = Nothing
-        Me.Browser.ZoomLevel = Nothing
-        '
-        'TableLayoutPanel1
-        '
-        Me.TableLayoutPanel1.ColumnCount = 1
-        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
-        Me.TableLayoutPanel1.Controls.Add(Me.Browser, 0, 1)
-        Me.TableLayoutPanel1.Controls.Add(Me.FlowLayoutPanel1, 0, 0)
-        Me.TableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel1.Location = New System.Drawing.Point(0, 0)
-        Me.TableLayoutPanel1.Margin = New System.Windows.Forms.Padding(0)
-        Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
-        Me.TableLayoutPanel1.RowCount = 2
-        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40.0!))
-        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
-        Me.TableLayoutPanel1.Size = New System.Drawing.Size(626, 666)
-        Me.TableLayoutPanel1.TabIndex = 1
+        Me.PreviewLayout.ColumnCount = 1
+        Me.PreviewLayout.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
+        Me.PreviewLayout.Controls.Add(Me.FlowLayoutPanel1, 0, 0)
+        Me.PreviewLayout.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.PreviewLayout.Location = New System.Drawing.Point(0, 0)
+        Me.PreviewLayout.Margin = New System.Windows.Forms.Padding(0)
+        Me.PreviewLayout.Name = "PreviewLayout"
+        Me.PreviewLayout.RowCount = 2
+        Me.PreviewLayout.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40.0!))
+        Me.PreviewLayout.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
+        Me.PreviewLayout.Size = New System.Drawing.Size(630, 669)
+        Me.PreviewLayout.TabIndex = 1
         '
         'FlowLayoutPanel1
         '
@@ -67,7 +50,7 @@ Partial Class Preview
         Me.FlowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.FlowLayoutPanel1.Location = New System.Drawing.Point(3, 3)
         Me.FlowLayoutPanel1.Name = "FlowLayoutPanel1"
-        Me.FlowLayoutPanel1.Size = New System.Drawing.Size(620, 34)
+        Me.FlowLayoutPanel1.Size = New System.Drawing.Size(624, 34)
         Me.FlowLayoutPanel1.TabIndex = 1
         '
         'btnReload
@@ -80,27 +63,25 @@ Partial Class Preview
         Me.btnReload.Text = "リロード"
         Me.btnReload.UseVisualStyleBackColor = True
         '
-        'Preview
+        'Preview3
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(626, 666)
-        Me.Controls.Add(Me.TableLayoutPanel1)
+        Me.ClientSize = New System.Drawing.Size(630, 669)
+        Me.Controls.Add(Me.PreviewLayout)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
         Me.MinimizeBox = False
-        Me.Name = "Preview"
+        Me.Name = "Preview3"
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "Preview"
-        Me.TableLayoutPanel1.ResumeLayout(False)
+        Me.PreviewLayout.ResumeLayout(False)
         Me.FlowLayoutPanel1.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
-
-    Friend WithEvents Browser As DotNetBrowser.WinForms.WinFormsBrowserView
-    Friend WithEvents TableLayoutPanel1 As TableLayoutPanel
+    Friend WithEvents PreviewLayout As TableLayoutPanel
     Friend WithEvents FlowLayoutPanel1 As FlowLayoutPanel
     Friend WithEvents btnReload As Button
 End Class

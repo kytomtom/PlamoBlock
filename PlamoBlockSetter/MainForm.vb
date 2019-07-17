@@ -1,4 +1,5 @@
-﻿Imports System.IO
+﻿Imports System.ComponentModel
+Imports System.IO
 
 Public Class MainForm
     Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles Me.Load
@@ -22,6 +23,7 @@ Public Class MainForm
         '    Common.DB.Close()
         '    Common.DB = Nothing
         'End If
+        CefSharp.Cef.Shutdown()
     End Sub
 
     Private Sub ColorSelector_ChangeColor(sender As Object, e As EventArgs) Handles ColorSelector.ChangeColor
@@ -131,7 +133,7 @@ Public Class MainForm
         End If
     End Sub
 
-    Private Sub MenuItem_Operation_ClearALL_Click(sender As Object, e As EventArgs) Handles MenuItem_Operation_ClearALL.Click
+    Private Sub MenuItem_Operation_ClearALL_Click(sender As Object, e As EventArgs) Handles MenuItem_Operation_ClearAll.Click
         If MsgBox("表示されているデータを消去しますか？", MsgBoxStyle.Information + MsgBoxStyle.OkCancel) = MsgBoxResult.Ok Then
             Common.ModelData.Clear()
 
