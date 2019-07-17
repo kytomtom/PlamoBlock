@@ -1,56 +1,156 @@
-﻿+----------------------------------------------------------------+
-| PlamoBlock Setter
-+----------------------------------------------------------------+
+Chromium Embedded Framework (CEF) Standard Binary Distribution for Windows
+-------------------------------------------------------------------------------
 
-◯「PlamoBlock Setter」とは
-　「Three.jsでプラモブロック」でモデルを表示するためのJSONデータを作成する
-　Windows用アプリケーションです。
-　現状「Three.jsでプラモブロック」側に外部ファイル読込機能がないため、
-　作成したデータは当ツール内での表示に限ります。
+Date:             April 24, 2019
 
-◯動作確認環境
-　・Windows10 Professional
-　・.Net Framework 4.0
+CEF Version:      73.1.13+g6e3c989+chromium-73.0.3683.75
+CEF URL:          https://bitbucket.org/chromiumembedded/cef.git
+                  @6e3c9897beda11a2b76956ba0b3737409a15e9fb
 
-◯関連リンク
+Chromium Version: 73.0.3683.75
+Chromium URL:     https://chromium.googlesource.com/chromium/src.git
+                  @5fe448ea2471245e64adf805d93b358dd9478fa2
 
-　・Three.jsでプラモブロック
-　　当ツールで作成したJSONデータをプラモブロックの組立データとして
-　　表示するWebツールです。
-
-　　http://kytomtom.sakura.ne.jp/plamoblock/index.html
-
-　・マスコットアプリ文化祭
-　　プロ生ちゃんおよび合同会社プロ生が主催する、萌えキャラを使用した
-　　アプリ等のコンテストです。
-　　上記Webツールはマスコットアプリ文化祭への投稿作品です。
-
-　　https://mascot-apps-contest.azurewebsites.net/
-
-◯使用方法
-　・起動
-　　「PlamoBlockSetter.exe」を実行してください。
-　
-　・ブロックの配置手順
-　　・縦×横×高さ=24×24×24の空間にブロックを配置します。
-　　・右側上部の数値ボックスにより表示／編集する高さを選択します。
-　　・右側下部のブロック一覧、カラー一覧により配置するブロックの
-　　　形状と色を選択します。
-　　・左側の配置エリア上でマウスホイールを回転することにより、
-　　　ブロックの向きを90度変更します。
-　　・マウスの左クリックでカーソル位置にブロックを配置します。
-　　・マウスの右クリックでカーソル位置のブロックをs駆除します。
-    ・メニューの「モデル情報」より「Three.jsでプラモブロック」で
-	　表示する際の付加情報を入力します。
-
-　・ファイル読み込み
-　　メニューの「ファイル」→「JSONファイル読込」により対応したJSONファイルを
-　　読み込み、データを表示します。
-　　自作データの他、Sampleフォルダに同梱されているファイルを読み込むことが可能です。
-
-　・データの書き出し
-　　メニューの「出力」→「JSON出力」より作成した組立データをJSON形式で表示します。
-　　また「ファイル出力」により上記のデータをファイルに保存します。
+This distribution contains all components necessary to build and distribute an
+application using CEF on the Windows platform. Please see the LICENSING
+section of this document for licensing terms and conditions.
 
 
+CONTENTS
+--------
 
+cmake       Contains CMake configuration files shared by all targets.
+
+Debug       Contains libcef.dll, libcef.lib and other components required to
+            build and run the debug version of CEF-based applications. By
+            default these files should be placed in the same directory as the
+            executable and will be copied there as part of the build process.
+
+include     Contains all required CEF header files.
+
+libcef_dll  Contains the source code for the libcef_dll_wrapper static library
+            that all applications using the CEF C++ API must link against.
+
+Release     Contains libcef.dll, libcef.lib and other components required to
+            build and run the release version of CEF-based applications. By
+            default these files should be placed in the same directory as the
+            executable and will be copied there as part of the build process.
+
+Resources   Contains resources required by libcef.dll. By default these files
+            should be placed in the same directory as libcef.dll and will be
+            copied there as part of the build process.
+
+tests/      Directory of tests that demonstrate CEF usage.
+
+  cefclient Contains the cefclient sample application configured to build
+            using the files in this distribution. This application demonstrates
+            a wide range of CEF functionalities.
+
+  cefsimple Contains the cefsimple sample application configured to build
+            using the files in this distribution. This application demonstrates
+            the minimal functionality required to create a browser window.
+
+  ceftests  Contains unit tests that exercise the CEF APIs.
+
+  gtest     Contains the Google C++ Testing Framework used by the ceftests
+            target.
+
+  shared    Contains source code shared by the cefclient and ceftests targets.
+
+
+USAGE
+-----
+
+Building using CMake:
+  CMake can be used to generate project files in many different formats. See
+  usage instructions at the top of the CMakeLists.txt file.
+
+Please visit the CEF Website for additional usage information.
+
+https://bitbucket.org/chromiumembedded/cef/
+
+
+REDISTRIBUTION
+--------------
+
+This binary distribution contains the below components.
+
+Required components:
+
+The following components are required. CEF will not function without them.
+
+* CEF core library.
+  * libcef.dll
+
+* Crash reporting library.
+  * chrome_elf.dll
+
+* Unicode support data.
+  * icudtl.dat
+
+* V8 snapshot data.
+  * natives_blob.bin
+  * snapshot_blob.bin
+  * v8_context_snapshot.bin
+
+Optional components:
+
+The following components are optional. If they are missing CEF will continue to
+run but any related functionality may become broken or disabled.
+
+* Localized resources.
+  Locale file loading can be disabled completely using
+  CefSettings.pack_loading_disabled. The locales directory path can be
+  customized using CefSettings.locales_dir_path. 
+ 
+  * locales/
+    Directory containing localized resources used by CEF, Chromium and Blink. A
+    .pak file is loaded from this directory based on the CefSettings.locale
+    value. Only configured locales need to be distributed. If no locale is
+    configured the default locale of "en-US" will be used. Without these files
+    arbitrary Web components may display incorrectly.
+
+* Other resources.
+  Pack file loading can be disabled completely using
+  CefSettings.pack_loading_disabled. The resources directory path can be
+  customized using CefSettings.resources_dir_path.
+
+  * cef.pak
+  * cef_100_percent.pak
+  * cef_200_percent.pak
+    These files contain non-localized resources used by CEF, Chromium and Blink.
+    Without these files arbitrary Web components may display incorrectly.
+
+  * cef_extensions.pak
+    This file contains non-localized resources required for extension loading.
+    Pass the `--disable-extensions` command-line flag to disable use of this
+    file. Without this file components that depend on the extension system,
+    such as the PDF viewer, will not function.
+
+  * devtools_resources.pak
+    This file contains non-localized resources required for Chrome Developer
+    Tools. Without this file Chrome Developer Tools will not function.
+
+* Angle and Direct3D support.
+  * d3dcompiler_43.dll (required for Windows XP)
+  * d3dcompiler_47.dll (required for Windows Vista and newer)
+  * libEGL.dll
+  * libGLESv2.dll
+  Without these files HTML5 accelerated content like 2D canvas, 3D CSS and WebGL
+  will not function.
+
+* SwiftShader support.
+  * swiftshader/libEGL.dll
+  * swiftshader/libGLESv2.dll
+  Without these files WebGL will not function in software-only mode when the GPU
+  is not available or disabled.
+
+
+LICENSING
+---------
+
+The CEF project is BSD licensed. Please read the LICENSE.txt file included with
+this binary distribution for licensing terms and conditions. Other software
+included in this distribution is provided under other licenses. Please visit
+"about:credits" in a CEF-based application for complete Chromium and third-party
+licensing information.
