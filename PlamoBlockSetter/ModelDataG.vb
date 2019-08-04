@@ -655,4 +655,14 @@
         Next
     End Sub
 
+    Public Function GroupKey(pstrGroupName As String) As String
+        For Each lstrKey As String In Group.Keys
+            If Group(lstrKey).Name = pstrGroupName Then
+                Return lstrKey
+            End If
+        Next
+
+        Return ""
+    End Function
+
 End Class

@@ -18,7 +18,7 @@ PlamoBlockSetter
 </member>
 <member name="P:PlamoBlockSetter.My.Resources.Resources.Culture">
 <summary>
-  厳密に型指定されたこのリソース クラスを使用して、すべての検索リソースに対し、
+  すべてについて、現在のスレッドの CurrentUICulture プロパティをオーバーライドします
   現在のスレッドの CurrentUICulture プロパティをオーバーライドします。
 </summary>
 </member>

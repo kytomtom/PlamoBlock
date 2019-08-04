@@ -1,4 +1,5 @@
-﻿Imports System.IO
+﻿Imports System.ComponentModel
+Imports System.IO
 
 Public Class MainForm
     Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles Me.Load
@@ -22,6 +23,7 @@ Public Class MainForm
         '    Common.DB.Close()
         '    Common.DB = Nothing
         'End If
+        CefSharp.Cef.Shutdown()
     End Sub
 
     Private Sub ColorSelector_ChangeColor(sender As Object, e As EventArgs) Handles ColorSelector.ChangeColor
@@ -47,7 +49,11 @@ Public Class MainForm
         WorkArea.SelectLayer = CInt(LayerSelector.SelectLayer.Value)
     End Sub
     Private Sub LayerSelector_ChangeGroup(sender As Object, e As EventArgs) Handles LayerSelector.ChangeGroup
-        WorkArea.SelectGroup = LayerSelector.SelectGroup.SelectedItem.ToString
+        If LayerSelector.SelectGroup.SelectedItem Is Nothing Then
+            Return
+        End If
+
+        WorkArea.SelectGroup = Common.ModelData.GroupKey(LayerSelector.SelectGroup.SelectedItem.ToString)
     End Sub
 
     Private Sub WorkArea_ChangeModel(sender As Object, e As EventArgs) Handles WorkArea.ChangeModel
@@ -127,7 +133,7 @@ Public Class MainForm
         End If
     End Sub
 
-    Private Sub MenuItem_Operation_ClearALL_Click(sender As Object, e As EventArgs) Handles MenuItem_Operation_ClearALL.Click
+    Private Sub MenuItem_Operation_ClearALL_Click(sender As Object, e As EventArgs) Handles MenuItem_Operation_ClearAll.Click
         If MsgBox("表示されているデータを消去しますか？", MsgBoxStyle.Information + MsgBoxStyle.OkCancel) = MsgBoxResult.Ok Then
             Common.ModelData.Clear()
 
@@ -233,6 +239,10 @@ Public Class MainForm
         Common.RedoModel()
         Common.SaveModel(Path.Combine(My.Application.Info.DirectoryPath, Common.ConstTempFileName))
         WorkArea.Redraw()
+    End Sub
+
+    Private Sub MenuItem_Preview_Click(sender As Object, e As EventArgs) Handles MenuItem_Preview.Click
+        Preview.Show()
     End Sub
 End Class
 

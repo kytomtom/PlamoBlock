@@ -54,6 +54,7 @@ Partial Class MainForm
         Me.BlockSelector = New PlamoBlockSetter.BlockSelector()
         Me.ColorSelector = New PlamoBlockSetter.ColorSelector()
         Me.WorkArea = New PlamoBlockSetter.WorkArea()
+        Me.MenuItem_Preview = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuBar.SuspendLayout()
         CType(Me.MoeCharaPic, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.SelectBlock, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -71,7 +72,7 @@ Partial Class MainForm
         '
         'MenuBar
         '
-        Me.MenuBar.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuItem_File, Me.MenuItem_Output, Me.MenuItem_ModelInfo, Me.MenuItem_Operation})
+        Me.MenuBar.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuItem_File, Me.MenuItem_Output, Me.MenuItem_ModelInfo, Me.MenuItem_Operation, Me.MenuItem_Preview})
         Me.MenuBar.Location = New System.Drawing.Point(0, 0)
         Me.MenuBar.Name = "MenuBar"
         Me.MenuBar.Size = New System.Drawing.Size(1224, 24)
@@ -135,9 +136,9 @@ Partial Class MainForm
         Me.MenuItem_Operation_Undo.Size = New System.Drawing.Size(264, 22)
         Me.MenuItem_Operation_Undo.Text = "Undo"
         '
-        'RedoToolStripMenuItem
+        'MenuItem_Operation_Redo
         '
-        Me.MenuItem_Operation_Redo.Name = "RedoToolStripMenuItem"
+        Me.MenuItem_Operation_Redo.Name = "MenuItem_Operation_Redo"
         Me.MenuItem_Operation_Redo.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Y), System.Windows.Forms.Keys)
         Me.MenuItem_Operation_Redo.Size = New System.Drawing.Size(264, 22)
         Me.MenuItem_Operation_Redo.Text = "Redo"
@@ -282,6 +283,12 @@ Partial Class MainForm
         Me.WorkArea.TabIndex = 5
         Me.WorkArea.TabStop = False
         '
+        'MenuItem_Preview
+        '
+        Me.MenuItem_Preview.Name = "MenuItem_Preview"
+        Me.MenuItem_Preview.Size = New System.Drawing.Size(85, 20)
+        Me.MenuItem_Preview.Text = "プレビュー表示"
+        '
         'MainForm
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
@@ -338,4 +345,5 @@ Partial Class MainForm
     Friend WithEvents MenuItem_Operation_ClearLayer As ToolStripMenuItem
     Friend WithEvents MenuItem_Operation_Undo As ToolStripMenuItem
     Friend WithEvents MenuItem_Operation_Redo As ToolStripMenuItem
+    Friend WithEvents MenuItem_Preview As ToolStripMenuItem
 End Class
