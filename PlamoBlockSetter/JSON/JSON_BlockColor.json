@@ -134,7 +134,7 @@
   "NavyBlue": {
     "kana": "ネイビーブルー",
     "base": "#010F29",
-    "edge": "#00040C",
+    "edge": "#888888",
     "opacity": "1"
   },
   "PastelPink": {

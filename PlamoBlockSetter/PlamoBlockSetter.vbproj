@@ -228,72 +228,94 @@
     </None>
     <None Include="App.config" />
     <None Include="packages.config" />
-    <None Include="Sample\CenturionMK1.json">
+    <None Include="Sample\AoiSakuya_BF_Mizugi.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Sample\CV33.json">
+    <None Include="Sample\CenturionMK1.json" />
+    <None Include="Sample\Chizuru_BF_Mizugi.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Sample\EnnoTsuina.json">
+    <None Include="Sample\CV33.json" />
+    <None Include="Sample\EnnoTsuina.json" />
+    <None Include="Sample\EnnoTsuina_BF_SM.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Sample\EnnoTsuina_Pink_SPPN.json">
+    <None Include="Sample\EnnoTsuina_Official.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Sample\EnnoTsuina_Pink_ver2.json">
+    <None Include="Sample\EnnoTsuina_Pink_SPPN.json" />
+    <None Include="Sample\EnnoTsuina_Pink_ver2.json" />
+    <None Include="Sample\EnnoTsuina_PP.json" />
+    <None Include="Sample\EnnoTsuina_PP_2.json" />
+    <None Include="Sample\EnnoTsuina_SPPN.json" />
+    <None Include="Sample\FK_Ringo.json" />
+    <None Include="Sample\HC_Atago.json" />
+    <None Include="Sample\HinagikuLumi.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Sample\FK_Ringo.json">
+    <None Include="Sample\HinamoriYowara.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Sample\EnnoTsuina_SPPN.json">
+    <None Include="Sample\HinamoriYowara_Easter.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Sample\EnnoTsuina_PP_2.json">
+    <None Include="Sample\Kako_U-Stella.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Sample\EnnoTsuina_PP.json">
+    <None Include="Sample\Konipon.json" />
+    <None Include="Sample\KotobukiBukiko.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Sample\HC_Atago.json">
+    <None Include="Sample\KureiKei.json" />
+    <None Include="Sample\KusuriYaRyoka.json" />
+    <None Include="Sample\KyomachiSeika.json" />
+    <None Include="Sample\MARU_ArumiSan.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Sample\Konipon.json">
+    <None Include="Sample\MARU_CuTan.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Sample\KureiKei.json">
+    <None Include="Sample\MARU_NanameChan.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Sample\KusuriYaRyoka.json">
+    <None Include="Sample\MARU_SunokoTan.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Sample\KyomachiSeika.json">
+    <None Include="Sample\MARU_SunokoTan_Cream.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Sample\MatsumotoIzumi.json">
+    <None Include="Sample\MatsumotoIzumi.json" />
+    <None Include="Sample\MikumoAnzu.json" />
+    <None Include="Sample\MikumoConoHa.json" />
+    <None Include="Sample\Mirai_U-Stella.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Sample\MikumoAnzu.json">
+    <None Include="Sample\Nipako_BF_SM.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Sample\MikumoConoHa.json">
+    <None Include="Sample\OomoriAnko.json" />
+    <None Include="Sample\OomoriAnko_BF_Mizugi.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Sample\OomoriAnko.json">
+    <None Include="Sample\PlamoLiza.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Sample\QueryChan.json">
+    <None Include="Sample\PlamoLuna.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Sample\TouhokuKiritan.json">
+    <None Include="Sample\QueryChan.json" />
+    <None Include="Sample\QueryChan_Santa.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Sample\YaoRyoka.json">
+    <None Include="Sample\SatouSasara_Mini.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Sample\YaoRyoka_Mizugi.json">
+    <None Include="Sample\TouhokuKiritan.json" />
+    <None Include="Sample\UkanoMitama.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Sample\YaoRyoka.json" />
+    <None Include="Sample\YaoRyoka_Mizugi.json" />
     <None Include="サンプルデータ\センチュリオンMK1.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
