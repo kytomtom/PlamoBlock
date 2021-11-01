@@ -44,7 +44,7 @@ var gblBlockColor =
   },
   "Flesh": {
     "kana": "ハダイロ",
-    "base": "#FFDEBE",
+    "base": "#FFE6CE",
     "edge": "#4C4239",
     "opacity": "1"
   },
@@ -116,7 +116,7 @@ var gblBlockColor =
   },
   "Beige": {
     "kana": "ベージュ",
-    "base": "#F5AF4E",
+    "base": "#eedcb3",
     "edge": "#493417",
     "opacity": "1"
   },
@@ -134,7 +134,7 @@ var gblBlockColor =
   },
   "NavyBlue": {
     "kana": "ネイビーブルー",
-    "base": "#010F29",
+    "base": "#082752",
     "edge": "#888888",
     "opacity": "1"
   },
