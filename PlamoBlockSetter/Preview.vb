@@ -29,7 +29,6 @@ Public Class Preview
 
             CefSharp.CefSharpSettings.SubprocessExitIfParentProcessClosed = True
             CefSharp.Cef.Initialize(settings, performDependencyCheck:=False, browserProcessHandler:=Nothing)
-
         End If
 
         _webBrowser = New ChromiumWebBrowser(New Uri(strURL).ToString)
@@ -62,4 +61,7 @@ Public Class Preview
         Call Reload()
     End Sub
 
+    Private Sub btnDevTool_Click(sender As Object, e As EventArgs) Handles btnDevTool.Click
+        CefSharp.WebBrowserExtensions.ShowDevTools(_webBrowser)
+    End Sub
 End Class
