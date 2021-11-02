@@ -1,5 +1,5 @@
 $(function () {
-	var width = 500;
+	var width = 600;
 	var height = 600;
 
 	var scene, renderer;
@@ -348,7 +348,7 @@ $(function () {
 		BlockModelList[IndexName] = BlockGroup;
 
 		//return JSON.parse(JSON.stringify(BlockModelList[IndexName]));
-		return BlockGroup;
+		return BlockModelList[IndexName].clone();
 	};
 
 	function BlockMaterial(c, BlockPhong) {
@@ -357,7 +357,7 @@ $(function () {
 
 		var IndexName = c + '|' + (BlockPhong ? '1' : '0') + '|' + EdgeColor;
 		if (BlockMaterialList[IndexName]) {
-			return [JSON.parse(JSON.stringify(BlockMaterialList[IndexName][0])), JSON.parse(JSON.stringify(BlockMaterialList[IndexName][1]))];
+			return [BlockMaterialList[IndexName][0].clone(), BlockMaterialList[IndexName][1].clone()];
 		}
 
 		// エッジカラー設定
@@ -404,13 +404,13 @@ $(function () {
 
 		BlockMaterialList[IndexName] = [Material_Block, Material_Edge];
 		console.log(BlockMaterialList[IndexName][0])
-		return [JSON.parse(JSON.stringify(BlockMaterialList[IndexName][0])), JSON.parse(JSON.stringify(BlockMaterialList[IndexName][1]))];
+		return [BlockMaterialList[IndexName][0].clone(), BlockMaterialList[IndexName][1].clone()];
 	}
 
 	function BlockGeometry(w, d) {
 		var IndexName = w + '|' + d;
 		if (BlockGeometryList[IndexName]) {
-			return [JSON.parse(JSON.stringify(BlockGeometryList[IndexName][0])), JSON.parse(JSON.stringify(BlockGeometryList[IndexName][1]))];
+			return [BlockGeometryList[IndexName][0].clone(), BlockGeometryList[IndexName][1].clone()];
 		}
 
 		// ジオメトリ生成
@@ -454,7 +454,7 @@ $(function () {
 		//geoE.computeVertexNormals();
 
 		BlockGeometryList[IndexName] = [new THREE.BufferGeometry().fromGeometry(geometry), geoE];
-		return [JSON.parse(JSON.stringify(BlockGeometryList[IndexName][0])), JSON.parse(JSON.stringify(BlockGeometryList[IndexName][1]))];
+		return [BlockGeometryList[IndexName][0].clone(), BlockGeometryList[IndexName][1].clone()];
 	}
 
 	function BlockGeometry_Edge(geoE, w, d) {
