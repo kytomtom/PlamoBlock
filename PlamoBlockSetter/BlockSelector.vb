@@ -105,7 +105,7 @@
         End With
         Controls.Add(lobjNewBlock)
 
-        AddHandler lobjNewBlock.Click, AddressOf BlockButton_Click
+        AddHandler lobjNewBlock.MouseDown, AddressOf BlockButton_MouseDown
 
         lobjBlockImage = Nothing
 
@@ -115,7 +115,7 @@
         Return String.Format("BlockButton_{0}x{1}", pintRows, pintCols)
     End Function
 
-    Private Sub BlockButton_Click(sender As Object, e As EventArgs)
+    Private Sub BlockButton_MouseDown(sender As Object, e As MouseEventArgs)
         SelectBlock(DirectCast(DirectCast(sender, Control).Tag, Integer()))
     End Sub
 

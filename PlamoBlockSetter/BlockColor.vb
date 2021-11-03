@@ -28,6 +28,7 @@ Public Class BlockColor
         KhakiGreen
         NavyBlue
         PastelPink
+        MintGreen
     End Enum
 
     Public ReadOnly Property Color() As Dictionary(Of String, ColorSetting)

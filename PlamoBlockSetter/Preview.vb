@@ -52,7 +52,7 @@ Public Class Preview
         llstData.Add(Common.ModelData.ToJSON())
         llstData.Add(";")
 
-        lstrPath = Path.Combine(My.Application.Info.DirectoryPath, _DataPath, "modeldata.json")
+        lstrPath = Path.Combine(My.Application.Info.DirectoryPath, _DataPath, "modeldata.js")
 
         My.Computer.FileSystem.WriteAllText(lstrPath, String.Concat(llstData.ToArray), False)
     End Sub

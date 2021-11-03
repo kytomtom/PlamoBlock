@@ -143,5 +143,11 @@ var gblBlockColor =
     "base": "#FFB6C1",
     "edge": "#4C3639",
     "opacity": "1"
+  },
+  "MintGreen": {
+    "kana": "ミントグリーン",
+    "base": "#A2E4B8",
+    "edge": "#51725B",
+    "opacity": "1"
   }
 };

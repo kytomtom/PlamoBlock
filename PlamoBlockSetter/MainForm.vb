@@ -244,5 +244,6 @@ Public Class MainForm
     Private Sub MenuItem_Preview_Click(sender As Object, e As EventArgs) Handles MenuItem_Preview.Click
         Preview.Show()
     End Sub
+
 End Class
 

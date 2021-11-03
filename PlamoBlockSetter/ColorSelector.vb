@@ -133,7 +133,7 @@
         End With
         Controls.Add(lobjNewColor)
 
-        AddHandler lobjNewColor.Click, AddressOf ColorButton_Click
+        AddHandler lobjNewColor.MouseDown, AddressOf ColorButton_MouseDown
 
         Return True
     End Function
@@ -141,7 +141,7 @@
         Return String.Format("ColorButton_{0}", pstrColotName)
     End Function
 
-    Private Sub ColorButton_Click(sender As Object, e As EventArgs)
+    Private Sub ColorButton_MouseDown(sender As Object, e As MouseEventArgs)
         SelectColor(DirectCast(sender, Control).Tag.ToString)
     End Sub
 

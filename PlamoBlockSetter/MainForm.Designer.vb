@@ -46,6 +46,7 @@ Partial Class MainForm
         Me.MenuItem_Operation_Clear = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuItem_Operation_ClearAll = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuItem_Operation_ClearLayer = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuItem_Preview = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenFile = New System.Windows.Forms.OpenFileDialog()
         Me.MoeCharaPic = New System.Windows.Forms.PictureBox()
         Me.SaveFile = New System.Windows.Forms.SaveFileDialog()
@@ -54,7 +55,6 @@ Partial Class MainForm
         Me.BlockSelector = New PlamoBlockSetter.BlockSelector()
         Me.ColorSelector = New PlamoBlockSetter.ColorSelector()
         Me.WorkArea = New PlamoBlockSetter.WorkArea()
-        Me.MenuItem_Preview = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuBar.SuspendLayout()
         CType(Me.MoeCharaPic, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.SelectBlock, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -206,6 +206,12 @@ Partial Class MainForm
         Me.MenuItem_Operation_ClearLayer.Size = New System.Drawing.Size(144, 22)
         Me.MenuItem_Operation_ClearLayer.Text = "現在のレイヤー"
         '
+        'MenuItem_Preview
+        '
+        Me.MenuItem_Preview.Name = "MenuItem_Preview"
+        Me.MenuItem_Preview.Size = New System.Drawing.Size(84, 20)
+        Me.MenuItem_Preview.Text = "プレビュー表示"
+        '
         'OpenFile
         '
         Me.OpenFile.Filter = "JSONファイル|*.json|テキストファイル|*.txt"
@@ -282,12 +288,6 @@ Partial Class MainForm
         Me.WorkArea.Size = New System.Drawing.Size(661, 661)
         Me.WorkArea.TabIndex = 5
         Me.WorkArea.TabStop = False
-        '
-        'MenuItem_Preview
-        '
-        Me.MenuItem_Preview.Name = "MenuItem_Preview"
-        Me.MenuItem_Preview.Size = New System.Drawing.Size(85, 20)
-        Me.MenuItem_Preview.Text = "プレビュー表示"
         '
         'MainForm
         '
